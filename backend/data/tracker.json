@@ -1,0 +1,20 @@
+{
+  "entries": [
+    {
+      "id": 1,
+      "symptoms": {
+        "age": 24,
+        "cough_duration": 7,
+        "indicators": [
+          "Persistent cough (\u22657 days)"
+        ]
+      },
+      "assessment": "OBSERVE & MANAGE AT HOME",
+      "recommendation": "Suspected pneumonia - Careful observation recommended. Monitor symptoms closely and seek medical care if they worsen.",
+      "guidance": [],
+      "home_remedies": [],
+      "timestamp": "2026-03-29T16:19:56.167Z"
+    }
+  ],
+  "counter": 2
+}

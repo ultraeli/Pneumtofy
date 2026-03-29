@@ -1,0 +1,14 @@
+# Optional database dependencies (for PostgreSQL integration)
+# Install these AFTER you have installed the main requirements.txt
+# Usage: pip install -r requirements-db.txt
+
+# For Windows users: Install PostgreSQL first, then run this
+# Download from: https://www.postgresql.org/download/windows/
+# Then: pip install psycopg2-binary==2.9.9
+
+psycopg2-binary==2.9.9
+
+# Alternative if psycopg2-binary fails on Windows:
+# 1. Install PostgreSQL with development libraries
+# 2. Or use SQLAlchemy with psycopg2:
+# SQLAlchemy==2.0.0

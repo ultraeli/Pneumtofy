@@ -4,10 +4,10 @@
 
 .symptom-form-card {
   background: rgba(255, 255, 255, 0.61);
-  border: 1px solid rgba(245, 245, 220, 0.3);
+  border: 2px solid rgb(202, 137, 188);
   padding: 2rem;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
 .symptom-form-card h2 {

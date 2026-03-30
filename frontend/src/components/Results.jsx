@@ -1,10 +1,27 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { getUserTimezone } from '../utils/dateFormatter';
 import './Results.css';
 
 export default function Results({ result, onGoHome }) {
   const [savedToTracker, setSavedToTracker] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const handleSaveToTracker = async () => {
+    // If not authenticated, store assessment and redirect to login
+    if (!isAuthenticated) {
+      localStorage.setItem('pendingAssessment', JSON.stringify({
+        ...result,
+        input_symptoms: result.input_symptoms
+      }));
+      alert('Please login or register to save your assessment to the tracker.');
+      navigate('/login');
+      return;
+    }
+
+    // User is authenticated, save to tracker
     try {
       // Use input_symptoms if available, otherwise use symptoms from result
       const symptoms = result.input_symptoms || result.symptoms || {};
@@ -38,7 +55,9 @@ export default function Results({ result, onGoHome }) {
       });
       if (response.ok) {
         setSavedToTracker(true);
-        setTimeout(() => setSavedToTracker(false), 3000);
+        setTimeout(() => {
+          navigate('/tracker');
+        }, 2000);
       } else {
         const error = await response.json();
         console.error('Error response:', error);
@@ -62,6 +81,8 @@ export default function Results({ result, onGoHome }) {
           <h2>Assessment Results</h2>
           <p className="timestamp">
             {new Date().toLocaleDateString()} at {new Date().toLocaleTimeString()}
+            <br />
+            <span className="timezone-note">Timezone: {getUserTimezone()}</span>
           </p>
         </div>
 

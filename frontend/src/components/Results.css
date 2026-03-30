@@ -24,6 +24,14 @@
   font-size: 0.9rem;
 }
 
+.timezone-note {
+  display: block;
+  font-size: 0.85rem;
+  color: #3498db;
+  margin-top: 0.3rem;
+  font-weight: 500;
+}
+
 .risk-badge {
   display: flex;
   flex-direction: column;

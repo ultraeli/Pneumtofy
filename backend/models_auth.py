@@ -79,6 +79,15 @@ class TrackedAssessment(db.Model):
     def to_dict(self):
         """Convert to dictionary"""
         import json
+        # Ensure timestamp is in ISO format with UTC indicator (Z suffix)
+        timestamp_str = None
+        if self.timestamp:
+            iso_str = self.timestamp.isoformat()
+            # Add Z suffix if not already present (indicating UTC)
+            if not iso_str.endswith('Z') and '+' not in iso_str:
+                iso_str = iso_str + 'Z'
+            timestamp_str = iso_str
+        
         return {
             'id': self.id,
             'age_months': self.age_months,
@@ -98,5 +107,5 @@ class TrackedAssessment(db.Model):
             'recommendation': self.recommendation,
             'guidance': json.loads(self.guidance) if self.guidance else [],
             'home_remedies': json.loads(self.home_remedies) if self.home_remedies else [],
-            'timestamp': self.timestamp.isoformat() if self.timestamp else None,
+            'timestamp': timestamp_str,
         }

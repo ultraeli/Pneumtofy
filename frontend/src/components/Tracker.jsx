@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { formatDate, formatTime, getUserTimezone } from '../utils/dateFormatter';
 import './Tracker.css';
 
 export default function Tracker({ onGoHome }) {
@@ -74,6 +75,7 @@ export default function Tracker({ onGoHome }) {
           </select>
         </div>
 
+
         {filteredEntries.length === 0 ? (
           <div className="empty-state">
             <p>No assessments recorded yet.</p>
@@ -85,7 +87,7 @@ export default function Tracker({ onGoHome }) {
               <div key={idx} className="entry-card">
                 <div className="entry-header">
                   <div className="entry-date">
-                    {new Date(entry.timestamp).toLocaleDateString()}
+                    {formatDate(entry.timestamp)}
                   </div>
                   <div 
                     className="entry-status-badge"
@@ -112,7 +114,7 @@ export default function Tracker({ onGoHome }) {
                   <p className="recommendation">{entry.recommendation}</p>
 
                   <div className="entry-time">
-                    {new Date(entry.timestamp).toLocaleTimeString()}
+                    {formatTime(entry.timestamp)}
                   </div>
                 </div>
 

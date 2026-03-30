@@ -313,13 +313,18 @@ def add_tracker_entry():
         timestamp = datetime.utcnow()
         if data.get('timestamp'):
             try:
-                # Handle ISO format timestamps
+                # Handle ISO format timestamps correctly
                 timestamp_str = data.get('timestamp')
-                # Remove milliseconds and timezone info for compatibility
-                if 'T' in timestamp_str:
-                    timestamp_str = timestamp_str.split('.')[0]  # Remove milliseconds
-                    timestamp = datetime.fromisoformat(timestamp_str)
-            except:
+                # Remove 'Z' suffix if present, then parse
+                if timestamp_str.endswith('Z'):
+                    timestamp_str = timestamp_str[:-1]
+                # Split on milliseconds
+                if '.' in timestamp_str:
+                    timestamp_str = timestamp_str.split('.')[0]
+                # Parse and ensure it's treated as UTC
+                timestamp = datetime.fromisoformat(timestamp_str)
+            except Exception as parse_err:
+                print(f"Error parsing timestamp '{data.get('timestamp')}': {parse_err}")
                 timestamp = datetime.utcnow()
         
         # Create new assessment entry

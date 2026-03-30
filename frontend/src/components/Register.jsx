@@ -60,6 +60,16 @@ export default function Register() {
         // Update auth context
         login(response.data.user);
         
+        // Check if there's a pending assessment to save
+        const hasPending = localStorage.getItem('pendingAssessment');
+        if (hasPending) {
+          const saved = await savePendingAssessment();
+          if (saved) {
+            navigate('/tracker');
+            return;
+          }
+        }
+        
         // Redirect to home
         navigate('/');
       }
@@ -68,6 +78,52 @@ export default function Register() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const savePendingAssessment = async () => {
+    try {
+      const pendingData = localStorage.getItem('pendingAssessment');
+      if (!pendingData) return false;
+
+      const assessmentData = JSON.parse(pendingData);
+      const symptoms = assessmentData.input_symptoms || assessmentData.symptoms || {};
+
+      const response = await fetch('http://localhost:5000/api/tracker', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          age_months: symptoms.age_months,
+          cough_duration: symptoms.cough_duration,
+          fast_breathing: symptoms.fast_breathing,
+          fever: symptoms.fever,
+          fever_temperature: symptoms.fever_temperature,
+          difficulty_breathing: symptoms.difficulty_breathing,
+          chest_indrawing: symptoms.chest_indrawing,
+          stridor: symptoms.stridor,
+          lethargy: symptoms.lethargy,
+          unable_to_drink: symptoms.unable_to_drink,
+          vomiting: symptoms.vomiting,
+          diarrhea: symptoms.diarrhea,
+          previous_episodes: symptoms.previous_episodes,
+          assessment: assessmentData.assessment,
+          recommendation: assessmentData.recommendation,
+          guidance: assessmentData.guidance,
+          home_remedies: assessmentData.home_remedies,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      if (response.ok) {
+        localStorage.removeItem('pendingAssessment');
+        return true;
+      }
+    } catch (error) {
+      console.error('Error saving pending assessment:', error);
+    }
+    return false;
   };
 
   return (

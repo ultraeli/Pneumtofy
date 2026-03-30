@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { formatDate, formatTime, getUserTimezone } from '../utils/dateFormatter';
+import { formatDate, formatTime} from '../utils/dateFormatter';
 import './Tracker.css';
 
 export default function Tracker({ onGoHome }) {

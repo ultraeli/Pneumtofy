@@ -12,7 +12,9 @@ export default function Tracker({ onGoHome }) {
 
   const fetchTrackerData = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/tracker');
+      const response = await fetch('http://localhost:5000/api/tracker', {
+        credentials: 'include'
+      });
       const data = await response.json();
       setEntries(data.entries || []);
     } catch (error) {
@@ -33,6 +35,7 @@ export default function Tracker({ onGoHome }) {
     try {
       await fetch(`http://localhost:5000/api/tracker/${id}`, {
         method: 'DELETE',
+        credentials: 'include'
       });
       setEntries(entries.filter(entry => entry.id !== id));
     } catch (error) {

@@ -1,45 +1,74 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import './App.css';
+import { AuthProvider } from './contexts/AuthContext';
 import SymptomForm from './components/SymptomForm';
 import Results from './components/Results';
 import Info from './components/Info';
 import Tracker from './components/Tracker';
 import Navigation from './components/Navigation';
+import Login from './components/Login';
+import Register from './components/Register';
+import ProtectedRoute from './components/ProtectedRoute';
 
-export default function App() {
-  const [currentPage, setCurrentPage] = useState('home');
-  const [symptoms, setSymptoms] = useState(null);
+function AppContent() {
   const [assessmentResult, setAssessmentResult] = useState(null);
+  const navigate = useNavigate();
 
   const handleSymptomSubmit = (result) => {
     setAssessmentResult(result);
-    setCurrentPage('results');
+    navigate('/results');
   };
 
   const handleGoHome = () => {
-    setCurrentPage('home');
-    setSymptoms(null);
     setAssessmentResult(null);
+    navigate('/');
   };
 
   return (
-    <div className="app">
-      <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} onGoHome={handleGoHome} />
-      
-      <main className="main-content">
-        {currentPage === 'home' && (
-          <SymptomForm onSubmit={handleSymptomSubmit} />
-        )}
-        {currentPage === 'results' && assessmentResult && (
-          <Results result={assessmentResult} onGoHome={handleGoHome} />
-        )}
-        {currentPage === 'info' && (
-          <Info onGoHome={handleGoHome} />
-        )}
-        {currentPage === 'tracker' && (
-          <Tracker onGoHome={handleGoHome} />
-        )}
-      </main>
-    </div>
+    <Routes>
+      {/* Public auth routes */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      {/* Protected and public routes */}
+      <Route
+        path="/*"
+        element={
+          <div className="app">
+            <Navigation onGoHome={handleGoHome} />
+            
+            <main className="main-content">
+              <Routes>
+                <Route path="/" element={<SymptomForm onSubmit={handleSymptomSubmit} />} />
+                <Route path="/results" element={
+                  assessmentResult ? (
+                    <Results result={assessmentResult} onGoHome={handleGoHome} />
+                  ) : (
+                    <Navigate to="/" replace />
+                  )
+                } />
+                <Route path="/info" element={<Info onGoHome={handleGoHome} />} />
+                <Route path="/tracker" element={
+                  <ProtectedRoute>
+                    <Tracker onGoHome={handleGoHome} />
+                  </ProtectedRoute>
+                } />
+              </Routes>
+            </main>
+          </div>
+        }
+      />
+    </Routes>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </Router>
   );
 }

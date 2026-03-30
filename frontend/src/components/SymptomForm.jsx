@@ -34,8 +34,14 @@ export default function SymptomForm({ onSubmit }) {
 
     try {
       // Call backend API for assessment
-      const response = await axios.post('http://localhost:5000/api/assess', symptoms);
-      onSubmit(response.data);
+      const response = await axios.post('http://localhost:5000/api/assess', symptoms, {
+        withCredentials: true
+      });
+      // Pass both the symptoms and the assessment result
+      onSubmit({
+        ...response.data,
+        input_symptoms: symptoms
+      });
     } catch (error) {
       alert('Error assessing symptoms. Please try again.');
       console.error(error);

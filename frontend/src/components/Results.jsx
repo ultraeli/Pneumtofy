@@ -6,21 +6,42 @@ export default function Results({ result, onGoHome }) {
 
   const handleSaveToTracker = async () => {
     try {
+      // Use input_symptoms if available, otherwise use symptoms from result
+      const symptoms = result.input_symptoms || result.symptoms || {};
+      
       const response = await fetch('http://localhost:5000/api/tracker', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({
-          symptoms: result.symptoms,
+          age_months: symptoms.age_months,
+          cough_duration: symptoms.cough_duration,
+          fast_breathing: symptoms.fast_breathing,
+          fever: symptoms.fever,
+          fever_temperature: symptoms.fever_temperature,
+          difficulty_breathing: symptoms.difficulty_breathing,
+          chest_indrawing: symptoms.chest_indrawing,
+          stridor: symptoms.stridor,
+          lethargy: symptoms.lethargy,
+          unable_to_drink: symptoms.unable_to_drink,
+          vomiting: symptoms.vomiting,
+          diarrhea: symptoms.diarrhea,
+          previous_episodes: symptoms.previous_episodes,
           assessment: result.assessment,
           recommendation: result.recommendation,
+          guidance: result.guidance,
+          home_remedies: result.home_remedies,
           timestamp: new Date().toISOString(),
         }),
       });
       if (response.ok) {
         setSavedToTracker(true);
         setTimeout(() => setSavedToTracker(false), 3000);
+      } else {
+        const error = await response.json();
+        console.error('Error response:', error);
       }
     } catch (error) {
       console.error('Error saving to tracker:', error);

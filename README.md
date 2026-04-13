@@ -104,7 +104,7 @@ The Flask API will start on `http://localhost:5000`
 
 ## API Endpoints
 
-### Authentication (NEW)
+### Authentication 
 
 #### POST /api/auth/register
 Register a new user account.

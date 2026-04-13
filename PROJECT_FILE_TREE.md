@@ -1,131 +1,210 @@
-# 🎯 Pneumtofy - Fast MVP Complete Project Tree
+# Pneumtofy - Complete Project File Tree
 
 ```
 Pneumtofy/
-├─ DOCUMENTATION
-│  ├─ README.md                          # START HERE - Project Overview
-│  ├─ QUICK_START.md                     # Fast Reference 
-│  ├─ DEPLOYMENT_GUIDE.md                # Detailed Setup & Customization
-│  ├─ ARCHITECTURE.md                    # System Design & Data Flows
-│  └─ PROJECT_COMPLETION_REPORT.md       # What's Built 
+├─ DOCUMENTATION (All Up-to-Date)
+│  ├─ README.md                          # Project overview with all features
+│  ├─ QUICK_START.md                     # Complete 350+ line setup guide
+│  ├─ AUTHENTICATION_COMPLETE.md         # Full auth + timezone implementation
+│  ├─ AUTH_SETUP.md                      # Auth API & endpoints documentation
+│  ├─ AUTH_QUICK_START.md                # Fast auth testing guide
+│  ├─ ARCHITECTURE.md                    # System design, data flows, auth flow
+│  ├─ DEPLOYMENT_GUIDE.md                # Project structure & deployment
+│  ├─ VERIFICATION_CHECKLIST.md          # Complete feature checklist
+│  ├─ TROUBLESHOOTING.md                 # Comprehensive troubleshooting guide
+│  └─ PROJECT_FILE_TREE.md               # This file
 │
-├─ GETTING STARTED
-│  ├─ setup.bat                          # Windows Setup (1 click)
-│  └─ test_mvp.py                        # Test Suite (5 tests, all pass)
+├─ SETUP & TESTING
+│  ├─ setup.bat                          # Windows setup script
+│  ├─ setup.sh                           # macOS/Linux setup script
+│  └─ [setup includes: backend dependencies, frontend dependencies, DB init]
 │
-├─ FRONTEND (React 18)
+├─ FRONTEND (React 18 with Auth & Router)
 │  └─ frontend/
-│     ├─ package.json                    # Dependencies: React, Axios
+│     ├─ package.json                    # Dependencies: React, Router, Axios, cross-env
 │     │
 │     ├─ public/
 │     │  └─ index.html                   # HTML entry point
 │     │
 │     └─ src/
-│        ├─ index.jsx                    # React root (8 lines)
-│        ├─ App.jsx                      # Main app (39 lines)
+│        ├─ index.jsx                    # React root
+│        ├─ App.jsx                      # Root with Router & AuthProvider
 │        ├─ App.css                      # Root styles
 │        │
-│        └─ components/
-│           │
-│           ├─ Navigation
-│           │  ├─ Navigation.jsx         # Header & navigation 
-│           │  └─ Navigation.css         # Nav styling
-│           │
-│           ├─ SymptomForm (MAIN PAGE)
-│           │  ├─ SymptomForm.jsx        # Symptom input form 
-│           │  │  └─ Features:
-│           │  │     • Age input (months)
-│           │  │     • Cough duration
-│           │  │     • All respiratory symptoms
-│           │  │     • Fever temperature
-│           │  │     • General symptoms
-│           │  │     • Form validation
-│           │  │     • API integration
-│           │  │
-│           │  └─ SymptomForm.css        # Professional form styling
-│           │
-│           ├─ Results (ASSESSMENT PAGE)
-│           │  ├─ Results.jsx            # Assessment results 
-│           │  │  └─ Features:
-│           │  │     • Risk level badge (color-coded)
-│           │  │     • Assessment text
-│           │  │     • Recommendations
-│           │  │     • Guidance checklist
-│           │  │     • Home remedies cards
-│           │  │     • Medical warnings
-│           │  │     • Save to tracker
-│           │  │
-│           │  └─ Results.css            # Results styling
-│           │
-│           ├─ Info (EDUCATION PAGE)
-│           │  ├─ Info.jsx               # Information hub 
-│           │  │  └─ Features:
-│           │  │     • About pneumonia
-│           │  │     • Symptoms list
-│           │  │     • Risk factors
-│           │  │     • Prevention tips
-│           │  │     • When to seek care
-│           │  │     • WHO references
-│           │  │
-│           │  └─ Info.css               # Info styling
-│           │
-│           └─ Tracker (HISTORY PAGE)
-│              ├─ Tracker.jsx            # History tracker
-│              │  └─ Features:
-│              │     • Display all assessments
-│              │     • Filter by risk level
-│              │     • Show symptoms for each
-│              │     • Timestamps
-│              │     • Delete entries
-│              │     • Empty state
-│              │
-│              └─ Tracker.css            # Tracker styling
+│        ├─ components/
+│        │  ├─ Navigation.jsx            # Header with auth UI
+│        │  ├─ Navigation.css            # Nav styling (new)
+│        │  │
+│        │  ├─ Login.jsx                 # Login page (NEW - 100+ lines)
+│        │  │  └─ Features:
+│        │  │     • Username/Email login
+│        │  │     • Session creation
+│        │  │     • Auto-save pending assessment
+│        │  │     • Error handling
+│        │  │     • Loading states
+│        │  │
+│        │  ├─ Register.jsx              # Registration page (NEW - 150+ lines)
+│        │  │  └─ Features:
+│        │  │     • User creation
+│        │  │     • Email validation
+│        │  │     • Password hashing (backend)
+│        │  │     • Optional guardian info
+│        │  │     • Auto-login after registration
+│        │  │     • Auto-save pending assessment
+│        │  │
+│        │  ├─ ProtectedRoute.jsx        # Route wrapper (NEW)
+│        │  │  └─ Features:
+│        │  │     • Auth check before render
+│        │  │     • Redirect to login if not auth
+│        │  │     • Loading state
+│        │  │
+│        │  ├─ Auth.css                  # Auth styling (NEW - 200+ lines)
+│        │  │  └─ Styles: Form, buttons, gradient, transitions
+│        │  │
+│        │  ├─ SymptomForm.jsx           # Assessment form
+│        │  ├─ SymptomForm.css           # Form styling
+│        │  │
+│        │  ├─ Results.jsx               # Assessment results (UPDATED)
+│        │  │  └─ Updates:
+│        │  │     • Pending assessment storage (localStorage)
+│        │  │     • Redirect to login if not authenticated
+│        │  │     • Timezone display
+│        │  │
+│        │  ├─ Results.css               # Results styling
+│        │  │
+│        │  ├─ Tracker.jsx               # Assessment history (PROTECTED - UPDATED)
+│        │  │  └─ Updates:
+│        │  │     • Protected route (redirects if not logged in)
+│        │  │     • Timezone-aware timestamps
+│        │  │     • Filter by risk level
+│        │  │     • Delete with authentication
+│        │  │     • Timezone info box display
+│        │  │
+│        │  ├─ Tracker.css               # Tracker styling
+│        │  │
+│        │  ├─ Info.jsx                  # Education page
+│        │  └─ Info.css                  # Info styling
+│        │
+│        ├─ contexts/
+│        │  └─ AuthContext.jsx           # Global auth state (NEW - 80+ lines)
+│        │     └─ Features:
+│        │        • user, isAuthenticated, loading state
+│        │        • login(), logout(), updateUser() methods
+│        │        • useAuth() hook for components
+│        │        • localStorage persistence
+│        │        • Auto-auth check on app load
+│        │
+│        ├─ utils/
+│        │  └─ dateFormatter.js          # Timezone utilities (NEW - 50+ lines)
+│        │     └─ Functions:
+│        │        • formatDate(timestamp) → local date string
+│        │        • formatTime(timestamp) → local time string
+│        │        • getUserTimezone() → timezone name
+│        │        • parseUTCTimestamp() → Date object
+│        │        • Uses Intl.DateTimeFormat API
+│        │
+│        └─ styles/
+│           ├─ [component].css           # Component-specific styles
+│           └─ [global styles]
 │
-├─ BACKEND (Python Flask)
+├─ BACKEND (Python Flask with Auth & ORM)
 │  └─ backend/
-│     ├─ app.py                          # Flask API server 
+│     ├─ app.py                          # Flask server (UPDATED - 350+ lines)
 │     │  └─ Routes:
-│     │     • POST   /api/assess          → Assessment logic
-│     │     • GET    /api/info            → Information content
-│     │     • POST   /api/tracker         → Save assessment
-│     │     • GET    /api/tracker         → Get all assessments
-│     │     • DELETE /api/tracker/<id>    → Delete entry
-│     │     • GET    /health              → Health check
+│     │     AUTHENTICATION:
+│     │     • POST   /api/auth/register      → Register new user
+│     │     • POST   /api/auth/login         → User login (username or email)
+│     │     • POST   /api/auth/logout        → User logout (protected)
+│     │     • GET    /api/auth/me            → Get current user (protected)
+│     │     • PUT    /api/auth/update        → Update profile (protected)
 │     │
-│     ├─ decision_logic.py                # IMCI Assessment 
-│     │  └─ Classes & Functions:
-│     │     • PneumoniaAssessment class
-│     │     • assess_symptoms()           → Main logic
-│     │     • get_home_remedies_for_observation()
-│     │     • get_home_remedies_for_mild()
+│     │     ASSESSMENT:
+│     │     • POST   /api/assess             → Assessment scoring
+│     │     • GET    /api/info               → Information content
 │     │
-│     ├─ models.py                        # Data models (96 lines)
+│     │     TRACKER (Protected):
+│     │     • POST   /api/tracker            → Save assessment to user
+│     │     • GET    /api/tracker            → Get user's assessments (protected)
+│     │     • DELETE /api/tracker/<id>       → Delete user's assessment (protected)
+│     │
+│     │     HEALTH:
+│     │     • GET    /health                 → Health check
+│     │
+│     ├─ database.py                     # SQLAlchemy setup (NEW)
+│     │  └─ Features:
+│     │     • db = SQLAlchemy()
+│     │     • init_db(app) creates tables
+│     │     • Auto-creates pneumtofy.db
+│     │
+│     ├─ models_auth.py                  # Auth models (NEW - 150+ lines)
 │     │  └─ Classes:
-│     │     • TrackerEntry               → Assessment records
-│     │     • InfoContent                → Medical information
+│     │     • User model
+│     │     │  ├─ id, username, email (unique)
+│     │     │  ├─ password_hash (bcrypt)
+│     │     │  ├─ guardian_name, guardian_phone
+│     │     │  ├─ created_at, updated_at, last_login
+│     │     │  └─ relationship: tracked_assessments (one-to-many)
+│     │     │
+│        │     • TrackedAssessment model
+│     │     │  ├─ user_id (foreign key)
+│     │     │  ├─ All symptom fields
+│     │     │  ├─ assessment, recommendation, guidance
+│     │     │  ├─ home_remedies (JSON)
+│     │     │  ├─ timestamp (UTC with Z suffix)
+│     │     │  └─ to_dict() → JSON with Z-suffixed timestamps
 │     │
-│     ├─ requirements.txt                 # Python dependencies
-│     │  └─ • Flask==3.0.0
-│     │     • Flask-CORS==4.0.0
-│     │     • psycopg2-binary==2.9.9
-│     │     • python-dotenv==1.0.0
+│     ├─ models.py                       # Assessment content models
+│     │  └─ Classes: Assessment logic, info content
 │     │
-│     ├─ .env                             # Configuration
-│     │  └─ • FLASK_ENV=development
-│     │     • API_HOST=localhost
-│     │     • FLASK_DEBUG=True
+│     ├─ decision_logic.py               # IMCI assessment algorithm
+│     │  └─ PneumoniaAssessment class
 │     │
-│     └─ data/                            # Data storage (auto-created)
-│        └─ tracker.json                  # Saved assessments (JSON)
+│     ├─ requirements.txt                # Dependencies (UPDATED)
+│     │  └─ • Flask>=2.3.0
+│     │     • Werkzeug>=2.3.0
+│     │     • Flask-SQLAlchemy>=3.0.0
+│     │     • Flask-Login>=0.6.0
+│     │     • PyJWT>=2.8.0
+│     │     • Flask-CORS>=4.0.0
+│     │
+│     ├─ .env                            # Configuration
+│     │  └─ • SECRET_KEY (for sessions)
+│     │     • DATABASE_URL (SQLite by default, PostgreSQL for prod)
+│     │
+│     ├─ pneumtofy.db                    # SQLite database (AUTO-CREATED)
+│     │  └─ Tables:
+│     │     • user (usernames, emails, hashed passwords)
+│     │     • tracked_assessment (assessments linked to users)
+│     │
+│     └─ data/                           # Assessment content storage
+│        └─ [assessment info files]
+│
+├─ DATABASE (PostgreSQL)
+│  └─ database/
+│     └─ schema.sql                      # PostgreSQL schema
+│        └─ For production migration
+│           (set DATABASE_URL env var)
+│
+└─ ROOT
+   └─ Access Frontend: http://localhost:3000
+      Access Backend:  http://localhost:5000
+      Database:        sqlite/pneumtofy.db (auto-created)
+```
+│     │
+│
+│     └─ data/                            # Assessment content
+│        └─ [assessment info files]
 │
 ├─ DATABASE
-│  └─ database/
-│     └─ schema.sql                       # PostgreSQL schema (73 lines)
-│        └─ Tables:
-│           • tracker_entries             → Assessment history
-│           • information_content         → Medical information
-│           • Indexes for performance
-│           • Ready to use - just import!
+│  ├─ SQLite (Development - Auto-Created)
+│  │  └─ pneumtofy.db
+│  │     └─ Tables:
+│  │        • user (for auth system)
+│  │        • tracked_assessment (linked to users)
+│  │
+│  └─ PostgreSQL (Production)
+│     └─ database/schema.sql             # Schema for PostgreSQL
+│        └─ Set DATABASE_URL env var to migrate
 │
 └─ PROJECT ROOT
    ├─ Pneumtofy/

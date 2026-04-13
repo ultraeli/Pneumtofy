@@ -1,103 +1,398 @@
-# 🔧 Pneumtofy - Troubleshooting Guide
+# Pneumtofy - Troubleshooting Guide
 
-## Issue: psycopg2-binary Build Error
+## Backend Issues
 
-### Symptom
-```
-Error: pg_config executable not found.
-ERROR: Failed to build 'psycopg2-binary' when getting requirements to build wheel
-```
+### Python Dependency Installation Fails
 
-### Solution ✅
+**Error**: "Failed to build" or "No matching distribution found"
 
-The MVP now uses **JSON file storage** instead of requiring PostgreSQL immediately. We've removed the problematic `psycopg2-binary` dependency from `requirements.txt`.
+**Cause**: Version conflicts with pinned versions
 
-### What Changed
-- **Before**: `requirements.txt` included `psycopg2-binary==2.9.9`
-- **Now**: `requirements.txt` only has Flask dependencies
-- **Future**: When ready, install PostgreSQL and use `requirements-db.txt`
-
----
-
-## Getting Started (Revised Setup)
-
-### Step 1: Run Setup Script (FIXED)
+**Solution**:
+Use flexible version constraints (>=) instead of pinned versions (==):
 ```bash
-cd Pneumtofy
-setup.bat        # Windows
-# OR
-bash setup.sh    # macOS/Linux
-```
-
-This will now:
-- ✅ Clear pip cache
-- ✅ Upgrade pip, setuptools, wheel
-- ✅ Install Flask + CORS only
-- ✅ Install React dependencies
-- ✅ Show clear error messages if something fails
-
-### Step 2: Start Application
-```bash
-# Terminal 1
 cd backend
-python app.py
-
-# Terminal 2
-cd frontend
-npm start
-```
-
----
-
-## Common Issues & Fixes
-
-### 1. Python Dependencies Still Failing
-
-**Error**: "Failed to install Python dependencies"
-
-**Fix**:
-```bash
-# Clear cache and try again
 python -m pip cache purge
-python -m pip install --upgrade pip setuptools wheel
-cd backend
-pip install Flask==3.0.0
-pip install Flask-CORS==4.0.0
-pip install python-dotenv==1.0.0
+python -m pip install --upgrade pip
+pip install -r requirements.txt
 ```
 
-### 2. Node.js/npm Issues
-
-**Error**: "Failed to install Node.js dependencies"
-
-**Fix**:
-```bash
-# Clear npm cache
-npm cache clean --force
-
-# Update npm
-npm install -g npm@latest
-
-# Try again
-cd frontend
-npm install
+The `requirements.txt` should have flexible versions like:
+```
+Flask>=2.3.0
+Werkzeug>=2.3.0
+Flask-SQLAlchemy>=3.0.0
+Flask-Login>=0.6.0
+PyJWT>=2.8.0
 ```
 
-### 3. Port Already in Use (3000 or 5000)
+### SQLite Database Errors
 
-**Error**: "Address already in use" or "Port 3000/5000 in use"
+**Error**: "database is locked"
 
-**Windows Fix**:
+**Cause**: SQLite doesn't handle concurrent writes well
+
+**Solution**:
+- Close all connections to database
+- Restart Flask backend
+- Delete pneumtofy.db and restart (will recreate with fresh schema)
+
+**For Production**: Migrate to PostgreSQL
 ```bash
-# Find process using port
-netstat -ano | findstr :3000
+pip install psycopg2-binary
+export DATABASE_URL="postgresql://user:pass@hostname:5432/pneumtofy"
+python app.py  # Re-run to auto-migrate
+```
+
+### "Address already in use" Port 5000
+
+**Windows**:
+```bash
 netstat -ano | findstr :5000
-
-# Kill process (replace PID with the number)
 taskkill /PID <PID> /F
 ```
 
-**macOS/Linux Fix**:
+**macOS/Linux**:
+```bash
+lsof -i :5000
+kill -9 <PID>
+```
+
+### Backend won't start or crashes with errors
+
+**Check**:
+1. Is Python 3.7+ installed? `python --version`
+2. Are dependencies installed? `pip list | grep Flask`
+3. Are you in the backend directory? `cd backend`
+
+**Fix**:
+```bash
+cd backend
+# Clear Python cache
+find . -type d -name __pycache__ -exec rm -r {} +  # macOS/Linux
+rmdir /s /q __pycache__                            # Windows
+
+# Reinstall dependencies
+pip install -r requirements.txt
+
+# Try to start
+python app.py
+```
+
+### TypeError about ORM models
+
+**Cause**: Database schema mismatch or old pneumtofy.db
+
+**Solution**:
+```bash
+cd backend
+# Remove old database
+rm pneumtofy.db  # macOS/Linux
+del pneumtofy.db # Windows
+
+# Restart Flask - new database will be auto-created
+python app.py
+```
+
+---
+
+## Frontend Issues
+
+### npm install fails
+
+**Error**: "ERESOLVE unable to resolve dependency tree"
+
+**Solution**:
+```bash
+cd frontend
+npm cache clean --force
+npm install --legacy-peer-deps
+npm start
+```
+
+### "Address already in use" Port 3000
+
+**Windows**:
+```bash
+netstat -ano | findstr :3000
+taskkill /PID <PID> /F
+```
+
+**macOS/Linux**:
+```bash
+lsof -i :3000
+kill -9 <PID>
+```
+
+### Blank page or "Cannot find module" errors
+
+**Solution**:
+```bash
+cd frontend
+# Clear and reinstall
+rm -rf node_modules package-lock.json  # macOS/Linux
+rmdir /s /q node_modules               # Windows
+
+npm install
+npm start
+```
+
+### React Router shows 404 page
+
+**Check**: 
+- Is backend running? (port 5000)
+- Are you at correct URL? (http://localhost:3000)
+- Did initial page load? (check console with F12)
+
+---
+
+## Authentication Issues
+
+### Login fails with "Invalid username or email"
+
+**Check**:
+1. Is backend running?
+2. Did you register first?
+3. Are you using correct credentials?
+
+**Test email login**:
+- Login page accepts both username AND email
+- Try with email instead of username
+
+### "Invalid password" error
+
+**Check**:
+- Passwords are case-sensitive
+- No extra spaces in password field
+- Password must be at least 6 characters
+
+**Reset**:
+- Delete database (see SQLite section above)
+- Create new test account
+
+### Session expires immediately
+
+**Cause**: Browser doesn't allow cookies or localStorage is disabled
+
+**Fix**:
+1. Check browser settings - cookies should be enabled
+2. Open developer tools (F12)
+3. Go to Storage/Application tab
+4. Verify localStorage and cookies are populated
+
+### Tracker page redirects to login
+
+**Cause**: Session expired or not authenticated
+
+**Solution**:
+1. Login again
+2. Try accessing Tracker page
+3. If still redirects, check browser console (F12) for errors
+
+---
+
+## Timezone Issues
+
+### Tracker shows UTC time instead of local time
+
+**Cause**: Browser is not properly detecting timezone
+
+**Check**:
+1. Open browser console (F12)
+2. Type: `new Date().toLocaleString()`
+3. Should show current date/time in YOUR timezone, not UTC
+
+**Fix**:
+- Ensure `dateFormatter.js` is imported in Tracker.jsx
+- Hard refresh page (Ctrl+F5 or Cmd+Shift+R)
+- Clear browser cache
+
+### Timezone box shows wrong timezone name
+
+**Cause**: Browser reports wrong timezone to JavaScript
+
+**Fix**:
+1. Check system timezone settings
+2. Sync system time
+3. Test in console: `Intl.DateTimeFormat().resolvedOptions().timeZone`
+
+---
+
+## Pending Assessment Auto-Save Issues
+
+### Assessment doesn't save after login
+
+**Cause**: localStorage might be disabled or browser cleared storage
+
+**Check**:
+1. Backend is running and responding
+2. You're not in private browsing mode (disables localStorage)
+3. Assessment was actually stored before logging in
+
+**Test manually**:
+1. Logout
+2. Complete assessment
+3. Click "Save to Tracker"
+4. Open browser console (F12) → Storage/Application tab
+5. Check for `pendingAssessment` in localStorage
+
+### Auto-save redirects but assessment not in Tracker
+
+**Cause**: POST request to /api/tracker failed silently
+
+**Check**:
+1. Open browser console (F12)
+2. Go to Network tab
+3. Login and watch for POST /api/tracker request
+4. Check response status (should be 200 or 201, not 4xx/5xx)
+
+**Fix**:
+```bash
+# Manually save assessment via API
+curl -X POST http://localhost:5000/api/tracker \
+  -H "Content-Type: application/json" \
+  -H "Cookie: session=YOUR_SESSION" \
+  -d '{"age_months": 24, "fever": true, ...}'
+```
+
+---
+
+## Network/CORS Issues
+
+### "CORS error" in browser console
+
+**Error**: "Access to XMLHttpRequest... has been blocked by CORS policy"
+
+**Check**:
+- Backend is running on port 5000
+- Flask has CORS enabled
+
+**Fix**:
+Ensure `app.py` has CORS import and initialization:
+```python
+from flask_cors import CORS
+CORS(app)
+```
+
+### "Cannot reach http://localhost:5000"
+
+**Check**:
+1. Is backend running? (look for "Running on http://localhost:5000")
+2. Are you using correct URL?
+3. Is firewall blocking port 5000?
+
+**Test**:
+```bash
+# Test backend health
+curl http://localhost:5000/health
+# Should return: {"status": "ok"}
+```
+
+---
+
+## Database Issues
+
+### "pneumtofy.db" keeps resetting
+
+**Cause**: Database file is being deleted on startup
+
+**Check**:
+- `database.py` has `db.create_all()` but shouldn't delete data
+- Check if backup process is running
+
+**Solution**:
+```bash
+cd backend
+# Verify database exists and has data
+python -c "from database import db, init_db; from app import app; init_db(app)"
+```
+
+### Can't connect to PostgreSQL
+
+**Error**: "could not connect to server"
+
+**Check**:
+- PostgreSQL is installed and running
+- User credentials are correct
+- Database exists: `createdb pneumtofy`
+
+**Fix**:
+```bash
+# Test PostgreSQL connection
+psql -U user -h localhost -d pneumtofy
+```
+
+---
+
+## Performance Issues
+
+### App loads slowly
+
+**Frontend**: 
+```bash
+cd frontend
+npm cache clean --force
+npm start  # Should be faster second time
+```
+
+**Backend**:
+- First startup creates database
+- Second+ startups should be faster
+- If still slow, check logs for errors
+
+### Tracker page takes long to load
+
+**Cause**: Large number of assessments
+
+**Solution**: 
+- Works fine up to 10,000+ assessments
+- For much larger data, consider pagination in Tracker.jsx
+
+---
+
+## Browser Console Errors
+
+### "useAuth is not defined" in components
+
+**Cause**: Forgot to import useAuth hook
+
+**Fix**:
+```javascript
+import { useAuth } from '../contexts/AuthContext';
+
+function MyComponent() {
+  const { user, isAuthenticated, login, logout } = useAuth();
+  // ...
+}
+```
+
+### "Cannot read property 'formatDate' of undefined"
+
+**Cause**: dateFormatter.js not imported correctly
+
+**Fix**:
+```javascript
+import { formatDate, formatTime, getUserTimezone } from '../utils/dateFormatter';
+// Use functions directly
+const date = formatDate(timestamp);
+```
+
+### "localStorage is not defined"
+
+**Cause**: Using localStorage in server during SSR (shouldn't happen in create-react-app)
+
+**Fix**:
+```javascript
+if (typeof localStorage !== 'undefined') {
+  const data = localStorage.getItem('pendingAssessment');
+}
+```
+
+---
+
+## Complete Reset - Nuclear Option
+
+If everything is broken, start completely fresh:
 ```bash
 # Find process
 lsof -i :3000
@@ -271,33 +566,16 @@ npm start
 
 ---
 
-## Testing the Application
+## Manual Testing
 
-### Quick Test
-```bash
-# Terminal 3 (while app is running)
-cd Pneumtofy
-python test_mvp.py
-```
-
-**Expected Output**:
-```
-✓ TEST 1: Mild Case - PASS
-✓ TEST 2: Moderate Case - PASS
-✓ TEST 3: Critical Case - PASS
-✓ TEST 4: Lethargy Case - PASS
-✓ TEST 5: Unable to Drink Case - PASS
-
-All core tests passed!
-```
-
-### Manual Test
 1. Open http://localhost:3000
-2. Fill form with test data
-3. Click "Assess Symptoms"
-4. Should see results
-5. Click "Save to Tracker"
-6. Click "Tracker" to see saved entry
+2. Complete symptom assessment
+3. Review results
+4. Test Save to Tracker (with and without login)
+5. Go to Tracker page
+6. Verify timezone display
+7. Test email login
+8. Test logout
 
 ---
 

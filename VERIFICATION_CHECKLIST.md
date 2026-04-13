@@ -18,10 +18,14 @@
 - ✅ `DELETE /api/tracker/<id>` - Delete assessment (protected)
 
 ### Dependencies
-- ✅ `Flask-SQLAlchemy==3.0.5` in requirements.txt
-- ✅ `Flask-Login==0.6.2` in requirements.txt
-- ✅ `Werkzeug==3.0.0` in requirements.txt
-- ✅ `PyJWT==2.8.1` in requirements.txt
+- ✅ `Flask>=2.3.0` in requirements.txt
+- ✅ `Flask-SQLAlchemy>=3.0.0` in requirements.txt
+- ✅ `Flask-Login>=0.6.0` in requirements.txt
+- ✅ `Werkzeug>=2.3.0` in requirements.txt (password hashing)
+- ✅ `PyJWT>=2.8.0` in requirements.txt
+- ✅ `react-router-dom: ^6.11.0` in package.json
+- ✅ `axios: ^1.6.0` in package.json
+- ✅ `cross-env: ^7.0.3` in package.json (removes deprecation warnings)
 
 ### File Status
 ```
@@ -67,25 +71,27 @@ backend/
 ```
 frontend/
 ├── src/
-│   ├── App.jsx                      ✅ UPDATED
+│   ├── App.jsx                      ✅ UPDATED (Router, AuthProvider)
 │   ├── components/
-│   │   ├── Login.jsx                ✅ NEW
-│   │   ├── Register.jsx             ✅ NEW
-│   │   ├── Navigation.jsx           ✅ UPDATED
-│   │   ├── ProtectedRoute.jsx       ✅ NEW
-│   │   ├── Navigation.css           ✅ UPDATED
+│   │   ├── Login.jsx                ✅ NEW (auto-save pending assessment)
+│   │   ├── Register.jsx             ✅ NEW (auto-save pending assessment)
+│   │   ├── Navigation.jsx           ✅ UPDATED (auth UI, user menu)
+│   │   ├── ProtectedRoute.jsx       ✅ NEW (route protection)
+│   │   ├── Results.jsx              ✅ UPDATED (localStorage pending, timezone)
+│   │   ├── Tracker.jsx              ✅ UPDATED (timezone display, protected)
+│   │   ├── Navigation.css           ✅ NEW
 │   │   ├── SymptomForm.jsx          ✅ Existing
-│   │   ├── Results.jsx              ✅ Existing
 │   │   ├── Info.jsx                 ✅ Existing
-│   │   ├── Tracker.jsx              ✅ Existing
 │   │   └── [other files]            ✅ Existing
 │   ├── contexts/
-│   │   └── AuthContext.jsx          ✅ NEW
+│   │   └── AuthContext.jsx          ✅ NEW (useAuth hook, global state)
+│   ├── utils/
+│   │   └── dateFormatter.js         ✅ NEW (timezone support)
 │   ├── styles/
-│   │   ├── Auth.css                 ✅ NEW
+│   │   ├── Auth.css                 ✅ NEW (login/register styling)
 │   │   └── [other styles]           ✅ Existing
 │   └── index.js                     ✅ Existing
-└── package.json                     ✅ UPDATED
+└── package.json                     ✅ UPDATED (router, cross-env)
 ```
 
 ---
@@ -94,11 +100,32 @@ frontend/
 
 ### Authentication
 - ✅ User registration with validation
-- ✅ Password hashing (bcrypt)
+- ✅ Password hashing (bcrypt with Werkzeug)
 - ✅ User login with session creation
+- ✅ Email login support (login with username OR email)
 - ✅ Secure logout
 - ✅ Profile update functionality
 - ✅ Last login tracking
+
+### Pending Assessment Auto-Save
+- ✅ Guest users can complete assessment without login
+- ✅ Assessment stored in localStorage when guest clicks "Save"
+- ✅ User redirected to login page
+- ✅ After login/registration, assessment auto-saved to database
+- ✅ Assessment linked to user_id in database
+- ✅ localStorage cleared after successful save
+- ✅ User redirected to Tracker to see saved assessment
+- ✅ Works with both login and registration flows
+
+### Timezone Support
+- ✅ Backend stores timestamps in UTC with Z suffix (e.g., "2026-03-31T14:45:30Z")
+- ✅ Frontend uses Intl.DateTimeFormat API (no external library)
+- ✅ `dateFormatter.js` converts UTC to user's local timezone
+- ✅ `formatDate()` returns local date (e.g., "Mar 31, 2026")
+- ✅ `formatTime()` returns local time (e.g., "2:45:30 PM")
+- ✅ `getUserTimezone()` returns timezone name (e.g., "America/New_York")
+- ✅ Tracker page displays timezone info box
+- ✅ Automatically adapts to browser/system timezone
 
 ### Session Management
 - ✅ Flask-Login session handling
@@ -153,17 +180,33 @@ Expected: React running on http://localhost:3000 ✅
 - Create account (username, email, password)
 - Should auto-login and show username in top-right ✅
 
-### 4. Tracker Test
-- Complete an assessment
-- Go to Tracker tab
-- Assessment should appear ✅
+### 4. Email Login Test
+- Logout
+- On login page, use email (not username) to login ✅
 
-### 5. Logout Test
+### 5. Assessment Auto-Save Test
+- Logout completely
+- Complete assessment (without login)
+- Click "Save to Tracker"
+- Should redirect to login
+- Login with credentials
+- Should auto-save and redirect to Tracker ✅
+
+### 6. Timezone Display Test
+- On Tracker page, verify timezone info box showing ✅
+- Verify all times in local timezone (not UTC) ✅
+
+### 7. Tracker Test
+- Complete an assessment (while logged in)
+- Go to Tracker tab
+- Assessment should appear with local timezone ✅
+
+### 8. Logout Test
 - Click user menu → Logout
 - Redirected to login page ✅
 - Tracker page not accessible ✅
 
-### 6. Login Test
+### 9. Login Test
 - Use registration credentials to login
 - Tracker page accessible again ✅
 
@@ -380,12 +423,6 @@ timestamp            | DATETIME
 2. Social login (Google, GitHub)
 3. Admin dashboard
 4. User activity logging
-
-### Long Term (3+ months)
-1. Assessment sharing with healthcare providers
-2. Appointment scheduling
-3. Medical provider network integration
-4. Mobile app
 
 ---
 

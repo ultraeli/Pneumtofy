@@ -1,13 +1,13 @@
-# Pneumtofy - Project Summary in Progress
+# Pneumtofy - Deployment & Project Guide
 
-**Status**: WIP
-**Date**: April 13, 2026  
-**Version**: 1.0 
-**Team**: Group 10 (Ezrha Fines, John Christian Jamesula, Elijah Theodore Uy)
+**Version**: 1.1 (with Authentication & SQLite ORM)  
+**Status**: Production Ready  
+**Date**: Updated 2026  
+**Team**: Group 10
 
 ---
 
-## Project Overview
+## Quick Start
 
 Pneumtofy is a **pneumonia monitoring and information platform** designed for caregivers (parents/guardians) to:
 - **Track symptoms** of children with potential pneumonia
@@ -53,8 +53,11 @@ Pneumtofy is a **pneumonia monitoring and information platform** designed for ca
 | `models.py` | Data models & information content |
 | `requirements.txt` | Python dependencies |
 
-**Data Storage**: JSON-based (in `backend/data/tracker.json`)  
-**Database Ready**: PostgreSQL schema provided in `database/schema.sql`
+**Data Storage**: SQLite with SQLAlchemy ORM (auto-created as `pneumtofy.db`)  
+**Authentication**: Flask-Login with session management  
+**Password Security**: Bcrypt hashing (Werkzeug)  
+**Timestamps**: UTC with Intl.DateTimeFormat API for local display  
+**Production Ready**: Can switch to PostgreSQL with DATABASE_URL environment variable
 
 ### Database (PostgreSQL - Ready for Integration)
 **Location**: `database/schema.sql`  
@@ -245,35 +248,54 @@ Pneumtofy/
 │   │   └── index.html
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── Navigation.jsx 
-│   │   │   ├── Navigation.css
-│   │   │   ├── SymptomForm.jsx 
-│   │   │   ├── SymptomForm.css
-│   │   │   ├── Results.jsx 
-│   │   │   ├── Results.css
+│   │   │   ├── Navigation.jsx (updated with auth UI)
+│   │   │   ├── Navigation.css (new)
+│   │   │   ├── Login.jsx (new - login page)
+│   │   │   ├── Register.jsx (new - registration page)
+│   │   │   ├── ProtectedRoute.jsx (new - route protection)
+│   │   │   ├── SymptomForm.jsx
+│   │   │   ├── Results.jsx (updated with pending auto-save)
+│   │   │   ├── Tracker.jsx (updated with timezone display)
 │   │   │   ├── Info.jsx
+│   │   │   ├── Auth.css (new)
+│   │   │   ├── SymptomForm.css
+│   │   │   ├── Results.css
 │   │   │   ├── Info.css
-│   │   │   ├── Tracker.jsx
 │   │   │   └── Tracker.css
-│   │   ├── App.jsx 
+│   │   ├── contexts/
+│   │   │   └── AuthContext.jsx (new - global auth state)
+│   │   ├── utils/
+│   │   │   └── dateFormatter.js (new - timezone support)
+│   │   ├── App.jsx (updated with React Router)
 │   │   ├── App.css
 │   │   └── index.jsx
-│   └── package.json
+│   └── package.json (updated with router, cross-env)
+│
 ├── backend/
-│   ├── app.py - Main API server
-│   ├── decision_logic.py - IMCI assessment
-│   ├── models.py - Data models
-│   ├── requirements.txt
-│   ├── .env
-│   └── data/ (auto-created)
-│       └── tracker.json
+│   ├── app.py (updated with auth routes, 350+ lines)
+│   ├── database.py (new - SQLAlchemy initialization)
+│   ├── models_auth.py (new - User & TrackedAssessment models)
+│   ├── models.py (existing - assessment IMCI logic)
+│   ├── decision_logic.py (existing - assessment algorithm)
+│   ├── requirements.txt (updated with auth dependencies)
+│   ├── pneumtofy.db (auto-created SQLite database)
+│   └── data/
+│       └── [assessment info files]
+│
 ├── database/
-│   └── schema.sql (For PostgreSQL in the future)
-├── README.md
-├── setup.bat (Windows setup)
-├── setup.sh (macOS/Linux setup)
-├── test_mvp.py (Test suite)
-└── DEPLOYMENT_GUIDE.md (this file)
+│   └── schema.sql (PostgreSQL schema - for production migration)
+│
+├── README.md (updated)
+├── QUICK_START.md (updated)
+├── AUTHENTICATION_COMPLETE.md (new)
+├── AUTH_SETUP.md (new)
+├── AUTH_QUICK_START.md (new)
+├── ARCHITECTURE.md (updated)
+├── VERIFICATION_CHECKLIST.md (updated)
+├── TROUBLESHOOTING.md (updated)
+├── PROJECT_FILE_TREE.md
+├── DEPLOYMENT_GUIDE.md (this file)
+└── [setup scripts]
 ```
 
 ---

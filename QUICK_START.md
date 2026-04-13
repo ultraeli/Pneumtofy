@@ -1,268 +1,265 @@
-## Pneumtofy - REFERENCE AND GUIDE
+# Pneumtofy - Quick Start Guide
 
-## What's Been Built
+## What This Application Does
 
-A **working web application** for pneumonia symptom tracking and management based on WHO IMCI guidelines.
+Pneumtofy is a web application that helps caregivers assess pneumonia risk in children based on WHO IMCI guidelines. Users can:
+- Enter child symptoms anonymously or with an account
+- Get risk assessment and recommendations
+- Create an account and save assessment history
+- Track assessments with proper timezone display
 
-- **Frontend**: Full React app 
-- **Backend**: Python Flask API with IMCI decision logic
-- **Database**: Python SQLite and SQLAlchemy toolkit
+## System Requirements
 
----
+- Python 3.8 or higher
+- Node.js 14 or higher (with npm)
+- 100 MB free disk space
+- Any modern web browser
 
-## Start 
+## Installation and Running
 
-### Option 1: Windows - Run Setup Script
+### Option 1: Windows - Automated Setup
+
 ```bash
 cd Pneumtofy
 setup.bat
 ```
 
+This automatically installs and starts both servers.
+
 ### Option 2: Manual Setup
 
-**Terminal 1 (Backend)**:
+#### Step 1: Start Backend (Terminal 1)
+
 ```bash
 cd backend
 pip install -r requirements.txt
 python app.py
 ```
 
-**Terminal 2 (Frontend)**:
+Backend will run on http://localhost:5000
+
+#### Step 2: Start Frontend (Terminal 2)
+
 ```bash
 cd frontend
 npm install
 npm start
 ```
 
-Will open: **http://localhost:3000**
+Frontend will open http://localhost:3000 automatically
 
----
+### Option 3: If Already Installed
 
-## If already set up
-
-**Terminal 1 (Backend)**:
+#### Terminal 1:
 ```bash
 cd backend
 python app.py
 ```
 
-**Terminal 2 (Frontend)**:
+#### Terminal 2:
 ```bash
 cd frontend
 npm start
 ```
 
----
+## Using the Application
 
-##  App Features & Pages
+### As a Guest (No Account Required)
 
-| Feature | Location | What It Does |
-|---------|----------|--------------|
-| **Home** | `/` | Main symptom assessment form |
-| **Results** | After form | Risk classification + recommendations |
-| **Info** | Click "Info" | Educational content about pneumonia |
-| **Tracker** | Click "Tracker" | History of all assessments |
+1. Go to Home page
+2. Fill out child's age and symptoms
+3. Click "Assess Symptoms"
+4. View assessment results with recommendations
+5. Cannot save to tracker without logging in
 
----
+### Creating an Account and Logging In
 
-## For Testing
+#### Register (New Users)
 
-### Quick Test Cases
+1. Click "Register" in top right
+2. Enter:
+   - Username (required)
+   - Email (required)
+   - Password (minimum 6 characters)
+   - Guardian name (optional)
+   - Phone number (optional)
+3. Click "Create Account"
+4. Automatically logged in
 
-**Case 1: Normal (No Symptoms)**
-- Age: 24 months, Cough: 2 days
-- Expected: MILD - Safe to manage at home
+#### Login (Existing Users)
 
-**Case 2: Moderate (Pneumonia Indicators)**
-- Age: 24 months, Cough: 7+ days, Fast breathing: YES, Fever: YES
-- Expected: MODERATE - Observe & manage
+1. Click "Login" in top right
+2. Enter username or email
+3. Enter password
+4. Click "Login"
 
-**Case 3: Critical (Needs Doctor)**
-- Age: 24 months, Chest indrawing: YES
-- Expected: CRITICAL - Seek immediate medical care
+### Saving Assessments to Tracker
 
-Run tests: `python test_mvp.py`
+#### If Logged In
 
----
+1. Complete the form with symptoms
+2. Click "Assess Symptoms"
+3. Review results page
+4. Click "Save to Tracker"
+5. Assessment saved with date/time in your timezone
+6. Redirects to Tracker page after 2 seconds
 
-##  For Improvement
+#### If Not Logged In
 
-### Frontend Changes
-- **Logo/Header**: `frontend/src/components/Navigation.jsx`
-- **Form Fields**: `frontend/src/components/SymptomForm.jsx`
-- **Results Display**: `frontend/src/components/Results.jsx`
-- **Info Content**: `frontend/src/components/Info.jsx`
-- **Colors/Styling**: `frontend/src/components/*.css`
+1. Complete the form
+2. Click "Assess Symptoms"
+3. Review results
+4. Click "Save to Tracker"
+5. Prompted to login/register
+6. After successful authentication, assessment auto-saves
+7. Redirected to Tracker page showing the saved assessment
 
-### Backend Changes
-- **Assessment Logic**: `backend/decision_logic.py`
-- **API Routes**: `backend/app.py`
-- **Home Remedies**: `backend/decision_logic.py` (search for `get_home_remedies`)
+### Viewing Assessment History
 
----
+1. Must be logged in
+2. Click "Tracker" in navigation bar
+3. View all saved assessments
+4. Shows:
+   - Date and time (in your local timezone)
+   - Risk level (color-coded)
+   - Symptoms that were entered
+   - Original recommendation
+5. Filter by risk level using dropdown
+6. Click "Delete" to remove entries
 
-## API Endpoints Quick Reference
+### Logging Out
 
+1. Click your username in top right corner
+2. Click "Logout" in dropdown menu
+3. Session ends and returns to Home
+
+## Testing Assessment Risk Levels
+
+### Test Case 1: Mild Risk
+- Age: 24 months
+- Cough duration: 2 days  
+- No other symptoms
+- Expected: Mild - Safe home management
+
+### Test Case 2: Moderate Risk
+- Age: 24 months
+- Cough duration: 7+ days
+- Fast breathing: YES
+- Fever: YES (38.5 Celsius)
+- Expected: Moderate - Observe at home
+
+### Test Case 3: Critical Risk
+- Age: 24 months
+- Chest indrawing: YES
+- Expected: Critical - Seek immediate medical care
+
+## Pages Overview
+
+| Page | Path | Function | Requires Login |
+|------|------|----------|----------------|
+| Home/Assessment | / | Enter symptoms and get assessment | No |
+| Results | /results | View outcome, save to tracker | No |
+| Information | /info | Medical education about pneumonia | No |
+| Tracker | /tracker | Personal assessment history | Yes |
+| Login | /login | Sign in to account | No |
+| Register | /register | Create new account | No |
+
+## Key Features
+
+### Authentication System
+- Secure username and email registration
+- Session-based login (remember me option available)
+- Password hashing with Werkzeug
+- Profile updates and password changes
+- Protected Tracker access
+
+### Timezone Support
+- All assessments display in your local timezone
+- Backend stores times in UTC
+- Tracker page shows your timezone name
+- Dates and times automatically convert from server
+
+### Smart Guest-to-User Workflow
+- Guests can perform complete assessments
+- Clicking Save triggers optional login/register
+- Assessment data preserved during authentication
+- Auto-save to Tracker after login
+- No data loss in login flow
+
+### Data Privacy
+- Each user sees only their own assessments
+- All data linked to individual accounts
+- Secure session management
+- Automatic logout support
+
+## Troubleshooting
+
+### Frontend won't start
+```bash
+cd frontend
+rm -r node_modules package-lock.json
+npm install
+npm start
 ```
-POST http://localhost:5000/api/assess
-  → Submit symptoms, get assessment
 
-GET http://localhost:5000/api/info
-  → Get pneumonia information
+### Port already in use
+- Find and stop services using port 3000 or 5000
+- Or restart your computer
 
-POST http://localhost:5000/api/tracker
-  → Save assessment to history
-
-GET http://localhost:5000/api/tracker
-  → Get all saved assessments
-
-DELETE http://localhost:5000/api/tracker/<id>
-  → Delete an assessment
+### Database errors
+To reset the database:
+```bash
+cd backend
+rm pneumtofy.db
+python app.py
 ```
 
----
+### Can't login after registration
+- Make sure backend is running (port 5000)
+- Try using email instead of username
+- Clear browser cookies and try again
 
-## Key Concepts
+### Assessment not saving
+- Must be logged in to use Tracker
+- Verify backend is running and accessible
+- Check browser console for errors (F12)
 
-### IMCI (Integrated Management of Childhood Illness)
-- WHO framework for assessing sick children
-- **Critical signs** = Immediate hospital referral
-- **Pneumonia signs** = Careful observation at home
-- Age-appropriate assessment
+## Feature Customization
 
-### Risk Levels
-1. 🟢 **MILD** → Safe home management
-2. 🟡 **MODERATE** → Observation + home remedies
-3. 🔴 **CRITICAL** → SEEK MEDICAL ATTENTION NOW
-
-### Critical Signs (Auto-Refer to Hospital)
-- Chest wall indrawing
-- Stridor (in calm child)
-- Lethargy (unusual sleepiness)
-- Unable to drink
-
----
-
-## Customization Examples
-
-### Add a New Symptom Field
-
-**1. Frontend** (SymptomForm.jsx):
-```jsx
-// Add to form state
-cough_type: '',
-
-// Add to form JSX
-<div className="form-group">
-  <label>Type of cough</label>
-  <input
-    type="text"
-    name="cough_type"
-    value={symptoms.cough_type}
-    onChange={handleInputChange}
-  />
-</div>
-```
-
-**2. Backend** (decision_logic.py):
-```python
-def assess_symptoms(..., cough_type):
-    # Add logic to use cough_type
-    if cough_type == 'productive':
-        # Add to assessment
-```
+### Modify Assessment Logic
+- Edit: `backend/decision_logic.py`
+- Contains IMCI guideline rules
+- Search for `assess_symptoms()` function
 
 ### Change Home Remedies
+- Edit: `backend/decision_logic.py`
+- Look for `get_home_remedies_for_observation()` and `get_home_remedies_for_mild()`
 
-Edit `backend/decision_logic.py`:
-```python
-def get_home_remedies_for_observation():
-    return [
-        {
-            'name': 'New Remedy',
-            'description': 'Description here',
-            'dosage': 'How to use'
-        }
-    ]
-```
+### Update Information Content
+- Edit: `backend/models.py`
+- Modify text in `InfoContent` class
 
-### Update Information
+### Edit App Styling
+- Frontend: `frontend/src/components/*.css`
+- Colors: Look for hex codes like #667eea
+- Fonts: Montserrat (loaded from Google Fonts)
 
-Edit `backend/models.py`:
-```python
-class InfoContent:
-    ABOUT = "Updated description here..."
-    SYMPTOMS = ["Updated list", "of symptoms"]
-```
+## System Architecture
 
----
+The application uses:
+- Frontend: React with Axios HTTP client
+- Backend: Flask API with SQLAlchemy ORM
+- Database: SQLite with relational schema
+- Authentication: Flask-Login with session cookies
+- Styling: CSS3 with responsive design
 
-## Common Issues
+All servers run locally on your machine. No internet required after initial setup.
 
-### "Can't find module 'react'"
-```bash
-cd frontend
-npm install
-```
+## For More Information
 
-### "Port 3000 already in use"
-```bash
-# Windows
-netstat -ano | findstr :3000
-taskkill /PID <PID> /F
-
-### "CORS error" or "Can't connect to backend"
-- Make sure backend is running on port 5000
-- Check that frontend calls `http://localhost:5000`
-- Verify `.env` has correct API host
-
-### "No module named flask"
-```bash
-cd backend
-pip install -r requirements.txt
-```
-
----
-
-## Dependencies
-
-### Frontend
-- React 18
-- Axios (HTTP client)
-- CSS3 (styling)
-
-### Backend
-- Flask 3.0
-- Flask-CORS
-- psycopg2 (for future DB)
-- python-dotenv
-
----
-
-## UI Components Summary
-
-```
-App
-├── Navigation (top bar)
-├── Main Content
-│   ├── SymptomForm (home page)
-│   ├── Results (assessment results)
-│   ├── Info (information page)
-│   └── Tracker (history)
-```
-
-**Color Scheme**:
-- Success: Green (#27ae60)
-- Warning: Orange (#f39c12)
-- Critical: Red (#e74c3c)
-- Neutral: Gray (#95a5a6)
-
----
-
-## Other
-
-1. Check **README.md** for overview
-2. Check **DEPLOYMENT_GUIDE.md** for detailed info
-3. Check **test_mvp.py** for example cases
-4. Run tests: `python test_mvp.py`
+See these documentation files:
+- README.md - Full feature documentation and API endpoints
+- AUTHENTICATION_COMPLETE.md - Detailed auth system explanation
+- ARCHITECTURE.md - System design and data flow diagrams
+- DEPLOYMENT_GUIDE.md - Production deployment instructions
 

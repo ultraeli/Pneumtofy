@@ -34,10 +34,11 @@ Protected tracker endpoints:
 
 #### 4. **Dependencies Updated** (`backend/requirements.txt`)
 ```
-Flask-SQLAlchemy==3.0.5    # ORM for database
-Flask-Login==0.6.2         # Session management
-Werkzeug==3.0.0            # Password hashing
-PyJWT==2.8.1               # JWT support (ready for token auth)
+Flask>=2.3.0               # Web framework
+Werkzeug>=2.3.0            # Password hashing and WSGI
+Flask-SQLAlchemy>=3.0.0    # ORM for database
+Flask-Login>=0.6.0         # Session management
+PyJWT>=2.8.0               # JWT support (ready for token auth)
 ```
 
 ---
@@ -100,9 +101,26 @@ PyJWT==2.8.1               # JWT support (ready for token auth)
 - Protected `/tracker` route
 - Conditional rendering based on auth
 
-#### 8. **Dependencies** (`frontend/package.json`)
+#### 8. **Timezone-Aware Formatting** (`frontend/src/utils/dateFormatter.js`)
+- Converts UTC timestamps to user's local timezone
+- Functions: `formatDate()`, `formatTime()`, `getUserTimezone()`
+- Uses JavaScript Intl.DateTimeFormat API
+- Automatically adapts to user's system timezone
+
+#### 9. **Pending Assessment Auto-Save** (Results.jsx & Login.jsx)
+- When unauthenticated user clicks "Save to Tracker":
+  - Assessment stored in localStorage as pendingAssessment
+  - User redirected to login page
+  - After successful login/registration:
+  - Assessment automatically saved to database
+  - User redirected to Tracker page
+- Enables seamless guest-to-user transition
+- No data loss during authentication
+
+#### 10. **Dependencies** (`frontend/package.json`)
 ```json
-"react-router-dom": "^6.11.0"  // Client-side routing
+"react-router-dom": "^6.11.0",  // Client-side routing
+"cross-env": "^7.0.3"            // Environment variable handling
 ```
 
 ---
@@ -307,18 +325,81 @@ export DATABASE_URL="postgresql://user:pass@localhost:5432/pneumtofy"
 
 ---
 
+## Advanced Features
+
+### Timezone Support
+All assessment timestamps automatically display in the user's local timezone:
+
+**Backend Implementation:**
+- Stores timestamps in UTC with ISO format + Z suffix
+- Example: `2026-03-31T14:45:30Z`
+- `models_auth.py` returns all timestamps with Z suffix
+
+**Frontend Implementation:**
+- `dateFormatter.js` utility functions:
+  - `formatDate(timestamp)` - Returns: "Mar 31, 2026"
+  - `formatTime(timestamp)` - Returns: "2:45:30 PM"
+  - `getUserTimezone()` - Returns: "America/New_York"
+- Tracker page displays timezone info box
+- All timestamps auto-converted to user's timezone
+- Uses JavaScript Intl.DateTimeFormat API (no dependencies needed)
+
+**User Experience:**
+- Timestamp in UTC stored on server
+- Displays in user's local timezone on frontend
+- Works automatically with browser/system timezone
+
+### Pending Assessment Auto-Save Workflow
+Allows unauthenticated users to start assessments and seamlessly save after login:
+
+**Guest User Flow:**
+1. User visits home page
+2. Takes symptom assessment (no login required)
+3. Receives results and recommendations
+4. Clicks "Save to Tracker" button
+5. System stores assessment in localStorage
+6. Redirected to login page
+
+**After Login/Registration:**
+1. User logs in with credentials
+2. System detects pending assessment in localStorage
+3. Auto-saves assessment to user's Tracker
+4. Clears localStorage
+5. Redirects to Tracker page
+6. Assessment now permanently stored
+
+**Technical Details:**
+- `Results.jsx`: Stores assessment in localStorage if not authenticated
+- `Login.jsx` & `Register.jsx`: Contains `savePendingAssessment()` function
+- Checks localStorage for `pendingAssessment` after successful auth
+- Sends POST to `/api/tracker` with all symptom data
+- Frontend redirects to `/tracker` after successful save
+- No data loss during authentication
+
+**Benefits:**
+- Frictionless user experience
+- No forced login for initial assessment
+- Encourages registration by preserving work
+- Increases user retention
+
+---
+
 ## What Works Right Now
 
 ### ✅ Complete Features
 - User registration with email validation
-- Secure login/logout
-- Session persistence
+- Secure login/logout (username OR email login)
+- Session persistence across page reloads
 - Assessment saving to user account
 - Assessment tracking per user
 - User profile menu
-- Protected routes
-- Responsive design
-- Error handling
+- Protected Tracker route (redirects if not authenticated)
+- Responsive design (mobile, tablet, desktop)
+- Error handling and validation
+- Timezone-aware timestamp display
+- Pending assessment auto-save workflow
+- SQLite database with SQLAlchemy ORM
+- Bcrypt password hashing
 
 ### Ready for Future Enhancement
 - Email verification
@@ -328,5 +409,6 @@ export DATABASE_URL="postgresql://user:pass@localhost:5432/pneumtofy"
 - Profile picture upload
 - Admin dashboard
 - Assessment sharing with healthcare providers
+- PostgreSQL migration for production
 
 ---

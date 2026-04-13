@@ -3,75 +3,103 @@
 ## System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     USER BROWSER (Port 3000)                    │
-│  ┌────────────────────────────────────────────────────────────┐ │
-│  │                 React Frontend Application                 │ │
-│  │  ┌──────────────┬──────────────┬──────────────┐            │ │
-│  │  │ Symptom Form │ Assessment   │ Info Page    │ Navigation│ │
-│  │  │              │ Results      │ Tracker      │ Bar       │ │
-│  │  └──────────────┴──────────────┴──────────────┘            │ │
-│  │         │                                                   │ │
-│  │         └──────────────┬─────────────────────────────────┐ │ │
-│  └────────────────────────┼─────────────────────────────────┘ │ │
-│                           │ HTTP Requests (Axios)              │ │
-│                           └────────────────┬────────────────────┘ │
-│                                            │                      │
-│                    ┌──────────────────────────────┐               │
-│                    │   Flask API Server           │               │
-│                    │   (Port 5000)                │               │
-│                    │  ┌────────────────────────┐  │               │
-│                    │  │  REST API Endpoints:   │  │               │
-│                    │  │  - POST /api/assess    │  │               │
-│                    │  │  - GET  /api/info      │  │               │
-│                    │  │  - POST /api/tracker   │  │               │
-│                    │  │  - GET  /api/tracker   │  │               │
-│                    │  │  - DELETE /api/tracker │  │               │
-│                    │  └────────────────────────┘  │               │
-│                    │           │                   │               │
-│                    │     ┌─────┴──────┬────────┐   │               │
-│                    │     │            │        │   │               │
-│              ┌─────────┬─────────────┐ │   │       │               │
-│              │       │ │             │ │ Python Module │           │
-│   ┌──────────────┐ │  │    │         │ │             │           │
-│   │ Data Store   │ │  │    ├◄───────┤ │  decision_   │           │
-│   │              │ │  │  │ │   logic.py (IMCI) │     │           │
-│   │ JSON Files   │ │  │  │ │             │     │     │           │
-│   │ (tracker.    │ │  │  │ └─────────────┤     │     │           │
-│   │  json)       │ │  │  │               │     │     │           │
-│   │              │ │  │  │  models.py    │     │     │           │
-│   └──────────────┘ │  │  │ (Info Content)      │     │           │
-│         ▲          │  │  │               │     │     │           │
-│         │          │  │  └───────────────┤─────┘     │           │
-│         └──────────┼──┼──────────────────────────────┼────────┘   │
-│                    └──────────────────────────────────┘           │
-│                                                                    │
-└──────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────┐
+│                   USER BROWSER (Port 3000)                        │
+│  ┌─────────────────────────────────────────────────────────────┐ │
+│  │              React Frontend Application                     │ │
+│  │  ┌──────────────────────────────────────────────────────┐  │ │
+│  │  │ AuthProvider (AuthContext.jsx)                       │  │ │
+│  │  │ - user, isAuthenticated, loading state              │  │ │
+│  │  │ - login(), logout(), updateUser()                    │  │ │
+│  │  │ - localStorage persistence                           │  │ │
+│  │  └──────────┬───────────────────────────────────────────┘  │ │
+│  │             │                                               │ │
+│  │  ┌──────────▼───────────────────────────────────────────┐  │ │
+│  │  │ React Router v6                                      │  │ │
+│  │  │ - /: Home & SymptomForm                              │  │ │
+│  │  │ - /results: Assessment results                       │  │ │
+│  │  │ - /login: Login page                                 │  │ │
+│  │  │ - /register: Registration page                       │  │ │
+│  │  │ - /tracker: Protected Tracker (ProtectedRoute wrap)  │  │ │
+│  │  └──────────┬───────────────────────────────────────────┘  │ │
+│  │             │                                               │ │
+│  │  ┌──────────▼───────────────────────────────────────────┐  │ │
+│  │  │ Components                                           │  │ │
+│  │  │ - SymptomForm, Results, Tracker                      │  │ │
+│  │  │ - Login, Register                                    │  │ │
+│  │  │ - Navigation, ProtectedRoute                         │  │ │
+│  │  └──────────┬───────────────────────────────────────────┘  │ │
+│  │             │                                               │ │
+│  │  ┌──────────▼───────────────────────────────────────────┐  │ │
+│  │  │ Utils (dateFormatter.js)                             │  │ │
+│  │  │ - formatDate(), formatTime()                         │  │ │
+│  │  │ - getUserTimezone()                                  │  │ │
+│  │  │ - parseUTCTimestamp()                                │  │ │
+│  │  └──────────┬───────────────────────────────────────────┘  │ │
+│  └─────────────┼──────────────────────────────────────────────┘ │
+│                │ localStorage [pendingAssessment]              │
+│                │ HTTP Requests (Axios, credentials: true)      │
+│                └────────────┬───────────────────────────────────┘
+└─────────────────────────────┼──────────────────────────────────────┘
+                              │
+                              │ HTTP/JSON
+                              │
+┌─────────────────────────────▼──────────────────────────────────────┐
+│                   Flask Backend (Port 5000)                        │
+│  ┌─────────────────────────────────────────────────────────────┐  │
+│  │ Authentication Endpoints                                    │  │
+│  │ - POST /api/auth/register                                  │  │
+│  │ - POST /api/auth/login                                     │  │
+│  │ - POST /api/auth/logout                                    │  │
+│  │ - GET  /api/auth/me (Protected)                            │  │
+│  │ - PUT  /api/auth/update (Protected)                        │  │
+│  └─────────────────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────────────────┐  │
+│  │ Assessment & Tracker Endpoints                             │  │
+│  │ - POST /api/assess                                         │  │
+│  │ - GET  /api/tracker (Protected)                            │  │
+│  │ - POST /api/tracker (Protected)                            │  │
+│  │ - DELETE /api/tracker/<id> (Protected)                     │  │
+│  │ - GET  /api/info (Public)                                  │  │
+│  └─────┬───────────────────────────────────────────────────────┘  │
+│        │                                                          │
+│  ┌─────▼──────────────────────────────────────────────────────┐   │
+│  │ Flask App (app.py)                                         │   │
+│  │ - Session management with Flask-Login                     │   │
+│  │ - CORS enabled for frontend                               │   │
+│  │ - User authentication & authorization                     │   │
+│  └─────┬──────────────────────────────────────────────────────┘   │
+│        │                                                           │
+│  ┌─────▼──────────────────────────────────────────────────────┐   │
+│  │ Python Modules                                             │   │
+│  │ - decision_logic.py (IMCI assessment engine)              │   │
+│  │ - models_auth.py (User & TrackedAssessment ORM)           │   │
+│  │ - database.py (SQLAlchemy initialization)                 │   │
+│  └─────┬──────────────────────────────────────────────────────┘   │
+│        │                                                           │
+│  ┌─────▼──────────────────────────────────────────────────────┐   │
+│  │ SQLAlchemy ORM                                             │   │
+│  │ - Manages User model                                       │   │
+│  │ - Manages TrackedAssessment model                          │   │
+│  │ - Password hashing (Werkzeug bcrypt)                       │   │
+│  │ - Foreign key relationships                                │   │
+│  └─────┬──────────────────────────────────────────────────────┘   │
+│        │                                                           │
+│  ┌─────▼──────────────────────────────────────────────────────┐   │
+│  │ SQLite Database (pneumtofy.db)                             │   │
+│  │ - user table (id, username, email, password_hash, ...)    │   │
+│  │ - tracked_assessment table (id, user_id, symptoms, ...)   │   │
+│  │ - All timestamps stored in UTC (ISO format with Z)        │   │
+│  └─────┬──────────────────────────────────────────────────────┘   │
+└────────┼──────────────────────────────────────────────────────────┘
+         │
+         └─ File: pneumtofy.db (auto-created, auto-migrated SQLite)
 
 
-┌────────────────────────────────────────────────────────────────────┐
-│                    Future Integration Options                      │
-│  ┌────────────────────────────────────────────────────────────┐   │
-│  │  PostgreSQL Database (When Migrating Past MVP)             │   │
-│  │  - tracker_entries table                                   │   │
-│  │  - information_content table                               │   │
-│  │  - User accounts (future)                                  │   │
-│  └────────────────────────────────────────────────────────────┘   │
-│                                                                    │
-│  ┌────────────────────────────────────────────────────────────┐   │
-│  │  Health System Integration (Future)                        │   │
-│  │  - Connect to local health facilities                      │   │
-│  │  - Patient records sync                                    │   │
-│  │  - Analytics dashboard                                     │   │
-│  └────────────────────────────────────────────────────────────┘   │
-│                                                                    │
-│  ┌────────────────────────────────────────────────────────────┐   │
-│  │  Mobile App (React Native / Native Apps)                  │   │
-│  │  - Same API backend                                        │   │
-│  │  - Offline-first capabilities                              │   │
-│  │  - Push notifications                                      │   │
-│  └────────────────────────────────────────────────────────────┘   │
-└────────────────────────────────────────────────────────────────────┘
+TECH STACK:
+Back: Flask>=2.3.0, Werkzeug>=2.3.0, Flask-SQLAlchemy>=3.0.0, Flask-Login>=0.6.0
+Front: React 18, React Router DOM v6, Axios, cross-env 7.0.3
+DB: SQLite (development) → PostgreSQL (production)
 ```
 
 ---
@@ -233,39 +261,64 @@
 
 ---
 
-## Database Schema (PostgreSQL)
+## Database Schema (Current: SQLite with SQLAlchemy ORM)
 
-```sql
--- When Migrating from JSON to Database
+User Model (models_auth.py):
+```python
+class User(UserMixin, db.Model):
+    id              INTEGER PRIMARY KEY
+    username        VARCHAR UNIQUE NOT NULL
+    email           VARCHAR UNIQUE NOT NULL
+    password_hash   VARCHAR NOT NULL (bcrypt hashed)
+    guardian_name   VARCHAR
+    guardian_phone  VARCHAR
+    created_at      TIMESTAMP (UTC, ISO format with Z)
+    updated_at      TIMESTAMP (UTC, ISO format with Z)
+    last_login      TIMESTAMP (UTC, ISO format with Z)
+    assessments     One-to-Many relationship to TrackedAssessment
+```
 
-tracker_entries
-├── id (PRIMARY KEY)
-├── age_months (INTEGER)
-├── cough_duration (INTEGER)
-├── fast_breathing (BOOLEAN)
-├── fever (BOOLEAN)
-├── fever_temperature (DECIMAL)
-├── difficulty_breathing (BOOLEAN)
-├── chest_indrawing (BOOLEAN)  ⚠️ CRITICAL
-├── stridor (BOOLEAN)          ⚠️ CRITICAL  
-├── lethargy (BOOLEAN)         ⚠️ CRITICAL
-├── unable_to_drink (BOOLEAN)  ⚠️ CRITICAL
-├── vomiting (BOOLEAN)
-├── diarrhea (BOOLEAN)
-├── previous_episodes (INTEGER)
-├── assessment (VARCHAR)
-├── recommendation (TEXT)
-├── guidance (JSONB)
-├── home_remedies (JSONB)
-├── timestamp (TIMESTAMP)
-└── created_at (TIMESTAMP)
+TrackedAssessment Model (models_auth.py):
+```python
+class TrackedAssessment(db.Model):
+    id                  INTEGER PRIMARY KEY
+    user_id             INTEGER FOREIGN KEY (references User.id)
+    age_months          INTEGER
+    cough_duration      INTEGER
+    fast_breathing      BOOLEAN
+    fever               BOOLEAN
+    fever_temperature   DECIMAL
+    difficulty_breathing BOOLEAN
+    chest_indrawing     BOOLEAN (CRITICAL SIGN)
+    stridor             BOOLEAN (CRITICAL SIGN)
+    lethargy            BOOLEAN (CRITICAL SIGN)
+    unable_to_drink     BOOLEAN (CRITICAL SIGN)
+    vomiting            BOOLEAN
+    diarrhea            BOOLEAN
+    previous_episodes   INTEGER
+    assessment          VARCHAR (MILD, MODERATE, CRITICAL)
+    recommendation      TEXT
+    guidance            JSON (parsed from string)
+    home_remedies       JSON (parsed from string)
+    timestamp           TIMESTAMP (UTC, ISO format with Z)
+    created_at          TIMESTAMP (UTC, ISO format with Z)
+```
 
-information_content
-├── id (PRIMARY KEY)
-├── section (VARCHAR UNIQUE)
-├── content (JSONB)
-├── updated_at (TIMESTAMP)
-└── Sections: symptoms, risk_factors, prevention, etc.
+Database File:
+- Location: pneumtofy.db (in backend directory)
+- Type: SQLite (development)
+- Auto-created: Yes (on first app.py run)
+- Auto-migrated: Yes (when models change)
+
+Future Migration to PostgreSQL:
+```bash
+# 1. Install PostgreSQL driver
+pip install psycopg2-binary
+
+# 2. Set environment variable
+export DATABASE_URL="postgresql://user:pass@localhost:5432/pneumtofy"
+
+# 3. Restart Flask - auto-migrates to PostgreSQL while keeping same schema
 ```
 
 ---
@@ -333,36 +386,142 @@ information_content
 
 ---
 
-## Component Communication Flow
+## Timezone Data Flow
 
 ```
-Navigation.jsx
-│
-└─ Listens to currentPage state
-│
-└─ Changes page on button click
-   │
-   ├─ Page: home
-   │  └─→ SymptomForm
-   │       └─→ onSubmit sends to Results
-   │
-   ├─ Page: results  
-   │  └─→ Results
-   │       ├─→ Display assessment
-   │       ├─→ Save to Tracker (POST /api/tracker)
-   │       └─→ Go Home
-   │
-   ├─ Page: info
-   │  └─→ Info
-   │       ├─→ Fetch from GET /api/info
-   │       └─→ Display education content
-   │
-   └─ Page: tracker
-      └─→ Tracker
-           ├─→ Fetch from GET /api/tracker
-           ├─→ Display history
-           ├─→ Filter entries
-           └─→ Delete entries (DELETE /api/tracker/<id>)
+┌─────────────────────────────────────────────────────────────────┐
+│                    BACKEND (UTC Storage)                        │
+│                                                                 │
+│  models_auth.py returns timestamps with Z suffix (UTC marker)  │
+│  Example: "2026-03-31T14:45:30Z"                              │
+│                                                                 │
+│  POST /api/tracker returns assessment with timestamp in UTC    │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │ {                                                        │  │
+│  │   "timestamp": "2026-03-31T14:45:30Z",  // UTC+0 time  │  │
+│  │   "assessment": "MODERATE",                            │  │
+│  │   ...                                                   │  │
+│  │ }                                                        │  │
+│  └─────────────────────────────────────────────────────────┘  │
+└──────────────────┬──────────────────────────────────────────────┘
+                   │ HTTP Response with timestamp in UTC
+                   │
+┌──────────────────▼──────────────────────────────────────────────┐
+│              FRONTEND (Browser Timezone Conversion)              │
+│                                                                 │
+│  Tracker.jsx receives UTC timestamp                            │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │ import { formatDate, formatTime, getUserTimezone }     │  │
+│  │        from '../utils/dateFormatter';                  │  │
+│  │                                                         │  │
+│  │ // UTC string: "2026-03-31T14:45:30Z"                 │  │
+│  │ const date = formatDate(timestamp);                    │  │
+│  │ // Returns: "Mar 31, 2026" (local timezone)           │  │
+│  │                                                         │  │
+│  │ const time = formatTime(timestamp);                    │  │
+│  │ // Returns: "2:45:30 PM" (EST if browser in US/Eastern)│  │
+│  │                                                         │  │
+│  │ const tz = getUserTimezone();                          │  │
+│  │ // Returns: "America/New_York"                         │  │
+│  └─────────────────────────────────────────────────────────┘  │
+│                                                                 │
+│  dateFormatter.js uses Intl.DateTimeFormat API:               │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │ export function formatDate(timestamp) {               │  │
+│  │   const date = parseUTCTimestamp(timestamp);          │  │
+│  │   const timeZone = Intl.DateTimeFormat()              │  │
+│  │     .resolvedOptions().timeZone;                      │  │
+│  │   const formatter = new Intl.DateTimeFormat(          │  │
+│  │     'en-US',                                           │  │
+│  │     {                                                  │  │
+│  │       year: 'numeric',                                │  │
+│  │       month: 'short',                                 │  │
+│  │       day: 'numeric',                                 │  │
+│  │       timeZone: timeZone  // Auto-detect browser TZ   │  │
+│  │     }                                                  │  │
+│  │   );                                                   │  │
+│  │   return formatter.format(date);                       │  │
+│  │ }                                                       │  │
+│  └─────────────────────────────────────────────────────────┘  │
+│                                                                 │
+│  USER SEES IN BROWSER:                                         │
+│  - Timestamp converted to their local timezone                 │
+│  - Works automatically with system timezone settings           │
+│  - No manual configuration needed                              │
+│  - Timezone info box shows user's timezone                     │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Pending Assessment Auto-Save Workflow
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                    GUEST USER FLOW                               │
+│                                                                  │
+│  1. User visits http://localhost:3000                           │
+│     └─→ isAuthenticated = false (from AuthContext)              │
+│                                                                  │
+│  2. User completes symptom assessment                           │
+│     └─→ SymptomForm → POST /api/assess → Results page          │
+│                                                                  │
+│  3. Results.jsx displays recommendations                        │
+│     └─→ "Save to Tracker" button shown (but guarded by auth)    │
+│                                                                  │
+│  4. User clicks "Save to Tracker"                               │
+│     └─→ Check: if (!isAuthenticated)                            │
+│         └─→ YES: Store assessment in localStorage              │
+│             localStorage.setItem('pendingAssessment',           │
+│               JSON.stringify({ ...result }))                    │
+│                                                                  │
+│  5. User redirected to login page                               │
+│     └─→ navigate('/login')                                      │
+│                                                                  │
+└──────────────┬───────────────────────────────────────────────────┘
+               │
+┌──────────────▼───────────────────────────────────────────────────┐
+│                 AUTHENTICATION FLOW                              │
+│                                                                  │
+│  6. User enters credentials (username/email + password)         │
+│     └─→ POST /api/auth/login                                    │
+│                                                                  │
+│  7. Backend validates and creates session                       │
+│     └─→ Returns user data if successful                         │
+│                                                                  │
+│  8. Frontend receives success response                          │
+│     └─→ AuthContext.login(userData) called                      │
+│     └─→ isAuthenticated = true                                  │
+│                                                                  │
+│  9. Login.jsx checks for pending assessment:                    │
+│     └─→ const pending = localStorage.getItem('pendingAssessment')│
+│     └─→ if (pending) {                                          │
+│           savePendingAssessment(pending) // POST /api/tracker   │
+│         }                                                        │
+│                                                                  │
+│  10. Backend POST /api/tracker saves assessment to user         │
+│      └─→ Links to user_id (from session)                        │
+│      └─→ Saves all symptom data to database                     │
+│      └─→ Returns success response                               │
+│                                                                  │
+│  11. Frontend clears localStorage                               │
+│      └─→ localStorage.removeItem('pendingAssessment')           │
+│                                                                  │
+│  12. Frontend redirects to Tracker page                         │
+│      └─→ navigate('/tracker')                                   │
+│                                                                  │
+│  13. Tracker page shows newly saved assessment                  │
+│      └─→ GET /api/tracker returns all user's assessments        │
+│      └─→ Assessment appears in list with correct timestamps     │
+│                                                                  │
+└──────────────────────────────────────────────────────────────────┘
+
+KEY BENEFITS:
+- No data loss during authentication
+- Seamless user experience (no re-assessment needed)
+- Encourages user registration
+- Assessment immediately available in Tracker after login
+- Works with both login and registration flows
 ```
 
 ---

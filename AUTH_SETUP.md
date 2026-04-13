@@ -149,24 +149,40 @@ The database schema includes:
 
 ### Dependencies
 
-**New auth-related packages added to requirements.txt:**
-- `Flask-SQLAlchemy==3.0.5` - ORM for database operations
-- `Flask-Login==0.6.2` - Session management
-- `PyJWT==2.8.1` - JWT token support
-- `Werkzeug==3.0.0` - Password hashing utilities
+**Authentication-related packages in requirements.txt:**
+- `Flask>=2.3.0` - Web framework (compatible with Werkzeug 2.3.0)
+- `Flask-SQLAlchemy>=3.0.0` - ORM for database operations
+- `Flask-Login>=0.6.0` - Session management
+- `Werkzeug>=2.3.0` - Password hashing (bcrypt)
+- `PyJWT>=2.8.0` - JWT token support (ready for future token auth)
+
+**Important:** Use flexible version constraints (>=) not pinned versions (==) for easier dependency resolution.
 
 ## Frontend Setup
 
 ### Dependencies
 
-**New packages added to package.json:**
-- `react-router-dom==^6.11.0` - Client-side routing
+**Required packages in package.json:**
+- `react-router-dom: ^6.11.0` - Client-side routing
+- `axios: ^1.6.0` - HTTP requests with session cookies
+- `cross-env: ^7.0.3` - Environment variable handling for Windows/Mac/Linux compatibility
+
+**New utilities:**
+- `src/utils/dateFormatter.js` - Timezone-aware date/time formatting (NO external library needed)
 
 Install with:
 ```bash
 cd frontend
 npm install
+npm start
 ```
+
+The start script is configured with:
+```json
+"start": "cross-env NODE_OPTIONS=--no-deprecation react-scripts start"
+```
+
+This suppresses webpack deprecation warnings for cleaner development console.
 
 ## API Endpoints
 
@@ -266,7 +282,7 @@ Response (200):
 
 ### Assessment (Protected Routes)
 
-#### Get User's Assessments
+Get User's Assessments
 ```bash
 GET /api/tracker
 Authorization: Bearer <session_token>
@@ -278,13 +294,16 @@ Response (200):
       "id": 1,
       "user_id": 1,
       "age_months": 24,
-      "assessment": "Pneumonia - Severe",
-      "recommendation": "Hospital referral",
-      "timestamp": "2024-01-01T12:00:00"
+      "assessment": "MODERATE",
+      "recommendation": "Observe and manage at home",
+      "timestamp": "2026-03-31T14:45:30Z", 
+      "created_at": "2026-03-31T14:45:30Z"
     }
   ]
 }
 ```
+
+Note: All timestamps are in UTC format with Z suffix. Frontend uses dateFormatter.js to convert to user's local timezone automatically.
 
 #### Save Assessment
 ```bash
@@ -379,20 +398,108 @@ Frontend will run on `http://localhost:3000`
   - Username: `testuser`
   - Email: `test@example.com`
   - Password: `testpass123`
+  - Guardian Name: `Test Guardian` (optional)
 - Should be automatically logged in and redirected to home
 
-### 4. Test Tracker
-- On home page, complete an assessment
-- Click "Save Assessment" (automatically saves if logged in)
-- Go to Tracker page
-- Your assessment should appear
-- You should be able to delete it
+### 4. Test Email Login
+- Logout from user menu
+- Go to login page
+- Try logging in with:
+  - Username/Email: `test@example.com` (use email instead of username)
+  - Password: `testpass123`
+- Should login successfully (proof that email login works)
 
-### 5. Test Login/Logout
+### 5. Test Pending Assessment Auto-Save
+- Logout completely
+- Complete a symptom assessment (without login)
+- On results page, click "Save to Tracker"
+- Should get alert to login and redirect to login page
+- Login with credentials
+- Should automatically save assessment and redirect to Tracker
+- Assessment should appear in Tracker with correct timestamp
+
+### 6. Test Timezone Display
+- On Tracker page, look for timezone info box
+- Should show your system timezone (e.g., "America/New_York")
+- All assessment timestamps should be displayed in your local timezone
+- Dates like "Mar 31, 2026" (local date, not UTC)
+- Times like "2:45:30 PM" (local time in your timezone)
+
+### 7. Test Tracker
+- Complete an assessment while logged in
+- Results show "Save to Tracker" button
+- Click save to add to Tracker
+- Go to Tracker page
+- Your assessment should appear with:
+  - Local timezone date/time
+  - All symptom data
+  - Assessment result and recommendations
+- Click delete button to remove it
+
+### 8. Test Login/Logout
 - Click logout in user menu
-- Redirects to login page
+- Redirected to login page
 - Login with saved credentials
-- Session restored
+- Session restored, Tracker page accessible again
+
+## Advanced Features
+
+### Timezone-Aware Timestamps
+All assessment timestamps are stored in UTC on the backend and automatically converted to the user's local timezone on the frontend:
+
+**Backend (UTC Storage):**
+- Timestamps stored as ISO strings with Z suffix: `2026-03-31T14:45:30Z`
+- Z suffix indicates UTC/Zulu time
+- No timezone conversion needed on backend
+
+**Frontend (Local Display):**
+- Uses JavaScript Intl.DateTimeFormat API (built into browser, no library needed)
+- `dateFormatter.js` provides utility functions:
+  - `formatDate(timestamp)` - Returns date in local timezone (e.g., "Mar 31, 2026")
+  - `formatTime(timestamp)` - Returns time in local timezone (e.g., "2:45:30 PM")
+  - `getUserTimezone()` - Returns user's timezone name (e.g., "America/New_York")
+- Tracker page displays timezone info box with user's timezone
+- All timestamps automatically adapt to browser/system timezone
+
+**Example:**
+If assessment is saved at `2026-03-31T14:45:30Z` (UTC):
+- User in EST (America/New_York): Sees "Mar 31, 2026" at "10:45:30 AM"
+- User in IST (Asia/Kolkata): Sees "Mar 31, 2026" at "8:15:30 PM"
+- User in JST (Asia/Tokyo): Sees "Mar 31, 2026" at "11:15:30 PM"
+
+### Pending Assessment Auto-Save Workflow
+Allows unauthenticated users to complete assessments and seamlessly save after login:
+
+**Guest User Flow:**
+1. User accesses app without login
+2. Completes symptom assessment
+3. Receives results with recommendations
+4. Clicks "Save to Tracker" button
+5. Assessment stored in browser localStorage
+6. Redirected to login page
+
+**After Authentication:**
+1. User logs in or registers
+2. System detects pending assessment in localStorage
+3. Automatically sends POST to `/api/tracker` with assessment data
+4. Assessment saved to user's account in database
+5. localStorage cleared
+6. User redirected to Tracker page
+7. Assessment immediately appears in Tracker with correct timestamp and timezone
+
+**Code Details:**
+- `Results.jsx` - Stores unauthenticated assessments in localStorage as `pendingAssessment`
+- `Login.jsx` & `Register.jsx` - Contains `savePendingAssessment()` function
+- Function runs after successful authentication, before redirect
+- No data is lost during the login/registration process
+
+**Benefits:**
+- Seamless user experience (no need to re-assess after login)
+- Encourages registration by preserving user work
+- Increases user engagement and retention
+- Works automatically with both login and registration paths
+
+---
 
 ## Troubleshooting
 

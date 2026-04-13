@@ -16,10 +16,7 @@ cd backend
 pip install -r requirements.txt
 ```
 
-**Expected output:**
-```
-Successfully installed Flask==3.0.0 Flask-CORS==4.0.0 Flask-SQLAlchemy==3.0.5 ...
-```
+**Note:** This installs flexible versions (>=) not pinned versions for easier dependency resolution.
 
 ### 1.2 Start Flask Backend
 
@@ -131,9 +128,63 @@ The app will automatically open in your browser at `http://localhost:3000`
    - Assessment result
    - Delete button
 
-## Step 5: Test Login/Logout
+## Step 5: Test Email Login
 
 ### 5.1 Logout
+
+1. Click user menu
+2. Click **"Logout"**
+
+### 5.2 Login with Email Instead of Username
+
+On login page, enter:
+- **Username/Email:** `caregiver@test.com` (use the email, not username)
+- **Password:** `TestPassword123!`
+
+**Expected results:**
+- ✅ Email login works (both email and username are accepted)
+
+## Step 6: Test Pending Assessment Auto-Save Workflow
+
+### 6.1 Logout Completely
+
+1. Go to user menu
+2. Click **"Logout"**
+
+### 6.2 Complete Assessment Without Login
+
+1. Complete a symptom assessment form
+2. Click **"Check Assessment"**
+3. On results page, click **"Save to Tracker"**
+
+**Expected results:**
+- ✅ Gets alert: "Please login or register to save assessment"
+- ✅ Redirected to login page
+- ✅ Assessment stored in browser (localStorage)
+
+### 6.3 Login and Auto-Save
+
+1. On login page, enter your credentials and login
+2. Wait for page to redirect
+
+**Expected results:**
+- ✅ Assessment automatically saved to Tracker
+- ✅ Redirected to Tracker page
+- ✅ Assessment now appears in Tracker
+- ✅ Assessment has correct timestamp in your local timezone
+- ✅ Timezone info box shows your timezone (e.g., "America/New_York")
+
+## Step 7: Test Timezone Display
+
+On Tracker page, verify:
+- ✅ Timezone info box visible (e.g., "Timezone: America/New_York")
+- ✅ All assessment dates displayed in local timezone (e.g., "Mar 31, 2026")
+- ✅ All assessment times displayed in local timezone (e.g., "2:45:30 PM")
+- ✅ Timezone automatically matches your browser/system timezone
+
+## Step 8: Test Login/Logout
+
+### 8.1 Logout
 
 1. Click user menu (username button)
 2. Click **"Logout"**
@@ -242,9 +293,12 @@ curl http://localhost:5000/api/auth/me \
   "id": 2,
   "username": "apitest",
   "email": "api@test.com",
-  ...
+  "created_at": "2026-03-31T14:45:30Z",
+  "last_login": "2026-03-31T14:46:40Z"
 }
 ```
+
+Note: All timestamps include Z suffix (UTC indicator) and are automatically converted to your local timezone by the frontend.
 
 ## Troubleshooting
 

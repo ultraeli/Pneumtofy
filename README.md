@@ -1,47 +1,51 @@
-# Pneumtofy - Fast MVP Setup Guide
+# Pneumtofy - Pneumonia Assessment and Tracking Platform
+
+A web application for pneumonia symptom assessment in children based on WHO IMCI guidelines, with user authentication, assessment tracking, and timezone-aware history.
 
 ## Project Structure
 
 ```
 Pneumtofy/
-├── frontend/                       # React application
+├── frontend/                           # React application
 │   ├── public/
 │   │   └── index.html
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── Login.jsx           # Login page 
-│   │   │   ├── Register.jsx        # Registration page 
-│   │   │   ├── ProtectedRoute.jsx  # Route protection 
-│   │   │   ├── Navigation.jsx      # Navigation bar
-│   │   │   ├── SymptomForm.jsx     # Main form page
-│   │   │   ├── Results.jsx         # Results 
-│   │   │   ├── Info.jsx            # Education page
-│   │   │   └── Tracker.jsx         # Tracker page
+│   │   │   ├── Login.jsx               # Login form with session auth
+│   │   │   ├── Register.jsx            # New account creation
+│   │   │   ├── ProtectedRoute.jsx      # Route protection wrapper
+│   │   │   ├── Navigation.jsx          # Header with auth menu
+│   │   │   ├── SymptomForm.jsx         # Assessment form
+│   │   │   ├── Results.jsx             # Assessment results and save to tracker
+│   │   │   ├── Info.jsx                # Medical education content
+│   │   │   └── Tracker.jsx             # Personal assessment history
 │   │   ├── contexts/
-│   │   │   └── AuthContext.jsx     # Auth state management 
+│   │   │   └── AuthContext.jsx         # Global auth state management
+│   │   ├── utils/
+│   │   │   └── dateFormatter.js        # Timezone-aware date formatting
 │   │   ├── styles/
-│   │   │   ├── Auth.css            # Auth styling 
-│   │   │   └── [other styles]
-│   │   ├── App.jsx                 # Routing
-│   │   └── index.jsx
-│   └── package.json               
-├── backend/                        # Python Flask API
-│   ├── app.py                      # Updated with auth routes
-│   ├── database.py                 # SQLAlchemy setup 
-│   ├── models_auth.py              # User & Assessment models 
-│   ├── models.py                   # Info models
-│   ├── decision_logic.py           # IMCI-based assessment logic
-│   ├── requirements.txt            # Updated with auth packages
-│   ├── pneumtofy.db                # SQLite database (auto-created)
-│   └── data/                       # Storage for tracker entries
-├── database/
-│   └── schema.sql                  # PostgreSQL schema
-├── docs/
-│   ├── AUTH_SETUP.md               # Authentication documentation 
-│   ├── AUTH_QUICK_START.md         # Quick testing guide 
-│   ├── AUTHENTICATION_COMPLETE.md  # Implementation summary 
-│   └── VERIFICATION_CHECKLIST.md   # Setup verification 
-└── README.md                       
+│   │   │   ├── Auth.css                # Authentication pages
+│   │   │   ├── Navigation.css          # Navigation styling
+│   │   │   ├── SymptomForm.css         # Form styling
+│   │   │   ├── Results.css             # Results page styling
+│   │   │   ├── Tracker.css             # Tracker page styling
+│   │   │   └── other component styles
+│   │   ├── App.jsx                     # Main routing and state
+│   │   └── index.jsx                   # React entry point
+│   └── package.json
+├── backend/
+│   ├── app.py                          # Flask API with auth routes
+│   ├── database.py                     # SQLAlchemy initialization
+│   ├── models_auth.py                  # User and Assessment models
+│   ├── models.py                       # Information content models
+│   ├── decision_logic.py               # IMCI-based assessment logic
+│   ├── requirements.txt                # Python dependencies
+│   └── pneumtofy.db                    # SQLite database (auto-created)
+├── README.md                           # This file
+├── QUICK_START.md                      # Setup and running instructions
+├── AUTHENTICATION_COMPLETE.md          # Auth system documentation
+├── ARCHITECTURE.md                     # System architecture overview
+└── other documentation files
 ```
 
 ## Quick Start
@@ -66,41 +70,68 @@ python app.py
 
 The Flask API will start on `http://localhost:5000`
 
-## Features - Fast MVP
+## Core Features
 
-### 1. User Authentication 
-- Secure user registration with email
-- Login with persistent sessions
-- Profile management
-- Password hashing with bcrypt
-- Protected assessment tracking
+### 1. User Authentication
+- Secure user registration with email and username
+- Login with username or email
+- Persistent session-based authentication
+- Password hashing with Werkzeug
+- Profile management and account updates
+- Logout with session cleanup
+- Password change functionality
+- Guardian information storage
 
 ### 2. Symptom Assessment Form
-- Input child's age and symptoms
-- IMCI-based assessment
-- Immediate risk classification
-- Automatic saving to user account (when logged in)
+- Input child's age (months) and symptoms
+- Comprehensive symptom checklist:
+  - Respiratory symptoms (fast breathing, difficulty breathing, stridor)
+  - Chest indicators (chest wall indrawing)
+  - Fever and temperature
+  - General symptoms (lethargy, unable to drink, vomiting, diarrhea)
+  - History (previous pneumonia episodes)
+- Real-time form validation
+- Works for logged-in and guest users
 
-### 3. Results Display
-- Risk level (Mild, Moderate, Critical)
-- Recommendations (Observe vs Seek Care)
-- Home remedies suggestions
-- Safety warnings
-- Save to personal tracker button
+### 3. IMCI-Based Assessment Results
+- Risk classification: Critical, Moderate, Mild
+- Risk level color-coded display
+- WHO guideline-based recommendations:
+  - Seek immediate medical care (critical signs)
+  - Observe and manage at home (pneumonia indicators)
+  - Safe home management (mild symptoms)
+- Detailed guidance steps
+- Home remedies with dosage information
+- Safety warnings and disclaimers
+- Displays assessment timestamp with user's timezone
 
-### 4. Information Pages
-- Pneumonia information
-- Symptoms and risk factors
-- Prevention guidelines
-- WHO-based resources
+### 4. Pneumonia Information Pages
+- What is pneumonia
+- Symptoms in children
+- Risk factors
+- When to seek medical care
+- Prevention strategies
+- Information sources and references
 
-### 5. Symptom Tracker (Protected)
-- Save assessment history to your account
-- View personal past entries
-- Filter and sort entries
-- Track child health progression
-- Delete entries
-- Data linked to user account
+### 5. Personal Assessment Tracker (Requires Login)
+- Save assessment history to personal account
+- View all past assessments with dates and times
+- Filter by risk level (All, Observe & Manage, Seek Medical Care)
+- Displays assessments in user's local timezone
+- Delete past assessments
+- Assessment history persists across sessions
+- Each assessment shows:
+  - Date and time in local timezone
+  - Risk level and recommendation
+  - Symptoms that were checked
+  - Original assessment recommendation
+
+### 6. Seamless Unauthenticated to Authenticated Workflow
+- Guests can perform assessments and view results
+- Clicking Save to Tracker prompts unauthenticated users to login/register
+- After login, previously entered assessment data is automatically saved
+- Redirects to Tracker page after auto-save
+- No data loss during authentication transition
 
 ## API Endpoints
 

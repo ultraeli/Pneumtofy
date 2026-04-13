@@ -1,6 +1,6 @@
 # Pneumtofy - Pneumonia Assessment and Tracking Platform
 
-A web application for pneumonia symptom assessment in children based on WHO IMCI guidelines, with user authentication, assessment tracking, and timezone-aware history.
+A web application for pneumonia symptom assessment in children based on WHO IMCI guidelines, with user authentication and assessment tracking.
 
 ## Project Structure
 

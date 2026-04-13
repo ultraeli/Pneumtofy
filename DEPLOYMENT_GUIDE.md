@@ -7,7 +7,7 @@
 
 ---
 
-## 📋 Project Overview
+## Project Overview
 
 Pneumtofy is a **pneumonia monitoring and information platform** designed for caregivers (parents/guardians) to:
 - **Track symptoms** of children with potential pneumonia
@@ -236,7 +236,7 @@ Removes assessment entry.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Pneumtofy/
@@ -278,7 +278,7 @@ Pneumtofy/
 
 ---
 
-## 🔒 Safety & Compliance
+## Safety & Compliance
 
 ### Medical Disclaimers ✅
 - App is NOT a substitute for professional medical advice

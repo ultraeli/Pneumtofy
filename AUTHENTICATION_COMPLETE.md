@@ -320,7 +320,7 @@ export DATABASE_URL="postgresql://user:pass@localhost:5432/pneumtofy"
 - Responsive design
 - Error handling
 
-### ⏳ Ready for Future Enhancement
+### Ready for Future Enhancement
 - Email verification
 - Password reset
 - Two-factor authentication

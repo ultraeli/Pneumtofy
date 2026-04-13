@@ -365,7 +365,6 @@ SELECT * FROM tracked_assessment WHERE user_id=1;
 ✅ Tracker protected (redirects to login when logged out)
 ✅ Multiple assessments saved and displayed
 
-## Need Help?
 
 Check the following files for more details:
 - `AUTH_SETUP.md` - Full authentication documentation
@@ -374,4 +373,3 @@ Check the following files for more details:
 - `frontend/src/components/Register.jsx` - Registration component
 - `frontend/src/contexts/AuthContext.jsx` - Auth state management
 
-Congratulations! Your Pneumtofy authentication system is fully operational! 🎉

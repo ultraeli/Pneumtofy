@@ -1,17 +1,16 @@
-s# Pneumtofy Fast MVP - Quick Reference Guide
+## Pneumtofy - REFERENCE AND GUIDE
 
-## 🎯 What's Been Built
+## What's Been Built
 
-A **complete, working web application** for pneumonia symptom tracking and management based on WHO IMCI guidelines.
+A **working web application** for pneumonia symptom tracking and management based on WHO IMCI guidelines.
 
-- **Frontend**: Full React app with 5 interactive pages
+- **Frontend**: Full React app 
 - **Backend**: Python Flask API with IMCI decision logic
-- **Database**: Schema ready for PostgreSQL integration
-- **Assessment Engine**: 5+ test cases all passing ✅
+- **Database**: Python SQLite and SQLAlchemy toolkit
 
 ---
 
-## 🚀 Quick Start (< 5 minutes)
+## Start 
 
 ### Option 1: Windows - Run Setup Script
 ```bash
@@ -19,13 +18,7 @@ cd Pneumtofy
 setup.bat
 ```
 
-### Option 2: macOS/Linux - Run Setup Script
-```bash
-cd Pneumtofy
-bash setup.sh
-```
-
-### Option 3: Manual Setup
+### Option 2: Manual Setup
 
 **Terminal 1 (Backend)**:
 ```bash
@@ -41,11 +34,27 @@ npm install
 npm start
 ```
 
-Then open: **http://localhost:3000**
+Will open: **http://localhost:3000**
 
 ---
 
-## 📱 App Features & Pages
+## If already set up
+
+**Terminal 1 (Backend)**:
+```bash
+cd backend
+python app.py
+```
+
+**Terminal 2 (Frontend)**:
+```bash
+cd frontend
+npm start
+```
+
+---
+
+##  App Features & Pages
 
 | Feature | Location | What It Does |
 |---------|----------|--------------|
@@ -56,27 +65,27 @@ Then open: **http://localhost:3000**
 
 ---
 
-## 🧪 Test the App
+## For Testing
 
 ### Quick Test Cases
 
 **Case 1: Normal (No Symptoms)**
 - Age: 24 months, Cough: 2 days
-- Expected: ✅ MILD - Safe to manage at home
+- Expected: MILD - Safe to manage at home
 
 **Case 2: Moderate (Pneumonia Indicators)**
 - Age: 24 months, Cough: 7+ days, Fast breathing: YES, Fever: YES
-- Expected: ✅ MODERATE - Observe & manage
+- Expected: MODERATE - Observe & manage
 
 **Case 3: Critical (Needs Doctor)**
 - Age: 24 months, Chest indrawing: YES
-- Expected: ⚠️ CRITICAL - Seek immediate medical care
+- Expected: CRITICAL - Seek immediate medical care
 
 Run tests: `python test_mvp.py`
 
 ---
 
-## 📂 Files to Edit
+##  For Improvement
 
 ### Frontend Changes
 - **Logo/Header**: `frontend/src/components/Navigation.jsx`
@@ -92,7 +101,7 @@ Run tests: `python test_mvp.py`
 
 ---
 
-## 🔌 API Endpoints Quick Reference
+## API Endpoints Quick Reference
 
 ```
 POST http://localhost:5000/api/assess
@@ -113,7 +122,7 @@ DELETE http://localhost:5000/api/tracker/<id>
 
 ---
 
-## 🎓 Key Concepts
+## Key Concepts
 
 ### IMCI (Integrated Management of Childhood Illness)
 - WHO framework for assessing sick children
@@ -127,14 +136,14 @@ DELETE http://localhost:5000/api/tracker/<id>
 3. 🔴 **CRITICAL** → SEEK MEDICAL ATTENTION NOW
 
 ### Critical Signs (Auto-Refer to Hospital)
-- ⚠️ Chest wall indrawing
-- ⚠️ Stridor (in calm child)
-- ⚠️ Lethargy (unusual sleepiness)
-- ⚠️ Unable to drink
+- Chest wall indrawing
+- Stridor (in calm child)
+- Lethargy (unusual sleepiness)
+- Unable to drink
 
 ---
 
-## 🛠️ Customization Examples
+## Customization Examples
 
 ### Add a New Symptom Field
 
@@ -188,7 +197,7 @@ class InfoContent:
 
 ---
 
-## 🐛 Common Issues & Fixes
+## Common Issues
 
 ### "Can't find module 'react'"
 ```bash
@@ -201,11 +210,6 @@ npm install
 # Windows
 netstat -ano | findstr :3000
 taskkill /PID <PID> /F
-
-# macOS/Linux
-lsof -i :3000
-kill -9 <PID>
-```
 
 ### "CORS error" or "Can't connect to backend"
 - Make sure backend is running on port 5000
@@ -220,7 +224,7 @@ pip install -r requirements.txt
 
 ---
 
-## 📦 Dependencies
+## Dependencies
 
 ### Frontend
 - React 18
@@ -235,7 +239,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🎨 UI Components Summary
+## UI Components Summary
 
 ```
 App
@@ -248,7 +252,6 @@ App
 ```
 
 **Color Scheme**:
-- Primary: Purple gradient (#667eea → #764ba2)
 - Success: Green (#27ae60)
 - Warning: Orange (#f39c12)
 - Critical: Red (#e74c3c)
@@ -256,69 +259,10 @@ App
 
 ---
 
-## 📋 Before Going Live
-
-- [ ] Test all 4 pages
-- [ ] Try entering symptoms and getting recommendations
-- [ ] Save something to tracker
-- [ ] Check disclaimers are visible
-- [ ] Test on mobile/phone size
-- [ ] Verify backend responds to API calls
-- [ ] Check that tracker saves/loads data
-- [ ] Review all home remedies for accuracy
-
----
-
-## 🚀 Future Enhancements
-
-### Easy Wins (1-2 weeks):
-1. Add database (use schema.sql)
-2. Add user authentication
-3. Add symptom photos/videos
-4. Add multilingual support
-
-### Medium (2-4 weeks):
-1. Mobile app (React Native)
-2. Offline mode (Service Workers)
-3. Admin panel for content management
-4. Advanced analytics
-
-### Hard (4+ weeks):
-1. Health system integration
-2. Push notifications
-3. AI/ML for pattern detection
-4. Integration with EHR systems
-
----
-
-## 💡 Tips for Team Members
-
-1. **Always include disclaimers** - This is medical software
-2. **Test edge cases** - Try different age groups, symptom combinations
-3. **Keep it simple** - Don't add features beyond current scope
-4. **Document changes** - Comment your code so teammates understand
-5. **Test on mobile** - Not everyone uses desktop
-6. **Get feedback** - Test with actual caregivers if possible
-7. **Follow IMCI** - All changes should be guideline-aligned
-
----
-
-## 📞 Questions?
+## Other
 
 1. Check **README.md** for overview
 2. Check **DEPLOYMENT_GUIDE.md** for detailed info
 3. Check **test_mvp.py** for example cases
 4. Run tests: `python test_mvp.py`
 
----
-
-## ✅ Status: READY TO USE
-
-**All core features implemented and tested.** ✅  
-**All API endpoints working.** ✅  
-**Assessment logic tested with 5 test cases - all passing.** ✅  
-**Ready for team customization and deployment.** ✅  
-
----
-
-*Start here, then customize for your specific needs!*

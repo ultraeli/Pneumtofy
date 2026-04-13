@@ -242,9 +242,7 @@ Delete a tracker entry (protected - user's own entries only).
 - Proper rest
 - Close monitoring
 
-## Notes for Development Team
-
-### Authentication System (NEW)
+### Authentication System 
 -  User registration and login with secure sessions
 -  Password hashing with bcrypt
 -  SQLAlchemy ORM for database
@@ -254,7 +252,7 @@ Delete a tracker entry (protected - user's own entries only).
 -  localStorage backup for session persistence
 
 See [AUTH_SETUP.md](AUTH_SETUP.md) for full authentication documentation.
-See [AUTH_QUICK_START.md](AUTH_QUICK_START.md) for 5-minute testing guide.
+See [AUTH_QUICK_START.md](AUTH_QUICK_START.md) testing guide.
 
 ### Database
 - **Development**: Uses SQLite (pneumtofy.db) - zero configuration
@@ -287,22 +285,6 @@ See [AUTH_QUICK_START.md](AUTH_QUICK_START.md) for 5-minute testing guide.
 2. Start backend: `python backend/app.py`
 3. Start frontend: `npm start` from frontend folder
 4. Test registration/login at http://localhost:3000
-
-### Production Checklist
-- [ ] Set strong `SECRET_KEY` environment variable
-- [ ] Enable HTTPS and set `SESSION_COOKIE_SECURE = True`
-- [ ] Configure ALLOWED_ORIGINS for CORS
-- [ ] Review security settings in [AUTH_SETUP.md](AUTH_SETUP.md)
-- [ ] Set up email verification 
-
-
-3. **Backend Dependencies**: Flask, Flask-CORS, psycopg2 (for future DB integration)
-
-4. **IMCI Guidelines**: Assessment follows WHO Integrated Management of Childhood Illness standards
-
-5. **Medical Disclaimers**: All pages include disclaimers that this is NOT a substitute for professional medical advice
-
-6. **Home Remedies**: Only safe, evidence-based remedies are recommended with proper warnings
 
 ## Testing
 

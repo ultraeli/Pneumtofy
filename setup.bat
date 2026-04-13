@@ -84,8 +84,8 @@ echo The application will be available at:
 echo   Frontend: http://localhost:3000
 echo   Backend:  http://localhost:5000
 echo.
-echo Note: This MVP uses JSON file storage.
-echo For PostgreSQL: read requirements-db.txt
+echo Note: This uses JSON file storage.
+echo 
 echo.
 echo ============================================
 echo.

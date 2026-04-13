@@ -2,7 +2,7 @@
 # Install these AFTER you have installed the main requirements.txt
 # Usage: pip install -r requirements-db.txt
 
-# For Windows users: Install PostgreSQL first, then run this
+# Install PostgreSQL first, then run this
 # Download from: https://www.postgresql.org/download/windows/
 # Then: pip install psycopg2-binary==2.9.9
 

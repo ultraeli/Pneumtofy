@@ -1,8 +1,8 @@
-# Pneumtofy Fast MVP - Project Summary
+# Pneumtofy - Project Summary in Progress
 
-**Status**: ✅ Complete and Ready to Deploy  
-**Date**: March 29, 2026  
-**Version**: 1.0 (Fast MVP)  
+**Status**: WIP
+**Date**: April 13, 2026  
+**Version**: 1.0 
 **Team**: Group 10 (Ezrha Fines, John Christian Jamesula, Elijah Theodore Uy)
 
 ---
@@ -24,7 +24,7 @@ Pneumtofy is a **pneumonia monitoring and information platform** designed for ca
 
 ---
 
-## 🏗️ Built Architecture
+## Built Architecture
 
 ### Frontend (React.js)
 **Location**: `frontend/`  
@@ -64,7 +64,7 @@ Pneumtofy is a **pneumonia monitoring and information platform** designed for ca
 
 ---
 
-## 🧠 IMCI-Based Assessment Logic
+## IMCI-Based Assessment Logic
 
 ### Critical Signs (Immediate Medical Referral)
 When **ANY** of these are present → **SEEK IMMEDIATE MEDICAL CARE**:
@@ -88,7 +88,7 @@ When symptoms don't match above → **OBSERVE & MANAGE AT HOME (Mild)**
 
 ---
 
-## 🛠️ Key Features Built
+## Key Features Built
 
 ### ✅ 1. Symptom Assessment Form
 - Inputs: Age, cough duration, respiratory symptoms, fever, general symptoms
@@ -104,12 +104,12 @@ When symptoms don't match above → **OBSERVE & MANAGE AT HOME (Mild)**
 
 ### ✅ 3. Home Remedies Suggestions
 For observation cases:
-- 🍯 Honey (safe throat soother)
-- 💧 Warm fluids (hydration)
-- 🌬️ Steam inhalation (respiratory support)
-- 🧴 Chest rubs (comfort)
-- 😴 Proper rest (healing)
-- 💊 OTC pain/fever reducers (with strong medical consultation warnings)
+-  Honey (safe throat soother)
+-  Warm fluids (hydration)
+-  Steam inhalation (respiratory support)
+-  Chest rubs (comfort)
+-  Proper rest (healing)
+-  OTC pain/fever reducers (with strong medical consultation warnings)
 
 ### ✅ 4. Pneumonia Information Hub
 - What is pneumonia?
@@ -134,9 +134,7 @@ For observation cases:
 
 ---
 
-## 📊 Assessment Test Results
-
-**All 5 Test Cases Passed ✅**
+## Assessment Test Results
 
 | Test | Case | Expected | Result | Status |
 |------|------|----------|--------|--------|
@@ -148,7 +146,7 @@ For observation cases:
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
 ### Quick Setup (Windows)
 ```bash
@@ -182,7 +180,7 @@ Frontend runs on: `http://localhost:3000`
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
 ### POST `/api/assess`
 Assesses symptoms and returns risk classification.
@@ -247,38 +245,36 @@ Pneumtofy/
 │   │   └── index.html
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── Navigation.jsx (82 lines)
+│   │   │   ├── Navigation.jsx 
 │   │   │   ├── Navigation.css
-│   │   │   ├── SymptomForm.jsx (189 lines)
+│   │   │   ├── SymptomForm.jsx 
 │   │   │   ├── SymptomForm.css
-│   │   │   ├── Results.jsx (125 lines)
+│   │   │   ├── Results.jsx 
 │   │   │   ├── Results.css
-│   │   │   ├── Info.jsx (110 lines)
+│   │   │   ├── Info.jsx
 │   │   │   ├── Info.css
-│   │   │   ├── Tracker.jsx (102 lines)
+│   │   │   ├── Tracker.jsx
 │   │   │   └── Tracker.css
-│   │   ├── App.jsx (39 lines)
+│   │   ├── App.jsx 
 │   │   ├── App.css
-│   │   └── index.jsx (8 lines)
+│   │   └── index.jsx
 │   └── package.json
 ├── backend/
-│   ├── app.py (199 lines) - Main API server
-│   ├── decision_logic.py (190 lines) - IMCI assessment
-│   ├── models.py (96 lines) - Data models
+│   ├── app.py - Main API server
+│   ├── decision_logic.py - IMCI assessment
+│   ├── models.py - Data models
 │   ├── requirements.txt
 │   ├── .env
 │   └── data/ (auto-created)
 │       └── tracker.json
 ├── database/
-│   └── schema.sql (PostgreSQL)
+│   └── schema.sql (For PostgreSQL in the future)
 ├── README.md
 ├── setup.bat (Windows setup)
 ├── setup.sh (macOS/Linux setup)
 ├── test_mvp.py (Test suite)
 └── DEPLOYMENT_GUIDE.md (this file)
 ```
-
-**Total Code**: ~1,200+ lines of production code
 
 ---
 
@@ -328,7 +324,7 @@ Pneumtofy/
 
 ---
 
-## 📞 Troubleshooting
+## Troubleshooting
 
 ### Frontend won't start
 ```bash
@@ -356,7 +352,7 @@ lsof -i :5000  # macOS/Linux
 
 ---
 
-## 📝 Notes for Team
+## Notes for Team
 
 1. **Code is Production-Ready**: All components are fully functional
 2. **No Secrets in Code**: Sensitive configs in `.env`
@@ -366,7 +362,7 @@ lsof -i :5000  # macOS/Linux
 
 ---
 
-## ✅ Checklist Before Deployment
+## Checklist Before Deployment
 
 - [ ] Backend dependencies installed
 - [ ] Frontend dependencies installed
@@ -381,7 +377,7 @@ lsof -i :5000  # macOS/Linux
 
 ---
 
-## 📞 Support
+##  Support
 
 For issues or questions:
 1. Check the README.md in root folder
@@ -391,9 +387,8 @@ For issues or questions:
 
 ---
 
-**Built with ❤️ for child health**  
 *Pneumonia shouldn't be a barrier to wellness - Pneumtofy makes care accessible.*
 
 ---
 
-*Last Updated: March 29, 2026*
+*Last Updated: April 13, 2026*

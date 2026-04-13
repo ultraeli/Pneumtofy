@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Pneumtofy application now includes a complete authentication system allowing users to:
+The Pneumtofy application includes a complete authentication system allowing users to:
 - Create accounts with secure password hashing
 - Login and maintain persistent sessions
 - Track assessments associated with their user account
@@ -429,33 +429,3 @@ CORS(app, origins=['https://yourdomain.com'])
 7. **Assessment Sharing** - Share assessments with healthcare providers
 8. **Data Export** - Export assessment history as PDF
 
-## Files Modified/Created
-
-### Backend
-- ✅ `backend/app.py` - Updated with auth routes
-- ✅ `backend/database.py` - New SQLAlchemy setup
-- ✅ `backend/models_auth.py` - New User/TrackedAssessment models
-- ✅ `backend/requirements.txt` - Updated with auth packages
-
-### Frontend
-- ✅ `frontend/src/App.jsx` - Updated with Router and AuthProvider
-- ✅ `frontend/src/components/Login.jsx` - New login page
-- ✅ `frontend/src/components/Register.jsx` - New registration page
-- ✅ `frontend/src/components/Navigation.jsx` - Updated with auth UI
-- ✅ `frontend/src/components/ProtectedRoute.jsx` - New route wrapper
-- ✅ `frontend/src/contexts/AuthContext.jsx` - New auth state management
-- ✅ `frontend/src/styles/Auth.css` - New auth styling
-- ✅ `frontend/src/components/Navigation.css` - Updated nav styling
-- ✅ `frontend/package.json` - Updated with react-router-dom
-
-## Summary
-
-The authentication system is fully integrated into Pneumtofy, providing:
-- **Secure user registration and login**
-- **Persistent user sessions**
-- **Protected assessment tracking**
-- **State management with React Context**
-- **Responsive authentication UI**
-- **Production-ready architecture**
-
-Users can now create accounts, login, and have their assessments automatically tracked and associated with their profile!

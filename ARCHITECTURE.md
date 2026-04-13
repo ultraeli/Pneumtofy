@@ -405,11 +405,11 @@ Backend Dependencies:
     └─ Flask settings
 
 Database:
-└── schema.sql (PostgreSQL)
+└── schema.sql (For PostgreSQL in the future)
     ├─ CREATE TABLE tracker_entries
     └─ CREATE TABLE information_content
 ```
 
 ---
 
-*This architecture is designed to be scalable, maintainable, and ready for future enhancements.*
+

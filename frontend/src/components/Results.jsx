@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { getUserTimezone } from '../utils/dateFormatter';
-import './Results.css';
+import '../styles/Results.css';
 
 export default function Results({ result, onGoHome }) {
   const [savedToTracker, setSavedToTracker] = useState(false);

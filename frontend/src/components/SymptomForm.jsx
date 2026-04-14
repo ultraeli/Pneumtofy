@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './SymptomForm.css';
+import '../styles/SymptomForm.css';
 
 export default function SymptomForm({ onSubmit }) {
   const [loading, setLoading] = useState(false);

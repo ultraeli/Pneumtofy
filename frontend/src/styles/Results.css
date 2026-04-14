@@ -1,0 +1,209 @@
+.results-container {
+  width: 100%;
+}
+
+.results-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.results-header {
+  margin-bottom: 2rem;
+}
+
+.results-header h2 {
+  color: #2c3e50;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.timestamp {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.timezone-note {
+  display: block;
+  font-size: 0.85rem;
+  color: #3498db;
+  margin-top: 0.3rem;
+  font-weight: 500;
+}
+
+.risk-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  border: 3px solid #3498db;
+  border-radius: 10px;
+  background-color: #ecf0f1;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.risk-label {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.risk-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.recommendation-section,
+.guidance-section,
+.remedies-section {
+  margin-bottom: 2rem;
+}
+
+.recommendation-section h3,
+.guidance-section h3,
+.remedies-section h3 {
+  color: #2c3e50;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 0.5rem;
+}
+
+.recommendation-box {
+  background-color: #ecf7ff;
+  border-left: 4px solid #3498db;
+  padding: 1rem;
+  border-radius: 6px;
+  color: #2c3e50;
+  line-height: 1.6;
+}
+
+.guidance-content ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.guidance-content li {
+  padding: 0.75rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: #34495e;
+  line-height: 1.6;
+}
+
+.guidance-content li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.remedies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.remedy-card {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #16a085;
+}
+
+.remedy-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #16a085;
+  margin-bottom: 0.5rem;
+}
+
+.remedy-description {
+  color: #34495e;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.remedy-dosage {
+  color: #7f8c8d;
+  font-size: 0.85rem;
+}
+
+.remedy-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 1rem;
+  border-radius: 6px;
+  border-left: 4px solid #ffc107;
+  margin-top: 1rem;
+}
+
+.warning-box {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1.25rem;
+  border-radius: 6px;
+  border-left: 4px solid #e74c3c;
+  margin: 1.5rem 0;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.save-btn,
+.home-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.save-btn {
+  background-color: #16a085;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #117a65;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.home-btn {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.home-btn:hover {
+  background-color: #7f8c8d;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .results-card {
+    padding: 1.5rem;
+  }
+  
+  .remedies-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,132 @@
+.info-container {
+  width: 100%;
+}
+
+.info-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.info-card h2 {
+  color: #2c3e50;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.intro {
+  color: #7f8c8d;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.info-section {
+  margin-bottom: 2.5rem;
+}
+
+.info-section h3 {
+  color: #2c3e50;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 0.5rem;
+}
+
+.info-section p {
+  color: #34495e;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.symptom-list,
+.risk-list,
+.prevention-list,
+.sources-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.symptom-list li,
+.risk-list li,
+.prevention-list li {
+  padding: 0.75rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: #34495e;
+  line-height: 1.6;
+}
+
+.symptom-list li:before,
+.prevention-list li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.risk-list li:before {
+  content: "!";
+  position: absolute;
+  left: 0;
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.warning-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.warning-item {
+  background-color: #ffe6e6;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 6px;
+  border-left: 4px solid #e74c3c;
+}
+
+.sources-list li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: #34495e;
+  line-height: 1.6;
+}
+
+.sources-list li:before {
+  content: "📄";
+  position: absolute;
+  left: 0;
+}
+
+.back-btn {
+  background-color: #95a5a6;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 2rem;
+}
+
+.back-btn:hover {
+  background-color: #7f8c8d;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .info-card {
+    padding: 1.5rem;
+  }
+  
+  .info-card h2 {
+    font-size: 1.5rem;
+  }
+}

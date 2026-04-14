@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { formatDate, formatTime} from '../utils/dateFormatter';
-import './Tracker.css';
+import '../styles/Tracker.css';
 
 export default function Tracker({ onGoHome }) {
   const [entries, setEntries] = useState([]);

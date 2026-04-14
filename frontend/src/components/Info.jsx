@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Info.css';
+import '../styles/Info.css';
 
 export default function Info({ onGoHome }) {
   const [infoContent, setInfoContent] = useState(null);

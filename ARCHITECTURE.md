@@ -209,7 +209,7 @@ DB: SQLite (development) → PostgreSQL (production)
                     ┌─────────────┐         ┌──────────────────┐
                     │ *CRITICAL*  │         │ CHECK FOR        │
                     │             │         │ PNEUMONIA        │
-                    │ SEEK        │         │INDICATORS        │
+                    │ SEEK        │         │ INDICATORS       │
                     │ IMMEDIATE   │         └────┬─────────────┘
                     │ MEDICAL     │              │
                     │ CARE        │              ▼

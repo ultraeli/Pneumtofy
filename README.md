@@ -6,7 +6,7 @@ Group 10 - Ezrha Fines, John Christian Jamesula, Elijah Theodore Uy
 
 Here is a video showcasing basic functionality of the website with the backend, the frontend UI is currently a WIP.
 <p align="center" width="100%">
-<video src="Functionality Demo.mp4" width="80%" controls></video>
+<video src="./Functionality Demo.mp4" width="80%" controls></video>
 </p>
 
 

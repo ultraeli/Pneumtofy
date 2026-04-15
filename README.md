@@ -53,7 +53,9 @@ Pneumtofy/
 └── other documentation files
 ```
 
-## Quick Start
+## Quick Start  
+
+- See [QUICK_START.md](Quick Start) for a more detailed setup.
 
 ### 1. Frontend Setup
 

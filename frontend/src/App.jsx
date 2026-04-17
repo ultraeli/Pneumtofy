@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import './App.css';
 import { AuthProvider } from './contexts/AuthContext';
+import Home from './components/Home';
 import SymptomForm from './components/SymptomForm';
 import Results from './components/Results';
 import Info from './components/Info';
@@ -40,12 +41,13 @@ function AppContent() {
             
             <main className="main-content">
               <Routes>
-                <Route path="/" element={<SymptomForm onSubmit={handleSymptomSubmit} />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/symptom-form" element={<SymptomForm onSubmit={handleSymptomSubmit} />} />
                 <Route path="/results" element={
                   assessmentResult ? (
                     <Results result={assessmentResult} onGoHome={handleGoHome} />
                   ) : (
-                    <Navigate to="/" replace />
+                    <Navigate to="/symptom-form" replace />
                   )
                 } />
                 <Route path="/info" element={<Info onGoHome={handleGoHome} />} />

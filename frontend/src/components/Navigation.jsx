@@ -10,7 +10,8 @@ export default function Navigation({ onGoHome }) {
   const location = useLocation();
 
   const getPageName = (path) => {
-    if (path === '/' || path === '/results') return 'home';
+    if (path === '/') return 'home';
+    if (path === '/symptom-form' || path === '/results') return 'symptom-form';
     if (path === '/info') return 'info';
     if (path === '/tracker') return 'tracker';
     return '';
@@ -21,12 +22,15 @@ export default function Navigation({ onGoHome }) {
   const handleLogout = async () => {
     await logout();
     setShowUserMenu(false);
-    navigate('/login');
+    navigate('/');
   };
 
   const handleHomeClick = () => {
-    onGoHome();
     navigate('/');
+  };
+
+  const handleStartTracking = () => {
+    navigate('/symptom-form');
   };
 
   return (
@@ -46,10 +50,10 @@ export default function Navigation({ onGoHome }) {
           </li>
           <li>
             <Link 
-              to="/info" 
-              className={`nav-link ${currentPage === 'info' ? 'active' : ''}`}
+              to="/symptom-form" 
+              className={`nav-link ${currentPage === 'symptom-form' ? 'active' : ''}`}
             >
-              Info
+              Symptom Tracker
             </Link>
           </li>
           <li>
@@ -57,7 +61,15 @@ export default function Navigation({ onGoHome }) {
               to="/tracker" 
               className={`nav-link ${currentPage === 'tracker' ? 'active' : ''}`}
             >
-              Tracker
+              Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/info" 
+              className={`nav-link ${currentPage === 'info' ? 'active' : ''}`}
+            >
+              Info Hub
             </Link>
           </li>
         </ul>
@@ -87,10 +99,15 @@ export default function Navigation({ onGoHome }) {
               )}
             </div>
           ) : (
-            <div className="auth-buttons">
-              <Link to="/login" className="nav-link login-link">Login</Link>
-              <Link to="/register" className="nav-link register-link">Register</Link>
-            </div>
+            <>
+              <div className="auth-buttons">
+                <Link to="/login" className="nav-link login-link">Login</Link>
+                <Link to="/register" className="nav-link register-link">Register</Link>
+              </div>
+              <button className="btn-start-tracking" onClick={handleStartTracking}>
+                Start Tracking
+              </button>
+            </>
           )}
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
 import { AuthProvider } from './contexts/AuthContext';
 import Home from './components/Home';
@@ -15,6 +15,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 function AppContent() {
   const [assessmentResult, setAssessmentResult] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSymptomSubmit = (result) => {
     setAssessmentResult(result);
@@ -39,7 +40,7 @@ function AppContent() {
           <div className="app">
             <Navigation onGoHome={handleGoHome} />
             
-            <main className="main-content">
+            <main className={`main-content ${location.pathname === '/' ? 'main-content--full' : ''}`}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/symptom-form" element={<SymptomForm onSubmit={handleSymptomSubmit} />} />

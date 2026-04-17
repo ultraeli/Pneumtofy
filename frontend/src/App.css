@@ -12,8 +12,18 @@
   padding: 40px 20px;
 }
 
+.main-content.main-content--full {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
 @media (max-width: 768px) {
   .main-content {
     padding: 20px 10px;
+  }
+
+  .main-content.main-content--full {
+    padding: 0;
   }
 }

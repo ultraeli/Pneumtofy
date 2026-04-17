@@ -140,6 +140,44 @@ function Home() {
           </button>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="home-footer">
+        <div className="footer-container">
+          <div className="footer-brand">
+            <div className="footer-logo">
+              <span className="footer-logo-mark" aria-hidden="true">🫁</span>
+              <span className="footer-logo-text">Pneumtofy</span>
+            </div>
+            <p className="footer-description">
+              Helping caregivers track, monitor, and protect children's respiratory health with evidence-based guidance following WHO IMCI guidelines.
+            </p>
+            <p className="footer-made-with">Made with ♡ for children's health</p>
+          </div>
+
+          <div className="footer-links">
+            <div className="footer-column">
+              <h4 className="footer-heading">Platform</h4>
+              <button className="footer-link" type="button" onClick={() => navigate('/symptom-form')}>Symptom Tracker</button>
+              <button className="footer-link" type="button" onClick={() => navigate('/tracker')}>Dashboard</button>
+              <button className="footer-link" type="button" onClick={() => navigate('/info')}>Info Hub</button>
+            </div>
+
+            <div className="footer-column">
+              <h4 className="footer-heading">Resources</h4>
+              <a className="footer-link" href="https://www.who.int/publications/i/item/9789241549799" target="_blank" rel="noreferrer">
+                WHO IMCI Guidelines
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <p className="footer-disclaimer">
+            This app is NOT a substitute for professional medical advice.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

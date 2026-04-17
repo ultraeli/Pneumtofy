@@ -37,7 +37,15 @@ export default function Navigation({ onGoHome }) {
     <nav className="navbar">
       <div className="nav-container">
         <div className="logo" onClick={handleHomeClick}>
-          <h1>🫁 Pneumtofy</h1>
+          <div className="brand">
+            <span className="brand-mark" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="#17a2b8" opacity="0.16" />
+                <path d="M12 6V12L15 14.5" stroke="#17a2b8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <span className="brand-text">Pneumtofy</span>
+          </div>
         </div>
         <ul className="nav-menu">
           <li>

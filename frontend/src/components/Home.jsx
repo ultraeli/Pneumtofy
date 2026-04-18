@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import './Home.css';
+import '../styles/Home.css';
 
 function Home() {
   const navigate = useNavigate();
@@ -38,10 +38,7 @@ function Home() {
           
           <div className="hero-buttons">
             <button className="btn-primary" onClick={handleStartTracking}>
-              Start Tracking
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M7 10H13M13 10L10 7M13 10L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              Start Assessing
             </button>
             <button className="btn-secondary" onClick={handleLearnMore}>
               Learn More
@@ -136,7 +133,7 @@ function Home() {
           <p className="cta-description">
             Begin tracking your child's symptoms now. It only takes a minute.
           </p>
-          <button className="btn btn-cta" onClick={handleStartTracking}>
+          <button className="btn-cta" onClick={handleStartTracking}>
             Open Symptom Tracker
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M7 10H13M13 10L10 7M13 10L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>

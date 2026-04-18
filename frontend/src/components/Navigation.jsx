@@ -61,7 +61,7 @@ export default function Navigation({ onGoHome }) {
               to="/symptom-form" 
               className={`nav-link ${currentPage === 'symptom-form' ? 'active' : ''}`}
             >
-              Symptom Tracker
+              Symptom Form
             </Link>
           </li>
           <li>

@@ -37,13 +37,13 @@ function Home() {
           </p>
           
           <div className="hero-buttons">
-            <button className="btn btn-primary" onClick={handleStartTracking}>
+            <button className="btn-primary" onClick={handleStartTracking}>
               Start Tracking
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path d="M7 10H13M13 10L10 7M13 10L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
-            <button className="btn btn-secondary" onClick={handleLearnMore}>
+            <button className="btn-secondary" onClick={handleLearnMore}>
               Learn More
             </button>
           </div>
@@ -80,9 +80,9 @@ function Home() {
             <div className="feature-card">
               <div className="feature-icon">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <path d="M8 14H24V24C24 25.1 23.1 26 22 26H10C8.9 26 8 25.1 8 24V14Z" stroke="currentColor" strokeWidth="1.5"/>
-                  <path d="M10 14V10C10 8.9 10.9 8 12 8H20C21.1 8 22 8.9 22 10V14" stroke="currentColor" strokeWidth="1.5"/>
-                  <circle cx="16" cy="19" r="1.5" fill="currentColor"/>
+                  <path d="M10 6H22C23.1 6 24 6.9 24 8V24H10C8.9 24 8 23.1 8 22V8C8 6.9 8.9 6 10 6Z" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M22 8H24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M12 12H20M12 16H20M12 20H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               </div>
               <h3 className="feature-title">Symptom Tracking</h3>
@@ -92,8 +92,10 @@ function Home() {
             <div className="feature-card">
               <div className="feature-icon">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <path d="M6 16L10 20L26 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M6 10H26V24C26 25.1 25.1 26 24 26H8C6.9 26 6 25.1 6 24V10Z" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M6 24H26" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M10 20V24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M16 12V24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M22 8V24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
               </div>
               <h3 className="feature-title">Progress Dashboard</h3>
@@ -103,8 +105,10 @@ function Home() {
             <div className="feature-card">
               <div className="feature-icon">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <path d="M8 10H24V24C24 25.1 23.1 26 22 26H10C8.9 26 8 25.1 8 24V10Z" stroke="currentColor" strokeWidth="1.5"/>
-                  <path d="M8 10H24V14H8Z" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M8 6H24C25.1 6 26 6.9 26 8V24C26 25.1 25.1 26 24 26H8C6.9 26 6 25.1 6 24V8C6 6.9 6.9 6 8 6Z" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M16 6V26" stroke="currentColor" strokeWidth="1.5"/>
+                  <circle cx="16" cy="14" r="1.2" fill="currentColor"/>
+                  <circle cx="16" cy="20" r="1.2" fill="currentColor"/>
                 </svg>
               </div>
               <h3 className="feature-title">Health Info Hub</h3>
@@ -114,8 +118,8 @@ function Home() {
             <div className="feature-card">
               <div className="feature-icon">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <path d="M10 12H22C23.1 12 24 12.9 24 14V22C24 23.1 23.1 24 22 24H10C8.9 24 8 23.1 8 22V14C8 12.9 8.9 12 10 12Z" stroke="currentColor" strokeWidth="1.5"/>
-                  <path d="M16 16V20M14 18H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M16 4L10 8V14C10 20 16 26 16 26C16 26 22 20 22 14V8L16 4Z" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M14 15L16 17L20 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
               <h3 className="feature-title">Evidence-Based</h3>

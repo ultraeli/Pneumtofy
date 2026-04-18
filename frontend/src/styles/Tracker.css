@@ -78,11 +78,12 @@
 }
 
 .entry-card {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #8ac8e04f 0%, rgb(255, 255, 255) 100%);
   border-radius: 8px;
   padding: 1.5rem;
-  border-left: 4px solid #3498db;
+  border-left: 4px solid #5e99c0;
   position: relative;
+  
 }
 
 .entry-header {
@@ -166,7 +167,6 @@
   font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  position: absolute;
   top: 1rem;
   right: 1rem;
 }

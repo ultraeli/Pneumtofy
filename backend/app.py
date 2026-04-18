@@ -242,11 +242,11 @@ def assess_symptoms():
             return jsonify({'error': 'Missing required fields'}), 400
         
         # Extract parameters
-        age_months = int(data.get('age_months', 0))
-        cough_duration = int(data.get('cough_duration', 0))
+        age_months = int(data.get('age_months', 0) or 0)
+        cough_duration = int(data.get('cough_duration', 0) or 0)
         fast_breathing = data.get('fast_breathing', False)
         fever = data.get('fever', False)
-        fever_temp = float(data.get('fever_temperature', 0)) if data.get('fever_temperature') else 0
+        fever_temp = float(data.get('fever_temperature', 0) or 0) if data.get('fever_temperature') else 0
         difficulty_breathing = data.get('difficulty_breathing', False)
         chest_indrawing = data.get('chest_indrawing', False)
         stridor = data.get('stridor', False)
@@ -254,7 +254,7 @@ def assess_symptoms():
         unable_to_drink = data.get('unable_to_drink', False)
         vomiting = data.get('vomiting', False)
         diarrhea = data.get('diarrhea', False)
-        previous_episodes = int(data.get('previous_episodes', 0))
+        previous_episodes = int(data.get('previous_episodes', 0) or 0)
         
         # Perform assessment
         result = PneumoniaAssessment.assess_symptoms(

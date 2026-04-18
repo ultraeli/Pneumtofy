@@ -9,8 +9,10 @@
 
 /* Hero Section */
 .hero-section {
-  background: linear-gradient(135deg, #f0f9ff 0%, #f5fafe 100%);
-  padding: 56px 20px 64px;
+  background: linear-gradient(135deg, rgba(240, 249, 255, 0.6) 0%, rgba(245, 250, 254, 0.6) 100%), url('../img/babybg.png') no-repeat center right;
+  background-size: 15px, cover;
+  background-position: 10px 0, right 100%;
+  padding: 56px 80px 64px;
   text-align: left;
   position: relative;
   overflow: hidden;
@@ -75,7 +77,7 @@
 }
 
 .hero-title .highlight {
-  background: linear-gradient(90deg, #17a2b8 0%, #20b2aa 50%, #2ea376 100%);
+  background: linear-gradient(90deg, #1ebcbc 20%, #65e729 50%, #ac2424 50%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -90,12 +92,18 @@
   max-width: 560px;
 }
 
+
 .hero-buttons {
   display: flex;
   gap: 16px;
   justify-content: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   margin-bottom: 48px;
+}
+
+.hero-buttons button {
+  width: auto;
 }
 
 .btn {
@@ -107,15 +115,27 @@
   transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 12px 24px;
+  padding: 12px 20px;
   text-decoration: none;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #17a2b8 0%, #158fa3 100%);
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(23, 162, 184, 0.3);
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
 }
 
 .btn-primary:hover {
@@ -131,6 +151,19 @@
   background: white;
   color: #1a202c;
   border: 1.5px solid #e2e8f0;
+  padding: 12px 20px;
+  font-size: 16px;
+  background-clip: padding-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-top: 9px;
 }
 
 .btn-secondary:hover {

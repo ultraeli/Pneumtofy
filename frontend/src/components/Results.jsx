@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { getUserTimezone } from '../utils/dateFormatter';
 import '../styles/Results.css';
 
 export default function Results({ result, onGoHome }) {
@@ -82,7 +81,6 @@ export default function Results({ result, onGoHome }) {
           <p className="timestamp">
             {new Date().toLocaleDateString()} at {new Date().toLocaleTimeString()}
             <br />
-            <span className="timezone-note">Timezone: {getUserTimezone()}</span>
           </p>
         </div>
 

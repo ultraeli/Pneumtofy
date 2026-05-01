@@ -134,7 +134,7 @@ export default function Login() {
 
           <button 
             type="submit" 
-            className="btn-primary"
+            className="btn-primary-auth"
             disabled={loading}
           >
             {loading ? 'Logging in...' : 'Login'}

@@ -160,7 +160,6 @@ export default function SymptomForm({ onSubmit }) {
                   checked={symptoms.fast_breathing}
                   onChange={handleInputChange}
                 />
-                <span className="icon">🫁</span>
                 <span>Fast breathing (tachypnea)</span>
               </label>
             </div>
@@ -172,7 +171,6 @@ export default function SymptomForm({ onSubmit }) {
                   checked={symptoms.difficulty_breathing}
                   onChange={handleInputChange}
                 />
-                <span className="icon">🫁</span>
                 <span>Difficulty breathing (dyspnea)</span>
               </label>
             </div>
@@ -184,7 +182,6 @@ export default function SymptomForm({ onSubmit }) {
                   checked={symptoms.chest_indrawing}
                   onChange={handleInputChange}
                 />
-                <span className="icon">ℹ️</span>
                 <span>Chest wall indrawing</span>
               </label>
             </div>
@@ -196,7 +193,6 @@ export default function SymptomForm({ onSubmit }) {
                   checked={symptoms.stridor}
                   onChange={handleInputChange}
                 />
-                <span className="icon">ℹ️</span>
                 <span>Stridor (noisy breathing)</span>
               </label>
             </div>
@@ -214,7 +210,6 @@ export default function SymptomForm({ onSubmit }) {
                   checked={symptoms.fever}
                   onChange={handleInputChange}
                 />
-                <span className="icon">🌡️</span>
                 <span>Has fever</span>
               </label>
             </div>
@@ -242,7 +237,6 @@ export default function SymptomForm({ onSubmit }) {
                   checked={symptoms.lethargy}
                   onChange={handleInputChange}
                 />
-                <span className="icon">😴</span>
                 <span>Lethargy (unusual sleepiness/weakness)</span>
               </label>
             </div>
@@ -254,7 +248,6 @@ export default function SymptomForm({ onSubmit }) {
                   checked={symptoms.unable_to_drink}
                   onChange={handleInputChange}
                 />
-                <span className="icon">🥛</span>
                 <span>Unable to drink</span>
               </label>
             </div>
@@ -266,7 +259,6 @@ export default function SymptomForm({ onSubmit }) {
                   checked={symptoms.vomiting}
                   onChange={handleInputChange}
                 />
-                <span className="icon">🤢</span>
                 <span>Vomiting</span>
               </label>
             </div>
@@ -278,7 +270,6 @@ export default function SymptomForm({ onSubmit }) {
                   checked={symptoms.diarrhea}
                   onChange={handleInputChange}
                 />
-                <span className="icon">⚠️</span>
                 <span>Diarrhea</span>
               </label>
             </div>

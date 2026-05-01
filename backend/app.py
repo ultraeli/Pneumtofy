@@ -387,6 +387,193 @@ def delete_tracker_entry(entry_id):
 
 
 # ============================================================================
+# ADMIN ROUTES
+# ============================================================================
+
+def admin_required(f):
+    """Decorator to check if user is admin"""
+    @wraps(f)
+    @login_required
+    def decorated_function(*args, **kwargs):
+        if not current_user or current_user.role != 'admin':
+            return jsonify({'error': 'Admin access required'}), 403
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+@app.route('/api/admin/stats', methods=['GET'])
+@admin_required
+def admin_stats():
+    """Get admin dashboard statistics"""
+    try:
+        total_users = User.query.count()
+        active_users = User.query.filter_by(is_active=True).count()
+        total_assessments = TrackedAssessment.query.count()
+        
+        # Get users with assessments (active guardians)
+        users_with_assessments = db.session.query(User).join(
+            TrackedAssessment
+        ).distinct().count()
+        
+        # Get assessments from last 7 days
+        seven_days_ago = datetime.utcnow() - timedelta(days=7)
+        recent_assessments = TrackedAssessment.query.filter(
+            TrackedAssessment.timestamp >= seven_days_ago
+        ).count()
+        
+        return jsonify({
+            'total_users': total_users,
+            'active_users': active_users,
+            'total_assessments': total_assessments,
+            'users_with_assessments': users_with_assessments,
+            'recent_assessments': recent_assessments,
+            'timestamp': datetime.utcnow().isoformat()
+        }), 200
+    except Exception as e:
+        print(f"Error in admin_stats: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/admin/users', methods=['GET'])
+@admin_required
+def admin_get_users():
+    """Get all users with pagination and search"""
+    try:
+        page = request.args.get('page', 1, type=int)
+        limit = request.args.get('limit', 10, type=int)
+        search = request.args.get('search', '', type=str)
+        
+        query = User.query
+        
+        # Apply search filter
+        if search:
+            query = query.filter(
+                (User.username.ilike(f'%{search}%')) |
+                (User.email.ilike(f'%{search}%')) |
+                (User.guardianname.ilike(f'%{search}%'))
+            )
+        
+        # Paginate
+        paginated = query.order_by(User.created_at.desc()).paginate(
+            page=page, per_page=limit, error_out=False
+        )
+        
+        users_data = [
+            {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'guardianname': user.guardianname,
+                'phone': user.phone,
+                'is_active': user.is_active,
+                'created_at': user.created_at.isoformat() if user.created_at else None,
+                'last_login': user.last_login.isoformat() if user.last_login else None,
+                'assessment_count': len(user.tracked_assessments)
+            }
+            for user in paginated.items
+        ]
+        
+        return jsonify({
+            'users': users_data,
+            'total': paginated.total,
+            'pages': paginated.pages,
+            'current_page': page
+        }), 200
+    except Exception as e:
+        print(f"Error in admin_get_users: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/admin/assessments', methods=['GET'])
+@admin_required
+def admin_get_assessments():
+    """Get all assessments with pagination"""
+    try:
+        page = request.args.get('page', 1, type=int)
+        limit = request.args.get('limit', 10, type=int)
+        user_id = request.args.get('user_id', None, type=int)
+        
+        query = TrackedAssessment.query
+        
+        # Filter by user if specified
+        if user_id:
+            query = query.filter_by(user_id=user_id)
+        
+        # Paginate
+        paginated = query.order_by(TrackedAssessment.timestamp.desc()).paginate(
+            page=page, per_page=limit, error_out=False
+        )
+        
+        assessments_data = [
+            {
+                'id': assessment.id,
+                'user_id': assessment.user_id,
+                'username': assessment.user.username,
+                'age_months': assessment.age_months,
+                'assessment': assessment.assessment,
+                'timestamp': assessment.timestamp.isoformat() if assessment.timestamp else None
+            }
+            for assessment in paginated.items
+        ]
+        
+        return jsonify({
+            'assessments': assessments_data,
+            'total': paginated.total,
+            'pages': paginated.pages,
+            'current_page': page
+        }), 200
+    except Exception as e:
+        print(f"Error in admin_get_assessments: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/admin/recent-assessments', methods=['GET'])
+@admin_required
+def admin_get_recent_assessments():
+    """Get recent assessments for notifications"""
+    try:
+        # Get last 5 assessments
+        recent = TrackedAssessment.query.order_by(TrackedAssessment.timestamp.desc()).limit(5).all()
+        
+        assessments_data = [
+            {
+                'id': assessment.id,
+                'guardian_username': assessment.user.username,
+                'age': assessment.age_months,
+                'assessment_type': assessment.assessment,
+                'created_at': assessment.timestamp.isoformat() if assessment.timestamp else None
+            }
+            for assessment in recent
+        ]
+        
+        return jsonify({'assessments': assessments_data}), 200
+    except Exception as e:
+        print(f"Error in admin_get_recent_assessments: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/admin/users/<int:user_id>', methods=['DELETE'])
+@admin_required
+def admin_delete_user(user_id):
+    """Deactivate a user (soft delete)"""
+    try:
+        user = User.query.get(user_id)
+        
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+        
+        # Soft delete - mark as inactive
+        user.is_active = False
+        db.session.commit()
+        
+        return jsonify({'success': True, 'message': 'User deactivated'}), 200
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error in admin_delete_user: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================================
 # HEALTH CHECK
 # ============================================================================
 

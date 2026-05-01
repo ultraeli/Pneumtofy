@@ -11,6 +11,7 @@ import Navigation from './components/Navigation';
 import Login from './components/Login';
 import Register from './components/Register';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 
 function AppContent() {
   const [assessmentResult, setAssessmentResult] = useState(null);
@@ -32,6 +33,13 @@ function AppContent() {
       {/* Public auth routes */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
+      {/* Admin Dashboard Route */}
+      <Route path="/admin/*" element={
+        <ProtectedRoute>
+          <AdminDashboard />
+        </ProtectedRoute>
+      } />
 
       {/* Protected and public routes */}
       <Route

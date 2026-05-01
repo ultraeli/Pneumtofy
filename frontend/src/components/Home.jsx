@@ -24,7 +24,7 @@ function Home() {
             <svg className="tag-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
               <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
             </svg>
-            <span>Pneumonia Awareness Platform</span>
+            <span>Pneumonia Tracker and Information Platform</span>
           </div>
           
           <h1 className="hero-title">
@@ -37,10 +37,10 @@ function Home() {
           </p>
           
           <div className="hero-buttons">
-            <button className="btn-primary" onClick={handleStartTracking}>
-              Start Assessing
+            <button className="btn-primary-home" onClick={handleStartTracking}>
+              Start Tracking
             </button>
-            <button className="btn-secondary" onClick={handleLearnMore}>
+            <button className="btn-secondary-home" onClick={handleLearnMore}>
               Learn More
             </button>
           </div>
@@ -133,8 +133,8 @@ function Home() {
           <p className="cta-description">
             Begin tracking your child's symptoms now. It only takes a minute.
           </p>
-          <button className="btn-cta" onClick={handleStartTracking}>
-            Open Symptom Tracker
+          <button className="btn-cta-home" onClick={handleStartTracking}>
+            Start Tracking
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M7 10H13M13 10L10 7M13 10L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -147,7 +147,6 @@ function Home() {
         <div className="footer-container">
           <div className="footer-brand">
             <div className="footer-logo">
-              <span className="footer-logo-mark" aria-hidden="true">🫁</span>
               <span className="footer-logo-text">Pneumtofy</span>
             </div>
             <p className="footer-description">
@@ -159,14 +158,14 @@ function Home() {
           <div className="footer-links">
             <div className="footer-column">
               <h4 className="footer-heading">Platform</h4>
-              <button className="footer-link" type="button" onClick={() => navigate('/symptom-form')}>Symptom Tracker</button>
-              <button className="footer-link" type="button" onClick={() => navigate('/tracker')}>Dashboard</button>
-              <button className="footer-link" type="button" onClick={() => navigate('/info')}>Info Hub</button>
+              <button className="footer-link" type="button" onClick={() => navigate('/symptom-form')}>Symptom Form</button>
+              <button className="footer-link" type="button" onClick={() => navigate('/tracker')}>Tracker</button>
+              <button className="footer-link" type="button" onClick={() => navigate('/info')}>Information</button>
             </div>
 
             <div className="footer-column">
               <h4 className="footer-heading">Resources</h4>
-              <a className="footer-link" href="https://www.who.int/publications/i/item/9789241549799" target="_blank" rel="noreferrer">
+              <a className="footer-link" href="https://www.who.int/teams/maternal-newborn-child-adolescent-health-and-ageing/child-health/integrated-management-of-childhood-illness" target="_blank" rel="noreferrer">
                 WHO IMCI Guidelines
               </a>
             </div>

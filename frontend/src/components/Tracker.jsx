@@ -113,6 +113,25 @@ export default function Tracker({ onGoHome }) {
                   <h4>Recommendation</h4>
                   <p className="recommendation">{entry.recommendation}</p>
 
+                  {entry.home_remedies && entry.home_remedies.length > 0 && (
+                    <>
+                      <h4>Suggested Home Remedies</h4>
+                      <div className="remedies-grid-tracker">
+                        {entry.home_remedies.map((remedy, remedyIdx) => (
+                          <div key={remedyIdx} className="remedy-card-tracker">
+                            <div className="remedy-name">{remedy.name}</div>
+                            <div className="remedy-description">{remedy.description}</div>
+                            {remedy.dosage && (
+                              <div className="remedy-dosage">
+                                <strong>Dosage:</strong> {remedy.dosage}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
+
                   <div className="entry-time">
                     {formatTime(entry.timestamp)}
                   </div>

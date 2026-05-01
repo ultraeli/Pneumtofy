@@ -23,6 +23,7 @@ class User(UserMixin, db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     last_login = db.Column(db.DateTime, nullable=True)
     is_active = db.Column(db.Boolean, default=True)
+    role = db.Column(db.String(20), default='guardian', nullable=False)  # 'guardian' or 'admin'
     
     # Relationships
     tracked_assessments = db.relationship('TrackedAssessment', backref='user', lazy=True, cascade='all, delete-orphan')
@@ -45,6 +46,7 @@ class User(UserMixin, db.Model):
             'relationship': self.relationship,
             'phone': self.phone,
             'childrens_ages': self.childrens_ages,
+            'role': self.role,
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'last_login': self.last_login.isoformat() if self.last_login else None,
         }
@@ -88,6 +90,23 @@ class TrackedAssessment(db.Model):
                 iso_str = iso_str + 'Z'
             timestamp_str = iso_str
         
+        # Create symptoms object for easier iteration in frontend
+        symptoms = {
+            'age_months': self.age_months,
+            'cough_duration': self.cough_duration,
+            'fast_breathing': self.fast_breathing,
+            'fever': self.fever,
+            'fever_temperature': self.fever_temperature,
+            'difficulty_breathing': self.difficulty_breathing,
+            'chest_indrawing': self.chest_indrawing,
+            'stridor': self.stridor,
+            'lethargy': self.lethargy,
+            'unable_to_drink': self.unable_to_drink,
+            'vomiting': self.vomiting,
+            'diarrhea': self.diarrhea,
+            'previous_episodes': self.previous_episodes,
+        }
+        
         return {
             'id': self.id,
             'age_months': self.age_months,
@@ -103,6 +122,7 @@ class TrackedAssessment(db.Model):
             'vomiting': self.vomiting,
             'diarrhea': self.diarrhea,
             'previous_episodes': self.previous_episodes,
+            'symptoms': symptoms,
             'assessment': self.assessment,
             'recommendation': self.recommendation,
             'guidance': json.loads(self.guidance) if self.guidance else [],

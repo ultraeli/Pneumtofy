@@ -284,8 +284,7 @@
 
 .btn-next:hover,
 .btn-submit:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(23, 162, 184, 0.3);
+  box-shadow: 0 10px 10px rgba(23, 162, 184, 0.3);
 }
 
 .btn-submit:disabled {

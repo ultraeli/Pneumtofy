@@ -1,42 +1,53 @@
 .info-container {
   width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .info-card {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(202, 137, 188, 0.2);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .info-card h2 {
-  color: #2c3e50;
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+  color: #1a202c;
+  font-size: 2.2rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .intro {
   color: #7f8c8d;
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 500;
 }
 
 .info-section {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.75rem;
 }
 
 .info-section h3 {
-  color: #2c3e50;
+  color: #1a202c;
   font-size: 1.3rem;
-  margin-bottom: 1rem;
-  border-bottom: 2px solid #ecf0f1;
-  padding-bottom: 0.5rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
 }
 
 .info-section p {
   color: #34495e;
   line-height: 1.8;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  font-weight: 500;
 }
 
 .symptom-list,
@@ -50,11 +61,12 @@
 .symptom-list li,
 .risk-list li,
 .prevention-list li {
-  padding: 0.75rem 0;
-  padding-left: 1.5rem;
+  padding: 0.85rem 0;
+  padding-left: 1.75rem;
   position: relative;
   color: #34495e;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-weight: 500;
 }
 
 .symptom-list li:before,
@@ -62,38 +74,43 @@
   content: "✓";
   position: absolute;
   left: 0;
-  color: #27ae60;
+  color: #20c997;
   font-weight: bold;
+  font-size: 1.1rem;
 }
 
 .risk-list li:before {
-  content: "!";
+  content: "⚠";
   position: absolute;
   left: 0;
-  color: #e74c3c;
+  color: #dc3545;
   font-weight: bold;
+  font-size: 1rem;
 }
 
 .warning-section {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .warning-item {
-  background-color: #ffe6e6;
+  background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(255, 159, 64, 0.05) 100%);
   color: #721c24;
-  padding: 1rem;
-  border-radius: 6px;
-  border-left: 4px solid #e74c3c;
+  padding: 1.25rem;
+  border-radius: 10px;
+  border-left: 4px solid #dc3545;
+  font-weight: 600;
+  border: 1px solid rgba(220, 53, 69, 0.2);
 }
 
 .sources-list li {
-  padding: 0.5rem 0;
-  padding-left: 1.5rem;
+  padding: 0.75rem 0;
+  padding-left: 1.75rem;
   position: relative;
   color: #34495e;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-weight: 500;
 }
 
 .sources-list li:before {
@@ -103,30 +120,37 @@
 }
 
 .back-btn {
-  background-color: #95a5a6;
+  background: linear-gradient(135deg, #17a2b8 0%, #158fa3 100%);
   color: white;
-  padding: 0.75rem 1.5rem;
+  padding: 0.9rem 1.75rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
+  width: auto;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 12px rgba(23, 162, 184, 0.25);
 }
 
 .back-btn:hover {
-  background-color: #7f8c8d;
+  background: linear-gradient(135deg, #158fa3 0%, #0f8fa3 100%);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(23, 162, 184, 0.35);
+}
+
+.back-btn:active {
+  transform: translateY(0);
 }
 
 @media (max-width: 768px) {
   .info-card {
-    padding: 1.5rem;
+    padding: 1.75rem;
   }
   
   .info-card h2 {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
 }

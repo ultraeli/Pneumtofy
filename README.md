@@ -1,11 +1,10 @@
 # Pneumtofy - Pneumonia Assessment and Tracking Platform
 
-A web application for pneumonia symptom assessment in children based on WHO IMCI guidelines, with user authentication and assessment tracking.
 
-Group 10 - Ezrha Fines, John Christian Jamesula, Elijah Theodore Uy
+<img src="frontend/src/img/plogo.png" width="400" alt="Pneumtofy">
 
-There is a video showcasing basic functionality of the website with the backend, the frontend UI is currently a WIP. (Pneumtofy Functionality Demo.mp4)
-
+<br>
+A website for pneumonia symptom assessment in children based on IMCI guidelines and documentation.
 
 ## Project Structure
 
@@ -16,6 +15,7 @@ Pneumtofy/
 │   │   └── index.html
 │   ├── src/
 │   │   ├── components/
+│   │   │   ├── AdminDashboard/         # Everything relating to the admin page (frontend) of the website
 │   │   │   ├── Login.jsx               # Login form with session auth
 │   │   │   ├── Register.jsx            # New account creation
 │   │   │   ├── ProtectedRoute.jsx      # Route protection wrapper

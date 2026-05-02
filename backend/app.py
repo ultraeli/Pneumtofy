@@ -244,6 +244,7 @@ def assess_symptoms():
         # Extract parameters
         age_months = int(data.get('age_months', 0) or 0)
         cough_duration = int(data.get('cough_duration', 0) or 0)
+        respiratory_rate = data.get('respiratory_rate', None)
         fast_breathing = data.get('fast_breathing', False)
         fever = data.get('fever', False)
         fever_temp = float(data.get('fever_temperature', 0) or 0) if data.get('fever_temperature') else 0
@@ -252,15 +253,18 @@ def assess_symptoms():
         stridor = data.get('stridor', False)
         lethargy = data.get('lethargy', False)
         unable_to_drink = data.get('unable_to_drink', False)
+        convulsions = data.get('convulsions', False)
+        cyanosis = data.get('cyanosis', False)
+        unconscious = data.get('unconscious', False)
         vomiting = data.get('vomiting', False)
         diarrhea = data.get('diarrhea', False)
         previous_episodes = int(data.get('previous_episodes', 0) or 0)
         
         # Perform assessment
         result = PneumoniaAssessment.assess_symptoms(
-            age_months, cough_duration, fast_breathing, fever, fever_temp,
-            difficulty_breathing, chest_indrawing, stridor, lethargy, 
-            unable_to_drink, vomiting, diarrhea, previous_episodes
+            age_months, cough_duration, respiratory_rate, fast_breathing, fever, fever_temp,
+            difficulty_breathing, chest_indrawing, stridor, lethargy, unable_to_drink,
+            convulsions, cyanosis, unconscious, vomiting, diarrhea, previous_episodes
         )
         
         return jsonify(result), 200
@@ -328,16 +332,20 @@ def add_tracker_entry():
                 timestamp = datetime.utcnow()
         
         # Create new assessment entry
-        assessment = TrackedAssessment(
+            assessment = TrackedAssessment(
             user_id=current_user.id,
             age_months=int(data.get('age_months', 0)),
             cough_duration=int(data.get('cough_duration', 0)) if data.get('cough_duration') else None,
+            respiratory_rate=data.get('respiratory_rate', None),
             fast_breathing=data.get('fast_breathing', False),
             fever=data.get('fever', False),
             fever_temperature=float(data.get('fever_temperature', 0)) if data.get('fever_temperature') else None,
             difficulty_breathing=data.get('difficulty_breathing', False),
             chest_indrawing=data.get('chest_indrawing', False),
             stridor=data.get('stridor', False),
+            convulsions=data.get('convulsions', False),
+            cyanosis=data.get('cyanosis', False),
+            unconscious=data.get('unconscious', False),
             lethargy=data.get('lethargy', False),
             unable_to_drink=data.get('unable_to_drink', False),
             vomiting=data.get('vomiting', False),

@@ -276,7 +276,7 @@
 
 .btn-next,
 .btn-submit {
-  background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
+  background: #17a2b8;
   color: white;
   flex: 1;
   justify-content: center;

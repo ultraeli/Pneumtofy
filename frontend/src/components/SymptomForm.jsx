@@ -8,6 +8,7 @@ export default function SymptomForm({ onSubmit }) {
   const [symptoms, setSymptoms] = useState({
     age_months: '',
     cough_duration: '',
+    respiratory_rate: '',
     fast_breathing: false,
     fever: false,
     fever_temperature: '',
@@ -16,6 +17,9 @@ export default function SymptomForm({ onSubmit }) {
     stridor: false,
     lethargy: false,
     unable_to_drink: false,
+    convulsions: false,
+    cyanosis: false,
+    unconscious: false,
     vomiting: false,
     diarrhea: false,
     previous_episodes: '',
@@ -91,6 +95,7 @@ export default function SymptomForm({ onSubmit }) {
         ...symptoms,
         age_months: parseInt(symptoms.age_months),
         cough_duration: parseInt(symptoms.cough_duration),
+        respiratory_rate: symptoms.respiratory_rate ? parseInt(symptoms.respiratory_rate) : null,
         previous_episodes: symptoms.previous_episodes ? parseInt(symptoms.previous_episodes) : 0,
         fever_temperature: symptoms.fever_temperature ? parseFloat(symptoms.fever_temperature) : 0,
       };
@@ -152,6 +157,19 @@ export default function SymptomForm({ onSubmit }) {
         return (
           <div className="form-section">
             <h2 className="step-title">Respiratory Symptoms</h2>
+            <div className="form-group">
+              <label htmlFor="respiratory_rate">Respiratory rate (breaths per minute)</label>
+              <input
+                type="number"
+                id="respiratory_rate"
+                name="respiratory_rate"
+                min="0"
+                value={symptoms.respiratory_rate}
+                onChange={handleInputChange}
+                placeholder="e.g., 45"
+              />
+              <small>Count breaths when the child is calm. Use this to determine fast breathing.</small>
+            </div>
             <div className="checkbox-card">
               <label className="checkbox-card-label">
                 <input
@@ -238,6 +256,39 @@ export default function SymptomForm({ onSubmit }) {
                   onChange={handleInputChange}
                 />
                 <span>Lethargy (unusual sleepiness/weakness)</span>
+              </label>
+            </div>
+            <div className="checkbox-card">
+              <label className="checkbox-card-label">
+                <input
+                  type="checkbox"
+                  name="convulsions"
+                  checked={symptoms.convulsions}
+                  onChange={handleInputChange}
+                />
+                <span>Convulsions / Seizures</span>
+              </label>
+            </div>
+            <div className="checkbox-card">
+              <label className="checkbox-card-label">
+                <input
+                  type="checkbox"
+                  name="cyanosis"
+                  checked={symptoms.cyanosis}
+                  onChange={handleInputChange}
+                />
+                <span>Blue lips or central cyanosis</span>
+              </label>
+            </div>
+            <div className="checkbox-card">
+              <label className="checkbox-card-label">
+                <input
+                  type="checkbox"
+                  name="unconscious"
+                  checked={symptoms.unconscious}
+                  onChange={handleInputChange}
+                />
+                <span>Unconscious / Not responsive</span>
               </label>
             </div>
             <div className="checkbox-card">

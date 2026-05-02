@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import '../styles/Navigation.css';
+import plogo from '../img/plogo.png';
 
 export default function Navigation({ onGoHome }) {
   const { user, isAuthenticated, logout } = useAuth();
@@ -38,7 +39,8 @@ export default function Navigation({ onGoHome }) {
       <div className="nav-container">
         <div className="logo" onClick={handleHomeClick}>
           <div className="brand">
-            <span className="brand-text">Pneumtofy</span>
+            <img src={plogo} id="plogo" alt="Logo" />
+            <span className="brand-text">neumtofy</span>
           </div>
         </div>
         <ul className="nav-menu">

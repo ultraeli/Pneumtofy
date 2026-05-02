@@ -22,24 +22,15 @@
   flex-shrink: 0;
   cursor: pointer;
 }
-
-.logo h1 {
-  color: #1a202c;
-  font-size: 20px;
-  font-weight: 700;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-  letter-spacing: -0.3px;
-}
-
-.logo h1:hover {
-  opacity: 0.75;
+.brand-text {
+  font-size: 1.5rem;
   color: #17a2b8;
+  margin-left: -5px;
 }
-
+#plogo{
+  width: 50px;
+  height: auto;
+}
 .nav-menu {
   list-style: none;
   display: flex;
@@ -133,24 +124,24 @@
 }
 
 .btn-start-tracking {
-  background: linear-gradient(135deg, #17a2b8 0%, #158fa3 100%);
-  border: none;
-  color: white;
+  background: none;
+  border: 1.5px solid #e2e8f0;
+  color: #5a6c7d;
   font-size: 14px;
-  font-weight: 600;
-  padding: 11px 22px;
-  border-radius: 8px;
+  font-weight: 500;
   cursor: pointer;
+  padding: 10px 16px;
+  border-radius: 8px;
   transition: all 0.3s ease;
-  white-space: nowrap;
-  box-shadow: 0 3px 10px rgba(23, 162, 184, 0.25);
+  text-decoration: none;
+  display: inline-block;
   letter-spacing: 0.2px;
 }
 
 .btn-start-tracking:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(23, 162, 184, 0.35);
-  background: linear-gradient(135deg, #158fa3 0%, #0f8fa3 100%);
+  border-color: #17a2b8;
+  color: #17a2b8;
+  background-color: #f0f9ff;
 }
 
 .btn-start-tracking:active {

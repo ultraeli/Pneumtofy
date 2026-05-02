@@ -61,12 +61,16 @@ class TrackedAssessment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     age_months = db.Column(db.Integer, nullable=False)
     cough_duration = db.Column(db.Integer)
+    respiratory_rate = db.Column(db.Integer)
     fast_breathing = db.Column(db.Boolean, default=False)
     fever = db.Column(db.Boolean, default=False)
     fever_temperature = db.Column(db.Float)
     difficulty_breathing = db.Column(db.Boolean, default=False)
     chest_indrawing = db.Column(db.Boolean, default=False)
     stridor = db.Column(db.Boolean, default=False)
+    convulsions = db.Column(db.Boolean, default=False)
+    cyanosis = db.Column(db.Boolean, default=False)
+    unconscious = db.Column(db.Boolean, default=False)
     lethargy = db.Column(db.Boolean, default=False)
     unable_to_drink = db.Column(db.Boolean, default=False)
     vomiting = db.Column(db.Boolean, default=False)
@@ -94,12 +98,16 @@ class TrackedAssessment(db.Model):
         symptoms = {
             'age_months': self.age_months,
             'cough_duration': self.cough_duration,
+            'respiratory_rate': self.respiratory_rate,
             'fast_breathing': self.fast_breathing,
             'fever': self.fever,
             'fever_temperature': self.fever_temperature,
             'difficulty_breathing': self.difficulty_breathing,
             'chest_indrawing': self.chest_indrawing,
             'stridor': self.stridor,
+            'convulsions': self.convulsions,
+            'cyanosis': self.cyanosis,
+            'unconscious': self.unconscious,
             'lethargy': self.lethargy,
             'unable_to_drink': self.unable_to_drink,
             'vomiting': self.vomiting,
@@ -111,12 +119,16 @@ class TrackedAssessment(db.Model):
             'id': self.id,
             'age_months': self.age_months,
             'cough_duration': self.cough_duration,
+            'respiratory_rate': self.respiratory_rate,
             'fast_breathing': self.fast_breathing,
             'fever': self.fever,
             'fever_temperature': self.fever_temperature,
             'difficulty_breathing': self.difficulty_breathing,
             'chest_indrawing': self.chest_indrawing,
             'stridor': self.stridor,
+            'convulsions': self.convulsions,
+            'cyanosis': self.cyanosis,
+            'unconscious': self.unconscious,
             'lethargy': self.lethargy,
             'unable_to_drink': self.unable_to_drink,
             'vomiting': self.vomiting,

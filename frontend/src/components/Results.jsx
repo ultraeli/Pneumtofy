@@ -34,12 +34,16 @@ export default function Results({ result, onGoHome }) {
         body: JSON.stringify({
           age_months: symptoms.age_months,
           cough_duration: symptoms.cough_duration,
+          respiratory_rate: symptoms.respiratory_rate,
           fast_breathing: symptoms.fast_breathing,
           fever: symptoms.fever,
           fever_temperature: symptoms.fever_temperature,
           difficulty_breathing: symptoms.difficulty_breathing,
           chest_indrawing: symptoms.chest_indrawing,
           stridor: symptoms.stridor,
+          convulsions: symptoms.convulsions,
+          cyanosis: symptoms.cyanosis,
+          unconscious: symptoms.unconscious,
           lethargy: symptoms.lethargy,
           unable_to_drink: symptoms.unable_to_drink,
           vomiting: symptoms.vomiting,
@@ -68,10 +72,17 @@ export default function Results({ result, onGoHome }) {
 
   const getRiskColor = (risk) => {
     if (risk.includes('critical') || risk.includes('SEEK')) return '#e74c3c';
+    if (risk.includes('PNEUMONIA') || risk.includes('Amoxicillin')) return '#f39c12';
     if (risk.includes('moderate')) return '#f39c12';
-    if (risk.includes('mild') || risk.includes('OBSERVE')) return '#27ae60';
+    if (risk.includes('mild') || risk.includes('SIMPLE') || risk.includes('OBSERVE')) return '#27ae60';
     return '#3498db';
   };
+
+  // Extract respiratory rate info from symptoms if available
+  const hasRespiratoryRate = result.symptoms && result.symptoms.respiratory_rate;
+  const respiratoryRate = result.symptoms?.respiratory_rate;
+  const threshold = result.symptoms?.threshold;
+  const hasFastBreathing = result.symptoms?.fast_breathing;
 
   return (
     <div className="results-container">
@@ -90,6 +101,47 @@ export default function Results({ result, onGoHome }) {
             {result.assessment}
           </div>
         </div>
+
+        {/* Display respiratory rate assessment */}
+        {hasRespiratoryRate && (
+          <div className="respiratory-rate-section" style={{
+            backgroundColor: hasFastBreathing ? '#ffe5e5' : '#e5f5e5',
+            borderLeft: `4px solid ${hasFastBreathing ? '#f39c12' : '#27ae60'}`,
+            padding: '12px',
+            marginBottom: '16px',
+            borderRadius: '4px'
+          }}>
+            <h4 style={{ margin: '0 0 8px 0' }}>Respiratory Rate Assessment</h4>
+            <p style={{ margin: '4px 0' }}>
+              <strong>Respiratory rate:</strong> {respiratoryRate} breaths per minute
+            </p>
+            <p style={{ margin: '4px 0' }}>
+              <strong>Threshold:</strong> {threshold} breaths per minute
+            </p>
+            <p style={{ margin: '4px 0', fontWeight: hasFastBreathing ? 'bold' : 'normal', color: hasFastBreathing ? '#e74c3c' : '#27ae60' }}>
+              {hasFastBreathing ? '⚠️ Fast breathing detected' : '✓ Normal breathing rate'}
+            </p>
+          </div>
+        )}
+
+        {/* Highlight amoxicillin recommendation */}
+        {result.amoxicillin_recommended && (
+          <div className="amoxicillin-section" style={{
+            backgroundColor: '#fff3cd',
+            borderLeft: '4px solid #f39c12',
+            padding: '12px',
+            marginBottom: '16px',
+            borderRadius: '4px'
+          }}>
+            <h4 style={{ margin: '0 0 8px 0', color: '#856404' }}>💊 Amoxicillin Recommended</h4>
+            <p style={{ margin: '4px 0', color: '#856404' }}>
+              WHO IMCI: Cough with fast breathing is a sign of pneumonia. This child should be evaluated for amoxicillin treatment by a healthcare provider.
+            </p>
+            <p style={{ margin: '4px 0', color: '#856404', fontSize: '0.9em' }}>
+              <strong>Note:</strong> Amoxicillin can often be safely given at home if there are no danger signs like chest indrawing, lethargy, or inability to drink.
+            </p>
+          </div>
+        )}
 
         <div className="recommendation-section">
           <h3>Recommendation</h3>

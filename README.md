@@ -1,7 +1,8 @@
 # Pneumtofy - Pneumonia Assessment and Tracking Platform
 
-
+<p align="center">
 <img src="frontend/src/img/plogo.png" width="400" alt="Pneumtofy">
+</p>
 
 <br>
 A website for pneumonia symptom assessment in children based on IMCI guidelines and documentation.

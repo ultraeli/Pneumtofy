@@ -21,10 +21,6 @@ function Home() {
       <section className="hero-section">
         <div className="hero-content">
           <div className="hero-tag">
-            <svg className="tag-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
-            </svg>
-            <span>Pneumonia Tracker and Information Platform</span>
           </div>
           
           <h1 className="hero-title">

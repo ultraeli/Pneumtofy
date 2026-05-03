@@ -291,7 +291,11 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
-
+#indraw {
+  width: 400px;
+  height: auto;
+  margin-left: 1rem;
+}
 @media (max-width: 768px) {
   .symptom-form-card {
     padding: 1.5rem;

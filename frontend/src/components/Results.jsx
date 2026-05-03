@@ -135,7 +135,7 @@ export default function Results({ result, onGoHome }) {
           }}>
             <h4 style={{ margin: '0 0 8px 0', color: '#856404' }}>💊 Amoxicillin Recommended</h4>
             <p style={{ margin: '4px 0', color: '#856404' }}>
-              WHO IMCI: Cough with fast breathing is a sign of pneumonia. This child should be evaluated for amoxicillin treatment by a healthcare provider.
+              Cough with fast breathing is a sign of pneumonia. This child should be evaluated for amoxicillin treatment by a healthcare provider.
             </p>
             <p style={{ margin: '4px 0', color: '#856404', fontSize: '0.9em' }}>
               <strong>Note:</strong> Amoxicillin can often be safely given at home if there are no danger signs like chest indrawing, lethargy, or inability to drink.

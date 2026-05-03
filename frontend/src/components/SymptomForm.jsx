@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/SymptomForm.css';
+import indraw from '../img/indrawing.png';
 
 export default function SymptomForm({ onSubmit }) {
   const [loading, setLoading] = useState(false);
@@ -201,6 +202,7 @@ export default function SymptomForm({ onSubmit }) {
                   onChange={handleInputChange}
                 />
                 <span>Chest wall indrawing</span>
+                <img src={indraw} id="indraw" alt="Chest Indrawing" />
               </label>
             </div>
             <div className="checkbox-card">

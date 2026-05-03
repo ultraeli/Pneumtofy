@@ -136,7 +136,7 @@ class PneumoniaAssessment:
             return {
                 'assessment': 'PNEUMONIA - Treat with Amoxicillin',
                 'risk_level': 'MODERATE',
-                'recommendation': 'WHO IMCI: Cough with fast breathing is a sign of pneumonia. Consult with a healthcare provider about amoxicillin treatment. If no chest indrawing or other danger signs, amoxicillin can be given at home.',
+                'recommendation': 'Cough with fast breathing is a sign of pneumonia. Consult with a healthcare provider about amoxicillin treatment. If no chest indrawing or other danger signs, amoxicillin can be given at home.',
                 'guidance': [
                     f'Child has fast breathing (respiratory rate {respiratory_rate_value} breaths/minute) with cough',
                     'Consult a healthcare provider about amoxicillin treatment',

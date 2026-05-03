@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocat
 import './App.css';
 import { AuthProvider } from './contexts/AuthContext';
 import Home from './components/Home';
+import Footer from './components/Footer';
 import SymptomForm from './components/SymptomForm';
 import Results from './components/Results';
 import Info from './components/Info';
@@ -67,6 +68,7 @@ function AppContent() {
                 } />
               </Routes>
             </main>
+            <Footer />
           </div>
         }
       />

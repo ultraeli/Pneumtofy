@@ -17,7 +17,7 @@ Pneumtofy/
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── AdminDashboard/         # Everything relating to the admin page (frontend) of the website
-│   │   │   ├── Login.jsx               # Login form with session auth
+│   │   │   ├── Login.jsx               # Login form 
 │   │   │   ├── Register.jsx            # New account creation
 │   │   │   ├── ProtectedRoute.jsx      # Route protection wrapper
 │   │   │   ├── Navigation.jsx          # Header with auth menu

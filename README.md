@@ -58,6 +58,7 @@ Pneumtofy/
 
 - See [QUICK_START.md](QUICK_START.md) for a more detailed setup.
 
+
 ### 1. Frontend Setup
 
 ```bash

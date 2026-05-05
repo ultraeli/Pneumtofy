@@ -123,6 +123,13 @@
   gap: 1rem;
 }
 
+.entry-datetime {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
 .entry-date {
   color: #2c3e50;
   font-weight: 700;
@@ -198,8 +205,8 @@
 .entry-time {
   color: #95a5a6;
   font-size: 0.85rem;
-  margin-top: 1rem;
   font-weight: 400;
+
 }
 
 .delete-btn {

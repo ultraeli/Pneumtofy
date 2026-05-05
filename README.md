@@ -46,7 +46,7 @@ Pneumtofy/
 │   ├── models.py                       # Information content models
 │   ├── decision_logic.py               # IMCI-based assessment logic
 │   ├── requirements.txt                # Python dependencies
-│   └── pneumtofy.db                    # SQLite database (auto-created)
+│   └── instance/pneumtofy.db           # SQLite database (auto-created)
 ├── README.md                           # This file
 ├── QUICK_START.md                      # Setup and running instructions
 ├── AUTHENTICATION_COMPLETE.md          # Auth system documentation
@@ -103,29 +103,34 @@ The Flask API will start on `http://localhost:5000`
 - Works for logged-in and guest users
 
 ### 3. IMCI-Based Assessment Results
-- Risk classification: Critical, Moderate, Mild
-- Risk level color-coded display
-- WHO guideline-based recommendations:
-  - Seek immediate medical care (critical signs)
-  - Observe and manage at home (pneumonia indicators)
-  - Safe home management (mild symptoms)
-- Detailed guidance steps
-- Home remedies with dosage information
-- Safety warnings and disclaimers
-- Displays assessment timestamp with user's timezone
+- Decision outcomes aligned with the current backend logic:
+  - SEEK IMMEDIATE MEDICAL CARE for danger signs
+  - PNEUMONIA - Treat with Amoxicillin when cough and age-based fast breathing are present
+  - SIMPLE COUGH or COLD for uncomplicated cough/cold symptoms
+  - OBSERVE & MANAGE AT HOME for mild symptoms without pneumonia signs
+- Color-coded result display with practical next steps
+- Outcome-specific guidance, home care notes, warnings, and medical disclaimers
+- Displays assessment timestamp with the user's timezone
 
-### 4. Pneumonia Information Pages
-- What is pneumonia
-- Symptoms in children
-- Risk factors
-- When to seek medical care
-- Prevention strategies
-- Information sources and references
+### 4. Health Information Hub
+- Full-width educational article layout
+- Introductory "What is Pneumonia?" section with global childhood pneumonia burden
+- WHO/UNICEF/CDC-informed education sections covering:
+  - Why children still die from pneumonia
+  - How community care works
+  - What makes treatment effective
+  - Preventing pneumonia deaths
+- Source references and a call to use the assessment tool for structured guidance
 
 ### 5. Personal Assessment Tracker (Requires Login)
 - Save assessment history to personal account
 - View all past assessments with dates and times
-- Filter by risk level (All, Observe & Manage, Seek Medical Care)
+- Filter by current assessment categories:
+  - All Assessments
+  - Seek Immediate Care
+  - Pneumonia / Amoxicillin
+  - Simple Cough or Cold
+  - Observe & Manage
 - Displays assessments in user's local timezone
 - Delete past assessments
 - Assessment history persists across sessions
@@ -141,6 +146,11 @@ The Flask API will start on `http://localhost:5000`
 - After login, previously entered assessment data is automatically saved
 - Redirects to Tracker page after auto-save
 - No data loss during authentication transition
+
+### 7. Responsive Navigation
+- Desktop navigation with page links and account actions
+- Mobile hamburger menu with the same routes and authentication controls
+- Protected links and logout behavior stay consistent across screen sizes
 
 ## API Endpoints
 
@@ -223,7 +233,7 @@ Assess symptoms and get recommendation.
 **Response:**
 ```json
 {
-    "assessment": "OBSERVE & MANAGE AT HOME",
+    "assessment": "PNEUMONIA - Treat with Amoxicillin",
     "risk_level": "MODERATE",
     "recommendation": "...",
     "guidance": [...],
@@ -251,7 +261,7 @@ Save new assessment to tracker (protected).
     "fast_breathing": true,
     "fever": true,
     "fever_temperature": 38.5,
-    "assessment": "OBSERVE & MANAGE AT HOME",
+    "assessment": "PNEUMONIA - Treat with Amoxicillin",
     "recommendation": "...",
     "guidance": [...],
     "home_remedies": [...]
@@ -268,17 +278,28 @@ Delete a tracker entry (protected - user's own entries only).
 - Stridor in calm child
 - Lethargy
 - Unable to drink
+- Convulsions
+- Cyanosis
+- Unconsciousness
 
-### Pneumonia Indicators (Observation)
-- Fast breathing (age-based thresholds)
-- Persistent cough (≥7 days)
-- Difficulty breathing
-- Fever
+### Pneumonia Decision
+- Cough plus age-based fast breathing returns `PNEUMONIA - Treat with Amoxicillin`
+- Fast breathing thresholds:
+  - 2 to under 12 months: 50 breaths/min or more
+  - 12 to under 60 months: 40 breaths/min or more
+- The result includes amoxicillin guidance and caregiver instructions
 
-### Home Management Recommendations
+### Simple Cough or Cold
+- Cough without danger signs, fast breathing, or difficult breathing returns `SIMPLE COUGH or COLD`
+- Guidance focuses on fluids, comfort care, safe cough relief, and monitoring
+
+### Observe and Manage at Home
+- Mild symptoms without pneumonia indicators return `OBSERVE & MANAGE AT HOME`
+- Caregivers are instructed to monitor symptoms and return for care if warning signs appear
+
+### Home Care Recommendations
 - Honey for cough
 - Warm fluids
-- Steam inhalation
 - Proper rest
 - Close monitoring
 
@@ -295,7 +316,7 @@ See [AUTH_SETUP.md](AUTH_SETUP.md) for full authentication documentation.
 See [AUTH_QUICK_START.md](AUTH_QUICK_START.md) testing guide.
 
 ### Database
-- **Development**: Uses SQLite (pneumtofy.db) - zero configuration
+- **Development**: Uses SQLite (`backend/instance/pneumtofy.db`) - zero configuration
 - **Production**: Can upgrade to PostgreSQL using database/schema.sql
 - All user assessments are linked to their user account
 - Automatic timestamps for audit trail
@@ -330,13 +351,13 @@ See [AUTH_QUICK_START.md](AUTH_QUICK_START.md) testing guide.
 
 ### Test the Assessment Logic
 
-**Mild Case (No action needed):**
+**Simple Cough or Cold Case:**
 - Age: 24 months, Cough: 2 days, No other symptoms
-- Expected: "OBSERVE & MANAGE AT HOME - MILD"
+- Expected: "SIMPLE COUGH or COLD"
 
-**Moderate Case (Observation):**
-- Age: 24 months, Cough: 7 days, Fast breathing: Yes, Fever: Yes (38.5°C)
-- Expected: "OBSERVE & MANAGE AT HOME - MODERATE"
+**Pneumonia Case (Amoxicillin guidance):**
+- Age: 24 months, Cough: 7 days, Fast breathing: Yes, Fever: Yes
+- Expected: "PNEUMONIA - Treat with Amoxicillin"
 
 **Critical Case (Immediate care):**
 - Age: 24 months, Chest indrawing: Yes

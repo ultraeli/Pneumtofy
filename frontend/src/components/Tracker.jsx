@@ -2,6 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { formatDate, formatTime} from '../utils/dateFormatter';
 import '../styles/Tracker.css';
 
+const trackerFilters = [
+  { value: 'all', label: 'All Assessments' },
+  { value: 'urgent', label: 'Seek Immediate Care' },
+  { value: 'pneumonia', label: 'Pneumonia / Amoxicillin' },
+  { value: 'simple-cough', label: 'Simple Cough or Cold' },
+  { value: 'observe', label: 'Observe & Manage' },
+];
+
+const getAssessmentCategory = (assessment = '') => {
+  const normalized = assessment.toUpperCase();
+
+  if (normalized.includes('SEEK') || normalized.includes('CRITICAL')) {
+    return 'urgent';
+  }
+
+  if (normalized.includes('PNEUMONIA') || normalized.includes('AMOXICILLIN') || normalized.includes('MODERATE')) {
+    return 'pneumonia';
+  }
+
+  if (normalized.includes('SIMPLE COUGH') || normalized.includes('COLD')) {
+    return 'simple-cough';
+  }
+
+  if (normalized.includes('OBSERVE') || normalized.includes('MANAGE AT HOME') || normalized.includes('MILD')) {
+    return 'observe';
+  }
+
+  return 'other';
+};
+
 export default function Tracker({ onGoHome }) {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,8 +63,11 @@ export default function Tracker({ onGoHome }) {
   }, []);
 
   const getStatusColor = (assessment) => {
-    if (assessment.includes('SEEK CARE')) return '#e74c3c';
-    if (assessment.includes('MODERATE')) return '#f39c12';
+    const category = getAssessmentCategory(assessment);
+
+    if (category === 'urgent') return '#e74c3c';
+    if (category === 'pneumonia') return '#f39c12';
+    if (category === 'simple-cough') return '#17a2b8';
     return '#27ae60';
   };
 
@@ -52,7 +85,7 @@ export default function Tracker({ onGoHome }) {
 
   const filteredEntries = entries.filter(entry => {
     if (filter === 'all') return true;
-    return entry.assessment.includes(filter);
+    return getAssessmentCategory(entry.assessment) === filter;
   });
 
   if (loading) {
@@ -75,9 +108,11 @@ export default function Tracker({ onGoHome }) {
             onChange={(e) => setFilter(e.target.value)}
             className="filter-select"
           >
-            <option value="all">All Assessments</option>
-            <option value="OBSERVE">Observe & Manage</option>
-            <option value="SEEK">Seek Medical Care</option>
+            {trackerFilters.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -92,9 +127,11 @@ export default function Tracker({ onGoHome }) {
             {filteredEntries.map((entry, idx) => (
               <div key={idx} className="entry-card">
                 <div className="entry-header">
-                  <div className="entry-date">
-                    {formatDate(entry.timestamp)}
+                  <div className="entry-datetime">
+                    <span className="entry-date">{formatDate(entry.timestamp)}</span>
+                    <span className="entry-time">{formatTime(entry.timestamp)}</span>
                   </div>
+
                   <div 
                     className="entry-status-badge"
                     style={{ backgroundColor: getStatusColor(entry.assessment) }}
@@ -137,10 +174,6 @@ export default function Tracker({ onGoHome }) {
                       </div>
                     </>
                   )}
-
-                  <div className="entry-time">
-                    {formatTime(entry.timestamp)}
-                  </div>
                 </div>
 
                 <button 

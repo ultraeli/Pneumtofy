@@ -30,7 +30,8 @@ function Home() {
           </h1>
           
           <p className="hero-description">
-            Pneumtofy helps caregivers monitor pneumonia symptoms, access safe home care tips, and know when to seek medical attention all guided by IMCI standards.
+            Pneumtofy helps caregivers monitor pneumonia symptoms, access safe home care tips, and know when to seek medical attention all guided by IMCI standards. <b>However,
+             this app is NOT a substitute for professional medical advice.</b>
           </p>
           
           <div className="hero-buttons">
@@ -42,25 +43,7 @@ function Home() {
             </button>
           </div>
           
-          <div className="hero-icons">
-            <div className="icon-item">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <circle cx="16" cy="16" r="12" stroke="currentColor" strokeWidth="1.5"/>
-                <path d="M16 10V16L19 19" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
-            </div>
-            <div className="icon-item">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <path d="M16 8V24M8 16H24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </div>
-            <div className="icon-item">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <path d="M8 16C8 11.58 11.58 8 16 8C20.42 8 24 11.58 24 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                <circle cx="16" cy="20" r="2" fill="currentColor"/>
-              </svg>
-            </div>
-          </div>
+
         </div>
       </section>
 
@@ -79,8 +62,8 @@ function Home() {
                   <path d="M12 12H20M12 16H20M12 20H18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               </div>
-              <h3 className="feature-title">Symptom Tracking</h3>
-              <p className="feature-description">Log and monitor your child's respiratory symptoms with an easy guided form.</p>
+              <h3 className="feature-title">Symptom Form</h3>
+              <p className="feature-description">Log your child's respiratory symptoms with an easy guided form and the system will assess your child's symptoms.</p>
             </div>
 
             <div className="feature-card">
@@ -92,8 +75,8 @@ function Home() {
                   <path d="M22 8V24" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
               </div>
-              <h3 className="feature-title">Progress Dashboard</h3>
-              <p className="feature-description">Visualize symptom trends over time to spot improvements or concerns early.</p>
+              <h3 className="feature-title">Tracker Page</h3>
+              <p className="feature-description">Record your child's symptom entries for easier tracking and analysis.</p>
             </div>
 
             <div className="feature-card">
@@ -105,8 +88,8 @@ function Home() {
                   <circle cx="16" cy="20" r="1.2" fill="currentColor"/>
                 </svg>
               </div>
-              <h3 className="feature-title">Health Info Hub</h3>
-              <p className="feature-description">Access WHO IMCI-based guidance on pneumonia prevention, care, and safe remedies.</p>
+              <h3 className="feature-title">Health Information Hub</h3>
+              <p className="feature-description">Access information from WHO, UNICEF and CDC on what is pneumonia and the world's response to one of the most life threatening infections to children.</p>
             </div>
 
             <div className="feature-card">
@@ -131,10 +114,8 @@ function Home() {
             Begin tracking your child's symptoms now. It only takes a minute.
           </p>
           <button className="btn-cta-home" onClick={handleStartTracking}>
-            Start Tracking
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M7 10H13M13 10L10 7M13 10L10 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            Go to Symptom Form
+
           </button>
         </div>
       </section>

@@ -113,14 +113,7 @@
   font-weight: 500;
 }
 
-.guidance-content li:before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  color: #20c997;
-  font-weight: bold;
-  font-size: 1.1rem;
-}
+
 
 .remedies-grid {
   display: grid;

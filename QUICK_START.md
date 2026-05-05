@@ -4,9 +4,10 @@
 
 Pneumtofy is a web application that helps caregivers assess pneumonia risk in children based on WHO IMCI guidelines. Users can:
 - Enter child symptoms anonymously or with an account
-- Get risk assessment and recommendations
+- Get a decision outcome and practical recommendations
 - Create an account and save assessment history
 - Track assessments with proper timezone display
+- Read the article-style Health Information Hub for pneumonia education
 
 ## System Requirements
 
@@ -121,10 +122,10 @@ npm start
 3. View all saved assessments
 4. Shows:
    - Date and time (in your local timezone)
-   - Risk level (color-coded)
+   - Assessment category and color-coded status
    - Symptoms that were entered
    - Original recommendation
-5. Filter by risk level using dropdown
+5. Filter by assessment category using the dropdown
 6. Click "Delete" to remove entries
 
 ### Logging Out
@@ -133,25 +134,25 @@ npm start
 2. Click "Logout" in dropdown menu
 3. Session ends and returns to Home
 
-## Testing Assessment Risk Levels
+## Testing Assessment Outcomes
 
-### Test Case 1: Mild Risk
+### Test Case 1: Simple Cough or Cold
 - Age: 24 months
 - Cough duration: 2 days  
 - No other symptoms
-- Expected: Mild - Safe home management
+- Expected: SIMPLE COUGH or COLD
 
-### Test Case 2: Moderate Risk
+### Test Case 2: Pneumonia / Amoxicillin Guidance
 - Age: 24 months
-- Cough duration: 7+ days
+- Cough duration: 7 days
 - Fast breathing: YES
 - Fever: YES (38.5 Celsius)
-- Expected: Moderate - Observe at home
+- Expected: PNEUMONIA - Treat with Amoxicillin
 
-### Test Case 3: Critical Risk
+### Test Case 3: Immediate Care
 - Age: 24 months
 - Chest indrawing: YES
-- Expected: Critical - Seek immediate medical care
+- Expected: SEEK IMMEDIATE MEDICAL CARE
 
 ## Pages Overview
 
@@ -159,7 +160,7 @@ npm start
 |------|------|----------|----------------|
 | Home/Assessment | / | Enter symptoms and get assessment | No |
 | Results | /results | View outcome, save to tracker | No |
-| Information | /info | Medical education about pneumonia | No |
+| Info Hub | /info | Full-width educational article about pneumonia and child health response | No |
 | Tracker | /tracker | Personal assessment history | Yes |
 | Login | /login | Sign in to account | No |
 | Register | /register | Create new account | No |
@@ -210,7 +211,7 @@ npm start
 To reset the database:
 ```bash
 cd backend
-rm pneumtofy.db
+del instance\pneumtofy.db
 python app.py
 ```
 
@@ -233,15 +234,15 @@ python app.py
 
 ### Change Home Remedies
 - Edit: `backend/decision_logic.py`
-- Look for `get_home_remedies_for_observation()` and `get_home_remedies_for_mild()`
+- Look for the outcome-specific home care helpers, such as `get_home_remedies_for_pneumonia()`, `get_home_remedies_for_simple_cough()`, and `get_home_remedies_for_mild()`
 
 ### Update Information Content
-- Edit: `backend/models.py`
-- Modify text in `InfoContent` class
+- Edit: `frontend/src/components/Info.jsx`
+- Style article sections in `frontend/src/styles/Info.css`
 
 ### Edit App Styling
-- Frontend: `frontend/src/components/*.css`
-- Colors: Look for hex codes like #667eea
+- Frontend styles live in `frontend/src/styles/*.css`
+- Component markup lives in `frontend/src/components/*.jsx`
 - Fonts: Montserrat (loaded from Google Fonts)
 
 ## System Architecture

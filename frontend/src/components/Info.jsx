@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Info.css';
 
-import lungsImage from '../img/lungs-illustration.jpg';
-import doctorChildImage from '../img/doctor-child.webp';
+import lungsImage from '../img/lungs.png';
+import doctorChildImage from '../img/doctor-child1.png';
 
 const icons = {
   alert: (
@@ -52,58 +52,47 @@ const icons = {
   ),
 };
 
-const symptoms = [
+const articleSections = [
   {
-    icon: 'breath',
-    label: 'Fast breathing',
-    desc: 'More than 50 breaths/min (2-12 months) or 40/min (1-5 years)',
-    severe: true,
+    kicker: 'Access to Care',
+    title: 'Why Children Still Die From Pneumonia',
+    paragraphs: [
+      'The WHO materials show that pneumonia is not deadly only because it is a serious infection. It becomes deadly when families cannot reach care quickly, when warning signs are missed, or when the health system is too far away to respond in time.',
+      'Many children are first treated at home, through informal providers, or by traditional healers. Families may face long travel distances, transport costs, medicine costs, or uncertainty about whether a child is sick enough to need care. Children from poorer households are especially likely to miss timely treatment.',
+      'This is why pneumonia education is not just about memorizing symptoms. It is about helping caregivers understand when delay becomes dangerous, where help can be found, and why early treatment changes outcomes.'
+    ],
+    callout: 'WHO/UNICEF emphasize that many sick children never reach appropriate health facilities, and poorer children are less likely to receive needed care.'
   },
   {
-    icon: 'alert',
-    label: 'Chest indrawing',
-    desc: 'Lower chest pulls in when breathing - a danger sign',
-    severe: true,
+    kicker: 'Community Response',
+    title: 'How WHO Community Care Works',
+    paragraphs: [
+      'The WHO community approach is built around a practical sequence: ask about the child’s problems, look for signs of severe illness, decide whether referral is needed, and support the caregiver with treatment or follow-up advice.',
+      'Community health workers act as a bridge between households and health facilities. They can identify children who need urgent referral, support families who can safely continue care at home, and help solve practical barriers such as transport or understanding treatment instructions.',
+      'The WHO/UNICEF joint statement also stresses that community treatment needs a system behind it. Training, supervision, referral links, medicine supply, monitoring, and clear national policy all matter if pneumonia care is going to be safe and reliable.'
+    ],
+    callout: 'Evidence reviewed by WHO and UNICEF supports prompt community treatment for uncomplicated pneumonia when workers are trained, supervised, and connected to health facilities.'
   },
   {
-    icon: 'clinic',
-    label: 'Fever',
-    desc: 'Often high, but may be absent in young infants',
-    severe: false,
+    kicker: 'Treatment',
+    title: 'What Makes Treatment Effective',
+    paragraphs: [
+      'Effective pneumonia care is more than giving medicine. Treatment works best when the child is classified correctly, the caregiver understands exactly what to do, and there is a clear plan for returning if the child gets worse.',
+      'When antibiotics are needed, the caregiver must know the dose, timing, duration, and importance of completing the full course. WHO training materials also emphasize checking understanding by asking caregivers to repeat or demonstrate instructions before they leave.',
+      'Children may also have overlapping illnesses. Pneumonia can appear alongside diarrhoea, fever, malaria risk, or malnutrition, so care often needs to consider the whole child rather than one symptom at a time.'
+    ],
+    callout: 'The manuals warn that medicine should not be used when it is not needed, and that misuse can harm children and make medicines less effective.'
   },
   {
-    icon: 'alert',
-    label: 'Difficulty breathing',
-    desc: 'Grunting, nasal flaring, noisy breathing, or stridor',
-    severe: true,
+    kicker: 'Prevention',
+    title: 'Preventing Pneumonia Deaths',
+    paragraphs: [
+      'Prevention is both a household responsibility and a health-system responsibility. Families need practical knowledge, but they also need reachable services, reliable vaccines, trained workers, and medicines that are available when needed.',
+      'WHO guidance highlights vaccination, breastfeeding, good nutrition, continued feeding during illness, and micronutrients as ways to reduce the incidence and severity of respiratory infections. Routine vaccines help protect children from several infections linked with severe respiratory disease.',
+      'The broader prevention strategy is to make care easier to seek before a child becomes critically ill. That includes caregiver education, strong first-level facilities, community health workers, referral pathways, and systems that help families complete treatment and return when symptoms worsen.'
+    ],
+    callout: 'The goal is not only to prevent infection, but also to prevent treatable illness from becoming fatal.'
   },
-];
-
-const risks = [
-  { icon: 'care', label: 'Under 2 years old', desc: 'Young children have developing immune systems.' },
-  { icon: 'breath', label: 'Indoor air pollution', desc: 'Smoke from cooking fuels or tobacco can irritate the lungs.' },
-  { icon: 'care', label: 'Malnutrition', desc: "Weakens the body's ability to fight infection." },
-  { icon: 'clinic', label: 'Missed vaccinations', desc: 'Pneumococcal and Hib vaccines help prevent severe disease.' },
-  { icon: 'care', label: 'Not breastfed', desc: 'Breastmilk provides antibodies that help protect infants.' },
-  { icon: 'breath', label: 'Crowded living', desc: 'Close contact increases exposure to respiratory infections.' },
-];
-
-const urgentSigns = [
-  'Inability to breastfeed or drink anything',
-  'Persistent chest indrawing or grunting',
-  'Convulsions or unusual sleepiness',
-  'Stridor when calm',
-  'Bluish lips, tongue, or fingertips',
-  "High fever that won't come down",
-];
-
-const prevention = [
-  { icon: 'clinic', label: 'Vaccination', desc: 'Keep pneumococcal (PCV) and Hib vaccines on schedule.' },
-  { icon: 'care', label: 'Breastfeeding', desc: 'Exclusive breastfeeding for the first 6 months supports immunity.' },
-  { icon: 'check', label: 'Handwashing', desc: 'Frequent washing lowers the spread of respiratory infections.' },
-  { icon: 'breath', label: 'Clean indoor air', desc: 'Keep children away from tobacco smoke and cooking smoke.' },
-  { icon: 'care', label: 'Good nutrition', desc: 'Balanced meals help build stronger immune response.' },
-  { icon: 'clinic', label: 'Routine checkups', desc: 'Early assessment helps caregivers act before symptoms worsen.' },
 ];
 
 const sources = [
@@ -124,23 +113,14 @@ export default function Info({ onGoHome }) {
         <div className="info-container info-hero-grid">
           <div className="info-hero-copy">
             <div className="info-tag">
-              <InfoIcon name="book" />
-              Information Hub
+
             </div>
             <h1 className="info-hero-title">
               Understanding Pneumonia <span>in Children</span>
             </h1>
             <p className="info-hero-description">
-              Learn the symptoms, risks, and prevention methods every caregiver should know, guided by WHO IMCI standards.
+              Learn why childhood pneumonia remains deadly, how community care reduces delays, and what prevention requires.
             </p>
-            <div className="info-actions">
-              <Link className="info-btn info-btn-primary" to="/symptom-form">
-                Track Symptoms
-              </Link>
-              <a className="info-btn info-btn-secondary" href="#prevention">
-                Prevention Tips
-              </a>
-            </div>
           </div>
 
           <div className="info-hero-visual">
@@ -168,97 +148,46 @@ export default function Info({ onGoHome }) {
               It remains one of the leading infectious causes of death in children worldwide, but it is preventable and
               treatable when warning signs are recognized early.
             </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="info-section info-section-muted">
-        <div className="info-container">
-          <div className="info-section-heading">
-            <InfoIcon name="clinic" className="info-heading-icon" />
-            <h2>Symptoms in Children</h2>
-            <p>Recognize these key warning signs early.</p>
-          </div>
-
-          <div className="info-grid info-grid-two">
-            {symptoms.map((symptom) => (
-              <article className={`info-card info-card-row ${symptom.severe ? 'info-card-warning' : ''}`} key={symptom.label}>
-                <InfoIcon name={symptom.icon} className={symptom.severe ? 'info-icon-warning' : 'info-icon-primary'} />
-                <div>
-                  <div className="info-card-title-row">
-                    <h3>{symptom.label}</h3>
-                    {symptom.severe && <span className="info-chip">Severe</span>}
-                  </div>
-                  <p>{symptom.desc}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="info-section">
-        <div className="info-container">
-          <div className="info-section-heading">
-            <InfoIcon name="alert" className="info-heading-icon info-heading-icon-warm" />
-            <h2>Risk Factors</h2>
-            <p>What makes a child more vulnerable to pneumonia.</p>
-          </div>
-
-          <div className="info-grid info-grid-three">
-            {risks.map((risk) => (
-              <article className="info-card info-card-feature" key={risk.label}>
-                <InfoIcon name={risk.icon} className="info-icon-warm" />
-                <h3>{risk.label}</h3>
-                <p>{risk.desc}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="info-section info-section-tight">
-        <div className="info-container">
-          <div className="info-emergency">
-            <InfoIcon name="alert" className="info-emergency-icon" />
-            <div>
-              <span className="info-kicker">Emergency</span>
-              <h2>When to Seek Medical Care Immediately</h2>
+            <div className="info-impact-note">
+              <h3>The Staggering Toll of Childhood Pneumonia</h3>
               <p>
-                Contact a healthcare provider or visit the nearest emergency facility right away if your child shows any of
-                these signs:
+                Pneumonia remains the deadliest infectious threat to children globally, taking the lives of more than
+                700,000 children under the age of five each year. That is roughly 2,000 deaths every day, including
+                190,000 newborns, despite nearly all of these deaths being preventable.
               </p>
-              <ul className="info-danger-list">
-                {urgentSigns.map((sign) => (
-                  <li key={sign}>
-                    <InfoIcon name="alert" />
-                    <span>{sign}</span>
-                  </li>
-                ))}
+              <h4>Global Impact and Hotspots</h4>
+              <p>
+                The disease affects about 1 out of every 71 children annually, with the burden falling most heavily on
+                South Asia and West and Central Africa.
+              </p>
+              <ul>
+                <li><strong>Global average:</strong> 1,400 cases per 100,000 children.</li>
+                <li><strong>South Asia:</strong> 2,500 cases per 100,000 children.</li>
+                <li><strong>West and Central Africa:</strong> 1,620 cases per 100,000 children.</li>
               </ul>
-              <a className="info-btn info-btn-danger" href="tel:911">
-                Call Emergency Services
-              </a>
+              <h4>A Lagging Recovery</h4>
+              <p>
+                Since 2000, child deaths from diarrhoea have fallen by 63%, while pneumonia deaths have fallen by 54%.
+                Pneumonia still kills nearly twice as many children under five as diarrhoea, showing the need for
+                stronger focus and resources against this respiratory threat.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="prevention" className="info-section info-section-soft">
+      <section className="info-section info-section--blue">
         <div className="info-container">
-          <div className="info-section-heading">
-            <InfoIcon name="check" className="info-heading-icon info-heading-icon-green" />
-            <h2>Prevention</h2>
-            <p>Simple, evidence-based steps that protect your child.</p>
-          </div>
-
-          <div className="info-grid info-grid-three">
-            {prevention.map((item) => (
-              <article className="info-card info-card-row" key={item.label}>
-                <InfoIcon name={item.icon} className="info-icon-green" />
-                <div>
-                  <h3>{item.label}</h3>
-                  <p>{item.desc}</p>
+          <div className="info-article">
+            {articleSections.map((section) => (
+              <article className="info-article-section" key={section.title}>
+                <span className="info-article-kicker">{section.kicker}</span>
+                <h2>{section.title}</h2>
+                {section.paragraphs.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+                <div className="info-article-callout">
+                  {section.callout}
                 </div>
               </article>
             ))}
@@ -269,9 +198,9 @@ export default function Info({ onGoHome }) {
       <section className="info-section">
         <div className="info-container">
           <div className="info-cta">
-            <InfoIcon name="care" />
+
             <h2>Stay Safe, Stay Informed</h2>
-            <p>Track your child's symptoms with Pneumtofy and get instant, evidence-based guidance.</p>
+            <p>Use Pneumtofy's assessment tool when you need structured guidance for a sick child.</p>
             <Link className="info-btn info-btn-light" to="/symptom-form">
               Start Tracking
             </Link>
@@ -292,14 +221,6 @@ export default function Info({ onGoHome }) {
           </div>
         </div>
       </section>
-
-      {typeof onGoHome === 'function' && (
-        <div className="info-container info-back-row">
-          <button className="info-btn info-btn-secondary" onClick={onGoHome} type="button">
-            Back to Home
-          </button>
-        </div>
-      )}
     </div>
   );
 }

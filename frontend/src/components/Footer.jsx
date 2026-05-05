@@ -15,12 +15,13 @@ export default function Footer() {
           <p className="footer-description">
             Helping parents, guardians and caregivers track, monitor, and protect children's respiratory health with evidence-based guidance following IMCI guidelines. No affiliation with World Health Organization (WHO).
           </p>
-          <p className="footer-made-with">Made with ♡ for children's health</p>
+      
         </div>
 
         <div className="footer-links">
           <div className="footer-column">
             <h4 className="footer-heading">Platform</h4>
+            <button className="footer-link" type="button" onClick={() => navigate('')}>Home</button>
             <button className="footer-link" type="button" onClick={() => navigate('/symptom-form')}>Symptom Form</button>
             <button className="footer-link" type="button" onClick={() => navigate('/tracker')}>Tracker</button>
             <button className="footer-link" type="button" onClick={() => navigate('/info')}>Information</button>

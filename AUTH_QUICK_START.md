@@ -113,11 +113,11 @@ The app will automatically open in your browser at `http://localhost:3000`
    - **Child's Age:** 24 months
    - **Cough Duration:** 7 days
    - Check some symptoms (e.g., fever, fast breathing)
-   - Click **"Check Assessment"**
+   - Click **"Assess Symptoms"**
 
-2. Review results showing risk assessment
+2. Review results showing the current assessment outcome and guidance
 
-3. You should see an option to **"Save to Tracker"** (only visible when logged in)
+3. You should see an option to **"Save to Tracker"**. Logged-out users are redirected to login/register and the assessment is preserved for auto-save.
 
 ### 4.2 Verify Assessment Saved
 
@@ -154,7 +154,7 @@ On login page, enter:
 ### 6.2 Complete Assessment Without Login
 
 1. Complete a symptom assessment form
-2. Click **"Check Assessment"**
+2. Click **"Assess Symptoms"**
 3. On results page, click **"Save to Tracker"**
 
 **Expected results:**
@@ -171,13 +171,11 @@ On login page, enter:
 - ✅ Assessment automatically saved to Tracker
 - ✅ Redirected to Tracker page
 - ✅ Assessment now appears in Tracker
-- ✅ Assessment has correct timestamp in your local timezone
-- ✅ Timezone info box shows your timezone (e.g., "America/New_York")
+- ✅ Assessment has correct date and time in your local timezone
 
 ## Step 7: Test Timezone Display
 
 On Tracker page, verify:
-- ✅ Timezone info box visible (e.g., "Timezone: America/New_York")
 - ✅ All assessment dates displayed in local timezone (e.g., "Mar 31, 2026")
 - ✅ All assessment times displayed in local timezone (e.g., "2:45:30 PM")
 - ✅ Timezone automatically matches your browser/system timezone
@@ -356,8 +354,8 @@ npm install --legacy-peer-deps
 Now that authentication is working:
 
 1. **Create More Test Accounts** - Test with different usernames
-2. **Test Profile Updates** - Update guardian info via Settings page (to be added)
-3. **Test Assessment Filtering** - Filter tracker by date range
+2. **Test Profile Updates** - Update guardian info where the account/profile UI is available
+3. **Test Assessment Filtering** - Filter tracker by current assessment category
 4. **Load Testing** - Create multiple assessments and verify they're saved
 5. **Mobile Testing** - Test on mobile device or use DevTools responsive mode
 

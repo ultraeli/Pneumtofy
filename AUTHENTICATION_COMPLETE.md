@@ -80,6 +80,7 @@ PyJWT>=2.8.0               # JWT support (ready for token auth)
 - Logout functionality
 - User profile display in menu
 - Link-based routing
+- Mobile hamburger menu with the same auth actions and routes
 
 #### 6. **Styling** 
 - `Auth.css` - Authentication pages (login/register)
@@ -249,10 +250,11 @@ PyJWT>=2.8.0               # JWT support (ready for token auth)
 ### Assessment Tracking Flow
 1. User completes symptom assessment
 2. Assessment results displayed
-3. "Save to Tracker" button (only for logged-in users)
-4. Assessment saved to database (linked to user)
-5. Appears in Tracker page
-6. User can delete own assessments
+3. "Save to Tracker" button saves immediately for logged-in users
+4. Logged-out users are redirected to login/register with the pending assessment preserved
+5. Assessment saved to database after authentication and linked to the user
+6. Appears in Tracker page
+7. User can delete own assessments
 
 ---
 
@@ -340,7 +342,6 @@ All assessment timestamps automatically display in the user's local timezone:
   - `formatDate(timestamp)` - Returns: "Mar 31, 2026"
   - `formatTime(timestamp)` - Returns: "2:45:30 PM"
   - `getUserTimezone()` - Returns: "America/New_York"
-- Tracker page displays timezone info box
 - All timestamps auto-converted to user's timezone
 - Uses JavaScript Intl.DateTimeFormat API (no dependencies needed)
 

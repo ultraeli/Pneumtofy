@@ -51,7 +51,7 @@ function AppContent() {
           <div className="app">
             <Navigation onGoHome={handleGoHome} />
             
-            <main className={`main-content ${location.pathname === '/' ? 'main-content--full' : ''}`}>
+            <main className={`main-content ${['/', '/info'].includes(location.pathname) ? 'main-content--full' : ''}`}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/symptom-form" element={<SymptomForm onSubmit={handleSymptomSubmit} />} />

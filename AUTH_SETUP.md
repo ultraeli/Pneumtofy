@@ -294,8 +294,9 @@ Response (200):
       "id": 1,
       "user_id": 1,
       "age_months": 24,
-      "assessment": "MODERATE",
-      "recommendation": "Observe and manage at home",
+      "assessment": "PNEUMONIA - Treat with Amoxicillin",
+      "risk_level": "MODERATE",
+      "recommendation": "Give amoxicillin and follow the care guidance shown in the result",
       "timestamp": "2026-03-31T14:45:30Z", 
       "created_at": "2026-03-31T14:45:30Z"
     }
@@ -313,14 +314,15 @@ Authorization: Bearer <session_token>
 
 {
   "age_months": 24,
-  "cough_duration": 5,
+  "cough_duration": 7,
   "fast_breathing": true,
   "fever": true,
   "fever_temperature": 39.2,
-  "assessment": "Pneumonia - Severe",
-  "recommendation": "Hospital referral",
-  "guidance": ["Call ambulance", "Keep child warm"],
-  "home_remedies": ["Honey cough drops"]
+  "assessment": "PNEUMONIA - Treat with Amoxicillin",
+  "risk_level": "MODERATE",
+  "recommendation": "Give amoxicillin and follow the care guidance shown in the result",
+  "guidance": ["Give amoxicillin as directed", "Watch for danger signs"],
+  "home_remedies": ["Offer fluids", "Keep the child comfortable"]
 }
 
 Response (201):
@@ -419,8 +421,6 @@ Frontend will run on `http://localhost:3000`
 - Assessment should appear in Tracker with correct timestamp
 
 ### 6. Test Timezone Display
-- On Tracker page, look for timezone info box
-- Should show your system timezone (e.g., "America/New_York")
 - All assessment timestamps should be displayed in your local timezone
 - Dates like "Mar 31, 2026" (local date, not UTC)
 - Times like "2:45:30 PM" (local time in your timezone)
@@ -458,7 +458,6 @@ All assessment timestamps are stored in UTC on the backend and automatically con
   - `formatDate(timestamp)` - Returns date in local timezone (e.g., "Mar 31, 2026")
   - `formatTime(timestamp)` - Returns time in local timezone (e.g., "2:45:30 PM")
   - `getUserTimezone()` - Returns user's timezone name (e.g., "America/New_York")
-- Tracker page displays timezone info box with user's timezone
 - All timestamps automatically adapt to browser/system timezone
 
 **Example:**

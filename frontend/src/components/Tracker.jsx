@@ -8,23 +8,29 @@ export default function Tracker({ onGoHome }) {
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
-    fetchTrackerData();
-  }, []);
+    let mounted = true;
 
-  const fetchTrackerData = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/tracker', {
-        credentials: 'include'
-      });
-      const data = await response.json();
-      setEntries(data.entries || []);
-    } catch (error) {
-      console.error('Error fetching tracker data:', error);
-      setEntries([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchTrackerData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/tracker', {
+          credentials: 'include'
+        });
+        const data = await response.json();
+        if (!mounted) return;
+        setEntries(data.entries || []);
+      } catch (error) {
+        console.error('Error fetching tracker data:', error);
+        if (!mounted) return;
+        setEntries([]);
+      } finally {
+        if (!mounted) return;
+        setLoading(false);
+      }
+    };
+
+    fetchTrackerData();
+    return () => { mounted = false; };
+  }, []);
 
   const getStatusColor = (assessment) => {
     if (assessment.includes('SEEK CARE')) return '#e74c3c';

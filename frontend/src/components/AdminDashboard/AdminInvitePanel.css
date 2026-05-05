@@ -1,0 +1,312 @@
+/* AdminInvitePanel.css - Styles for admin invite management */
+
+.admin-invite-panel {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Section Styling */
+.invite-section,
+.invites-list-section {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.invite-section h2,
+.invites-list-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+}
+
+.section-description {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Alerts */
+.alert {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  border-left: 4px solid;
+}
+
+.alert-error {
+  background-color: #fee;
+  border-left-color: #d32f2f;
+  color: #d32f2f;
+}
+
+.alert-success {
+  background-color: #efe;
+  border-left-color: #388e3c;
+  color: #388e3c;
+}
+
+/* Form Styling */
+.invite-form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.form-group input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #17a2b8;
+  box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.1);
+}
+
+.form-group input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* Button Styling */
+.btn-primary-invite {
+  padding: 0.75rem 1.5rem;
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  align-self: flex-start;
+}
+
+.btn-primary-invite:hover:not(:disabled) {
+  background-color: #138496;
+}
+
+.btn-primary-invite:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+/* Filter Tabs */
+.filter-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.tab {
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  margin-bottom: -2px;
+}
+
+.tab:hover {
+  color: #333;
+}
+
+.tab.active {
+  color: #17a2b8;
+  border-bottom-color: #17a2b8;
+}
+
+/* Loading and Empty States */
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #999;
+}
+
+/* Table Styling */
+.invites-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+}
+
+.invites-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.invites-table thead {
+  background-color: #f9fafb;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.invites-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.invites-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.invites-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.email-cell {
+  font-weight: 500;
+  color: #17a2b8;
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-accepted {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-expired {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Actions Cell */
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn-small {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  border: 1px solid;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-copy {
+  background-color: #e7f3ff;
+  border-color: #17a2b8;
+  color: #17a2b8;
+}
+
+.btn-copy:hover {
+  background-color: #d0e9f5;
+}
+
+.btn-revoke {
+  background-color: #ffe7e7;
+  border-color: #d32f2f;
+  color: #d32f2f;
+}
+
+.btn-revoke:hover {
+  background-color: #ffd0d0;
+}
+
+.accepted-by {
+  color: #388e3c;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-invite-panel {
+    padding: 1rem;
+  }
+
+  .invite-section,
+  .invites-list-section {
+    padding: 1.5rem;
+  }
+
+  .invite-section h2,
+  .invites-list-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .invites-table {
+    font-size: 0.85rem;
+  }
+
+  .invites-table th,
+  .invites-table td {
+    padding: 0.75rem;
+  }
+
+  .actions-cell {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .btn-small {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .invite-form {
+    gap: 1rem;
+  }
+
+  .invites-table-wrapper {
+    overflow-x: auto;
+  }
+
+  /* Hide less important columns on mobile */
+  .invites-table th:nth-child(4),
+  .invites-table td:nth-child(4),
+  .invites-table th:nth-child(5),
+  .invites-table td:nth-child(5) {
+    display: none;
+  }
+}

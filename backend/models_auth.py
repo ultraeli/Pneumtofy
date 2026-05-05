@@ -141,3 +141,41 @@ class TrackedAssessment(db.Model):
             'home_remedies': json.loads(self.home_remedies) if self.home_remedies else [],
             'timestamp': timestamp_str,
         }
+
+
+class AdminInvite(db.Model):
+    """Admin invitation tokens for creating new admin accounts"""
+    
+    __tablename__ = 'admin_invites'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    token = db.Column(db.String(255), unique=True, nullable=False, index=True)
+    invited_email = db.Column(db.String(120), nullable=False, index=True)
+    invited_name = db.Column(db.String(120), nullable=True)
+    created_by_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    created_by = db.relationship('User', foreign_keys=[created_by_id], backref='created_invites')
+    accepted_by_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    accepted_by = db.relationship('User', foreign_keys=[accepted_by_id], backref='accepted_invites')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    expires_at = db.Column(db.DateTime, nullable=False)
+    accepted_at = db.Column(db.DateTime, nullable=True)
+    status = db.Column(db.String(20), default='pending', nullable=False)  # 'pending', 'accepted', 'expired'
+    
+    def is_expired(self):
+        """Check if invitation has expired"""
+        return datetime.utcnow() > self.expires_at
+    
+    def to_dict(self):
+        """Convert to dictionary for JSON"""
+        return {
+            'id': self.id,
+            'token': self.token,
+            'invited_email': self.invited_email,
+            'invited_name': self.invited_name,
+            'created_by': self.created_by.username if self.created_by else None,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'expires_at': self.expires_at.isoformat() if self.expires_at else None,
+            'accepted_at': self.accepted_at.isoformat() if self.accepted_at else None,
+            'accepted_by': self.accepted_by.username if self.accepted_by else None,
+            'status': self.status,
+        }

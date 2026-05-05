@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import DashboardMetrics from './DashboardMetrics';
 import '../styles/Home.css';
 
 function Home() {
@@ -137,6 +138,9 @@ function Home() {
           </button>
         </div>
       </section>
+
+      {/* Dashboard Metrics Section */}
+      <DashboardMetrics />
     </div>
   );
 }

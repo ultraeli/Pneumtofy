@@ -11,6 +11,7 @@ import Tracker from './components/Tracker';
 import Navigation from './components/Navigation';
 import Login from './components/Login';
 import Register from './components/Register';
+import AcceptInvite from './components/AcceptInvite';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 
@@ -34,6 +35,7 @@ function AppContent() {
       {/* Public auth routes */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/accept-invite/:token" element={<AcceptInvite />} />
 
       {/* Admin Dashboard Route */}
       <Route path="/admin/*" element={

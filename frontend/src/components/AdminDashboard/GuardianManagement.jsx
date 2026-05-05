@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './AdminDashboard.css';
 
 /**
  * GuardianManagement - View and manage guardian/parent users
@@ -34,6 +35,38 @@ function GuardianManagement() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const getRelativeTime = (dateString) => {
+    if (!dateString) return 'Not logged in';
+    const now = new Date();
+    const date = new Date(dateString);
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    const remainingMins = diffMins % 60;
+    const remainingHours = diffHours % 24;
+
+    if (diffMins < 60) {
+      return `active ${diffMins} minute${diffMins !== 1 ? 's' : ''} ago`;
+    } else if (diffHours < 24) {
+      if (remainingMins > 0) {
+        return `active ${remainingHours} hour${remainingHours !== 1 ? 's' : ''} and ${remainingMins} minute${remainingMins !== 1 ? 's' : ''} ago`;
+      }
+      return `active ${remainingHours} hour${remainingHours !== 1 ? 's' : ''} ago`;
+    } else if (diffDays < 30) {
+      if (remainingHours > 0) {
+        return `active ${diffDays} day${diffDays !== 1 ? 's' : ''} and ${remainingHours} hour${remainingHours !== 1 ? 's' : ''} ago`;
+      }
+      return `active ${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
+    } else {
+      return new Date(dateString).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
+    }
+  };
+
+  const getLastActiveDisplay = (lastLogin) => {
+    return getRelativeTime(lastLogin);
   };
 
   const handleSearch = (e) => {
@@ -115,7 +148,7 @@ function GuardianManagement() {
                     <td>{guardian.phone || '-'}</td>
                     <td>{guardian.assessment_count || 0}</td>
                     <td>{guardian.created_at ? new Date(guardian.created_at).toLocaleDateString() : '-'}</td>
-                    <td>{guardian.last_login ? new Date(guardian.last_login).toLocaleDateString() : 'Never'}</td>
+                    <td>{getLastActiveDisplay(guardian.last_login)}</td>
                     <td>
                       <span className={`status-badge ${guardian.is_active ? 'active' : 'inactive'}`}>
                         {guardian.is_active ? 'Active' : 'Inactive'}

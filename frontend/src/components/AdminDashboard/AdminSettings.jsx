@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import AdminInvitePanel from './AdminInvitePanel';
+import AdminList from './AdminList';
 
 /**
  * AdminSettings - System configuration and admin settings
@@ -189,6 +191,12 @@ function AdminSettings() {
           </div>
         </div>
       </div>
+
+      {/* Admin Invite Panel */}
+      <AdminInvitePanel />
+
+      {/* Admin List */}
+      <AdminList />
     </div>
   );
 }

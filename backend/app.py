@@ -8,11 +8,12 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from datetime import datetime, timedelta
 import json
 import os
+import secrets
 from functools import wraps
 
 # Import database and models
 from database import db, init_db
-from models_auth import User, TrackedAssessment
+from models_auth import User, TrackedAssessment, AdminInvite
 from decision_logic import PneumoniaAssessment
 from models import InfoContent
 
@@ -492,6 +493,36 @@ def admin_get_users():
         return jsonify({'error': str(e)}), 500
 
 
+@app.route('/api/admin/admins', methods=['GET'])
+@admin_required
+def admin_get_admins():
+    """Get all admin users"""
+    try:
+        admins = User.query.filter_by(role='admin').order_by(User.created_at.desc()).all()
+        
+        admins_data = [
+            {
+                'id': admin.id,
+                'username': admin.username,
+                'email': admin.email,
+                'guardianname': admin.guardianname,
+                'phone': admin.phone,
+                'is_active': admin.is_active,
+                'created_at': admin.created_at.isoformat() if admin.created_at else None,
+                'last_login': admin.last_login.isoformat() if admin.last_login else None,
+            }
+            for admin in admins
+        ]
+        
+        return jsonify({
+            'admins': admins_data,
+            'total': len(admins_data)
+        }), 200
+    except Exception as e:
+        print(f"Error in admin_get_admins: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/api/admin/assessments', methods=['GET'])
 @admin_required
 def admin_get_assessments():
@@ -578,6 +609,211 @@ def admin_delete_user(user_id):
     except Exception as e:
         db.session.rollback()
         print(f"Error in admin_delete_user: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+# ============================================================================
+# ADMIN INVITE SYSTEM
+# ============================================================================
+
+@app.route('/api/admin/invites/create', methods=['POST'])
+@admin_required
+def create_admin_invite():
+    """Create an admin invitation for someone to join as admin"""
+    try:
+        data = request.get_json()
+        invited_email = data.get('email')
+        invited_name = data.get('name')
+        
+        if not invited_email:
+            return jsonify({'error': 'Email is required'}), 400
+        
+        # Check if user with this email already exists
+        existing_user = User.query.filter_by(email=invited_email).first()
+        if existing_user:
+            if existing_user.role == 'admin':
+                return jsonify({'error': 'This user is already an admin'}), 400
+            else:
+                return jsonify({'error': 'This email is already registered. Upgrade the existing user instead'}), 400
+        
+        # Check if there's already a pending invite for this email
+        pending_invite = AdminInvite.query.filter_by(
+            invited_email=invited_email,
+            status='pending'
+        ).first()
+        if pending_invite:
+            return jsonify({'error': 'An invitation is already pending for this email'}), 400
+        
+        # Generate unique token
+        token = secrets.token_urlsafe(32)
+        
+        # Create invitation (expires in 7 days)
+        expires_at = datetime.utcnow() + timedelta(days=7)
+        invite = AdminInvite(
+            token=token,
+            invited_email=invited_email,
+            invited_name=invited_name,
+            created_by_id=current_user.id,
+            expires_at=expires_at
+        )
+        
+        db.session.add(invite)
+        db.session.commit()
+        
+        return jsonify({
+            'success': True,
+            'message': 'Invitation created successfully',
+            'invite': invite.to_dict(),
+            'invite_url': f'http://localhost:3000/accept-invite/{token}'
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error in create_admin_invite: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/admin/invites', methods=['GET'])
+@admin_required
+def list_admin_invites():
+    """List all admin invitations"""
+    try:
+        status = request.args.get('status', 'all')  # 'all', 'pending', 'accepted'
+        
+        query = AdminInvite.query.order_by(AdminInvite.created_at.desc())
+        
+        if status != 'all':
+            query = query.filter_by(status=status)
+        
+        invites = query.all()
+        
+        # Update expired invites
+        for invite in invites:
+            if invite.status == 'pending' and invite.is_expired():
+                invite.status = 'expired'
+        
+        db.session.commit()
+        
+        return jsonify({
+            'invites': [invite.to_dict() for invite in invites],
+            'total': len(invites)
+        }), 200
+    except Exception as e:
+        print(f"Error in list_admin_invites: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/admin/invites/<token>/verify', methods=['GET'])
+def verify_invite(token):
+    """Verify an invitation token (no auth required for public access)"""
+    try:
+        invite = AdminInvite.query.filter_by(token=token).first()
+        
+        if not invite:
+            return jsonify({'error': 'Invalid invitation token'}), 404
+        
+        if invite.status == 'accepted':
+            return jsonify({'error': 'This invitation has already been accepted'}), 400
+        
+        if invite.is_expired():
+            invite.status = 'expired'
+            db.session.commit()
+            return jsonify({'error': 'This invitation has expired'}), 400
+        
+        return jsonify({
+            'valid': True,
+            'email': invite.invited_email,
+            'name': invite.invited_name
+        }), 200
+    except Exception as e:
+        print(f"Error in verify_invite: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/admin/invites/<token>/accept', methods=['POST'])
+def accept_invite(token):
+    """Accept an admin invitation and create admin account"""
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+        
+        if not username or not password:
+            return jsonify({'error': 'Username and password are required'}), 400
+        
+        # Verify invite
+        invite = AdminInvite.query.filter_by(token=token).first()
+        
+        if not invite:
+            return jsonify({'error': 'Invalid invitation token'}), 404
+        
+        if invite.status == 'accepted':
+            return jsonify({'error': 'This invitation has already been accepted'}), 400
+        
+        if invite.is_expired():
+            invite.status = 'expired'
+            db.session.commit()
+            return jsonify({'error': 'This invitation has expired'}), 400
+        
+        # Check if username or email already exists
+        if User.query.filter_by(username=username).first():
+            return jsonify({'error': 'Username already exists'}), 400
+        
+        if User.query.filter_by(email=invite.invited_email).first():
+            return jsonify({'error': 'Email already registered'}), 400
+        
+        # Create admin user
+        new_admin = User(
+            username=username,
+            email=invite.invited_email,
+            guardianname=invite.invited_name or username,
+            role='admin',
+            is_active=True,
+            created_at=datetime.utcnow()
+        )
+        new_admin.set_password(password)
+        
+        # Mark invite as accepted
+        invite.status = 'accepted'
+        invite.accepted_by_id = new_admin.id
+        invite.accepted_at = datetime.utcnow()
+        
+        db.session.add(new_admin)
+        db.session.commit()
+        
+        # Log them in
+        login_user(new_admin)
+        
+        return jsonify({
+            'success': True,
+            'message': 'Admin account created successfully',
+            'user': new_admin.to_dict()
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error in accept_invite: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/admin/invites/<int:invite_id>', methods=['DELETE'])
+@admin_required
+def revoke_invite(invite_id):
+    """Revoke/delete an admin invitation"""
+    try:
+        invite = AdminInvite.query.get(invite_id)
+        
+        if not invite:
+            return jsonify({'error': 'Invitation not found'}), 404
+        
+        if invite.status == 'accepted':
+            return jsonify({'error': 'Cannot revoke an accepted invitation'}), 400
+        
+        db.session.delete(invite)
+        db.session.commit()
+        
+        return jsonify({'success': True, 'message': 'Invitation revoked'}), 200
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error in revoke_invite: {e}")
         return jsonify({'error': str(e)}), 500
 
 

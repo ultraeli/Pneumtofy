@@ -1,0 +1,285 @@
+/* AdminList.css - Styles for admin list component */
+
+.admin-list-section {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-list-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+}
+
+.section-description {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Alert */
+.alert {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  border-left: 4px solid;
+}
+
+.alert-error {
+  background-color: #fee;
+  border-left-color: #d32f2f;
+  color: #d32f2f;
+}
+
+/* States */
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #999;
+}
+
+/* Admin List Wrapper */
+.admin-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.admin-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.admin-count {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.admin-count strong {
+  color: #17a2b8;
+  font-weight: 700;
+}
+
+.btn-refresh {
+  padding: 0.5rem 1rem;
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-refresh:hover {
+  background-color: #138496;
+}
+
+/* Admin Cards Grid */
+.admin-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.admin-card {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.admin-card:hover {
+  border-color: #17a2b8;
+  box-shadow: 0 4px 12px rgba(23, 162, 184, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Card Header */
+.admin-card-header {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.admin-info {
+  flex: 1;
+}
+
+.admin-username {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: white;
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-active {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.status-inactive {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Card Body */
+.admin-card-body {
+  padding: 1.5rem;
+  background: white;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.info-row:last-child {
+  margin-bottom: 0;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #666;
+  font-size: 0.85rem;
+  min-width: 100px;
+}
+
+.info-value {
+  color: #333;
+  font-size: 0.9rem;
+  word-break: break-word;
+  text-align: right;
+  flex: 1;
+}
+
+.info-never {
+  color: #999;
+  font-style: italic;
+}
+
+/* Card Footer */
+.admin-card-footer {
+  padding: 0.75rem 1.5rem;
+  background-color: #f0f8ff;
+  border-top: 1px solid #e9ecef;
+  text-align: center;
+}
+
+.you-badge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  background-color: #17a2b8;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-list-section {
+    padding: 1.5rem;
+  }
+
+  .admin-list-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .btn-refresh {
+    width: 100%;
+  }
+
+  .admin-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-card-header {
+    padding: 1rem;
+  }
+
+  .admin-username {
+    font-size: 1.1rem;
+  }
+
+  .admin-card-body {
+    padding: 1rem;
+  }
+
+  .info-row {
+    flex-direction: column;
+    margin-bottom: 0.75rem;
+  }
+
+  .info-label {
+    min-width: auto;
+  }
+
+  .info-value {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-list-section {
+    padding: 1rem;
+  }
+
+  .admin-card-header {
+    padding: 0.75rem;
+  }
+
+  .admin-username {
+    font-size: 1rem;
+  }
+
+  .admin-card-body {
+    padding: 0.75rem;
+  }
+
+  .info-row {
+    margin-bottom: 0.5rem;
+  }
+
+  .info-label {
+    font-size: 0.8rem;
+  }
+
+  .info-value {
+    font-size: 0.85rem;
+  }
+}

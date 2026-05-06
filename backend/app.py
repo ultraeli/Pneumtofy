@@ -331,14 +331,27 @@ def add_tracker_entry():
             except Exception as parse_err:
                 print(f"Error parsing timestamp '{data.get('timestamp')}': {parse_err}")
                 timestamp = datetime.utcnow()
+
+        age_months = int(data.get('age_months', 0))
+        respiratory_rate = data.get('respiratory_rate', None)
+        fast_breathing = data.get('fast_breathing', False)
+
+        if respiratory_rate not in (None, ''):
+            try:
+                respiratory_rate_value = int(respiratory_rate)
+                threshold = 50 if age_months < 12 else 40
+                fast_breathing = fast_breathing or respiratory_rate_value >= threshold
+                respiratory_rate = respiratory_rate_value
+            except (TypeError, ValueError):
+                respiratory_rate = None
         
         # Create new assessment entry
-            assessment = TrackedAssessment(
+        assessment = TrackedAssessment(
             user_id=current_user.id,
-            age_months=int(data.get('age_months', 0)),
+            age_months=age_months,
             cough_duration=int(data.get('cough_duration', 0)) if data.get('cough_duration') else None,
-            respiratory_rate=data.get('respiratory_rate', None),
-            fast_breathing=data.get('fast_breathing', False),
+            respiratory_rate=respiratory_rate,
+            fast_breathing=fast_breathing,
             fever=data.get('fever', False),
             fever_temperature=float(data.get('fever_temperature', 0)) if data.get('fever_temperature') else None,
             difficulty_breathing=data.get('difficulty_breathing', False),

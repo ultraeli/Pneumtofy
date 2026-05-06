@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.cb73b67e.css",
-    "main.js": "/static/js/main.4ddfd59a.js",
+    "main.js": "/static/js/main.59d0ab7a.js",
     "static/media/doctor-child1.png": "/static/media/doctor-child1.a2520a890da6548c4443.png",
     "static/media/babybg.png": "/static/media/babybg.e2a5470da265446b9da1.png",
     "static/media/lungs.png": "/static/media/lungs.8692089cf6037b09d788.png",
@@ -9,10 +9,10 @@
     "static/media/plogo.png": "/static/media/plogo.4a7be9bababfe87db517.png",
     "index.html": "/index.html",
     "main.cb73b67e.css.map": "/static/css/main.cb73b67e.css.map",
-    "main.4ddfd59a.js.map": "/static/js/main.4ddfd59a.js.map"
+    "main.59d0ab7a.js.map": "/static/js/main.59d0ab7a.js.map"
   },
   "entrypoints": [
     "static/css/main.cb73b67e.css",
-    "static/js/main.4ddfd59a.js"
+    "static/js/main.59d0ab7a.js"
   ]
 }

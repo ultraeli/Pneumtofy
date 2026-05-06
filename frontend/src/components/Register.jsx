@@ -87,6 +87,7 @@ export default function Register() {
 
       const assessmentData = JSON.parse(pendingData);
       const symptoms = assessmentData.input_symptoms || assessmentData.symptoms || {};
+      const detectedFastBreathing = assessmentData.symptoms?.fast_breathing ?? symptoms.fast_breathing;
 
       const response = await fetch('http://localhost:5000/api/tracker', {
         method: 'POST',
@@ -97,12 +98,16 @@ export default function Register() {
         body: JSON.stringify({
           age_months: symptoms.age_months,
           cough_duration: symptoms.cough_duration,
-          fast_breathing: symptoms.fast_breathing,
+          respiratory_rate: symptoms.respiratory_rate,
+          fast_breathing: detectedFastBreathing,
           fever: symptoms.fever,
           fever_temperature: symptoms.fever_temperature,
           difficulty_breathing: symptoms.difficulty_breathing,
           chest_indrawing: symptoms.chest_indrawing,
           stridor: symptoms.stridor,
+          convulsions: symptoms.convulsions,
+          cyanosis: symptoms.cyanosis,
+          unconscious: symptoms.unconscious,
           lethargy: symptoms.lethargy,
           unable_to_drink: symptoms.unable_to_drink,
           vomiting: symptoms.vomiting,

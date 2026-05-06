@@ -75,7 +75,7 @@ The current backend returns one of four practical outcomes:
 | Uncomplicated cough/cold symptoms | `SIMPLE COUGH or COLD` |
 | Mild symptoms without pneumonia indicators | `OBSERVE & MANAGE AT HOME` |
 
-Danger signs include chest indrawing, dyspnea/difficulty breathing, stridor, lethargy, inability to drink, convulsions, cyanosis, and unconsciousness.
+Danger signs include chest indrawing, high fever above 40.6 C, dyspnea/difficulty breathing, stridor, lethargy, inability to drink, convulsions, cyanosis, and unconsciousness.
 
 Age-based fast breathing thresholds:
 - 2 to under 12 months: 50 breaths/min or more

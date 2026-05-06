@@ -121,7 +121,7 @@ The backend currently classifies assessments into four outcomes.
 | Cough/cold without danger signs or fast breathing | `SIMPLE COUGH or COLD` | `MILD` |
 | Mild symptoms without pneumonia signs | `OBSERVE & MANAGE AT HOME` | `MILD` |
 
-Danger signs include chest indrawing, dyspnea/difficulty breathing, stridor, lethargy, unable to drink, convulsions, cyanosis, and unconsciousness.
+Danger signs include chest indrawing, high fever above 40.6 C, dyspnea/difficulty breathing, stridor, lethargy, unable to drink, convulsions, cyanosis, and unconsciousness.
 
 Fast breathing thresholds:
 - 2 to under 12 months: 50 breaths/min or more

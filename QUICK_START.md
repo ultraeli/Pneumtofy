@@ -151,7 +151,7 @@ npm start
 
 ### Test Case 3: Immediate Care
 - Age: 24 months
-- Chest indrawing: YES or difficulty breathing/dyspnea: YES
+- Chest indrawing: YES, difficulty breathing/dyspnea: YES, or fever temperature above 40.6 Celsius
 - Expected: SEEK IMMEDIATE MEDICAL CARE
 
 ## Pages Overview

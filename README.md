@@ -275,6 +275,7 @@ Delete a tracker entry (protected - user's own entries only).
 
 ### Critical Signs (Immediate Referral)
 - Chest wall indrawing
+- High fever above 40.6 C
 - Dyspnea / difficulty breathing
 - Stridor in calm child
 - Lethargy
@@ -366,6 +367,10 @@ See [AUTH_QUICK_START.md](AUTH_QUICK_START.md) testing guide.
 
 **Critical Case (Dyspnea):**
 - Age: 24 months, Difficulty breathing: Yes
+- Expected: "SEEK IMMEDIATE MEDICAL CARE"
+
+**Critical Case (High fever):**
+- Age: 24 months, Fever: Yes, Temperature: 40.7 C
 - Expected: "SEEK IMMEDIATE MEDICAL CARE"
 
 

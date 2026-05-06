@@ -24,7 +24,7 @@ class PneumoniaAssessment:
             cough_duration: Duration of cough in days
             fast_breathing: Boolean - presence of tachypnea
             fever: Boolean - presence of fever
-            fever_temp: Temperature in Celsius
+            fever_temp: Temperature in Celsius (>40.6 C is CRITICAL)
             difficulty_breathing: Boolean - dyspnea (CRITICAL)
             chest_indrawing: Boolean - chest wall indrawing (CRITICAL)
             stridor: Boolean - stridor (CRITICAL)
@@ -43,6 +43,8 @@ class PneumoniaAssessment:
         
         if chest_indrawing:
             critical_signs.append("Chest wall indrawing")
+        if fever_temp and fever_temp > 40.6:
+            critical_signs.append(f"High fever ({fever_temp} C)")
         if difficulty_breathing:
             critical_signs.append("Dyspnea / difficulty breathing")
         if stridor:
@@ -75,6 +77,7 @@ class PneumoniaAssessment:
                     'cough_duration': cough_duration,
                     'fast_breathing': fast_breathing,
                     'fever': fever,
+                    'fever_temperature': fever_temp,
                     'critical_signs': ', '.join(critical_signs) if critical_signs else 'None'
                 }
             }

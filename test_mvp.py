@@ -73,7 +73,14 @@ def run_tests():
     )
 
     check(
-        "TEST 5: Critical unable to drink",
+        "TEST 5: Critical high fever above 40.6 C",
+        assess(cough_duration=2, fever=True, fever_temp=40.7),
+        expected_assessment="SEEK IMMEDIATE MEDICAL CARE",
+        expected_risk="CRITICAL",
+    )
+
+    check(
+        "TEST 6: Critical unable to drink",
         assess(cough_duration=8, unable_to_drink=True, vomiting=True),
         expected_assessment="SEEK IMMEDIATE MEDICAL CARE",
         expected_risk="CRITICAL",

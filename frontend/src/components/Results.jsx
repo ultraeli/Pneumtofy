@@ -24,6 +24,7 @@ export default function Results({ result, onGoHome }) {
     try {
       // Use input_symptoms if available, otherwise use symptoms from result
       const symptoms = result.input_symptoms || result.symptoms || {};
+      const detectedFastBreathing = result.symptoms?.fast_breathing ?? symptoms.fast_breathing;
       
       const response = await fetch('http://localhost:5000/api/tracker', {
         method: 'POST',
@@ -35,7 +36,7 @@ export default function Results({ result, onGoHome }) {
           age_months: symptoms.age_months,
           cough_duration: symptoms.cough_duration,
           respiratory_rate: symptoms.respiratory_rate,
-          fast_breathing: symptoms.fast_breathing,
+          fast_breathing: detectedFastBreathing,
           fever: symptoms.fever,
           fever_temperature: symptoms.fever_temperature,
           difficulty_breathing: symptoms.difficulty_breathing,

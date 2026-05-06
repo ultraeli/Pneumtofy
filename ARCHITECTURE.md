@@ -118,10 +118,10 @@ The backend currently classifies assessments into four outcomes.
 |------------|---------------------|------------|
 | Any danger sign | `SEEK IMMEDIATE MEDICAL CARE` | `CRITICAL` |
 | Cough plus age-based fast breathing | `PNEUMONIA - Treat with Amoxicillin` | `MODERATE` |
-| Cough/cold without danger signs, fast breathing, or difficulty breathing | `SIMPLE COUGH or COLD` | `MILD` |
+| Cough/cold without danger signs or fast breathing | `SIMPLE COUGH or COLD` | `MILD` |
 | Mild symptoms without pneumonia signs | `OBSERVE & MANAGE AT HOME` | `MILD` |
 
-Danger signs include chest indrawing, stridor, lethargy, unable to drink, convulsions, cyanosis, and unconsciousness.
+Danger signs include chest indrawing, dyspnea/difficulty breathing, stridor, lethargy, unable to drink, convulsions, cyanosis, and unconsciousness.
 
 Fast breathing thresholds:
 - 2 to under 12 months: 50 breaths/min or more
@@ -166,4 +166,3 @@ Local desktop development works with `localhost` for both servers. Phone testing
 ## Build Note
 
 `npm run build` writes optimized static output to `frontend/build`. It does not rewrite source `.jsx` or `.css` files.
-

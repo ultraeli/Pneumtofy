@@ -75,7 +75,7 @@ The current backend returns one of four practical outcomes:
 | Uncomplicated cough/cold symptoms | `SIMPLE COUGH or COLD` |
 | Mild symptoms without pneumonia indicators | `OBSERVE & MANAGE AT HOME` |
 
-Danger signs include chest indrawing, stridor, lethargy, inability to drink, convulsions, cyanosis, and unconsciousness.
+Danger signs include chest indrawing, dyspnea/difficulty breathing, stridor, lethargy, inability to drink, convulsions, cyanosis, and unconsciousness.
 
 Age-based fast breathing thresholds:
 - 2 to under 12 months: 50 breaths/min or more
@@ -146,4 +146,3 @@ For phone testing on the same Wi-Fi network, the frontend can be opened through 
 - [ ] Run Flask through a production WSGI server
 - [ ] Verify auth, assessment, tracker save/delete, Info Hub, and mobile navigation
 - [ ] Confirm medical disclaimers and source references are visible
-

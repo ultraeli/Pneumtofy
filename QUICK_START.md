@@ -151,7 +151,7 @@ npm start
 
 ### Test Case 3: Immediate Care
 - Age: 24 months
-- Chest indrawing: YES
+- Chest indrawing: YES or difficulty breathing/dyspnea: YES
 - Expected: SEEK IMMEDIATE MEDICAL CARE
 
 ## Pages Overview

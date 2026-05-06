@@ -1,175 +1,86 @@
 """
-Pneumtofy - Testing Script for Fast MVP
-Test the assessment logic and API endpoints
+Pneumtofy assessment logic smoke tests.
 """
 import sys
-sys.path.insert(0, 'backend')
+
+sys.path.insert(0, "backend")
 
 from decision_logic import PneumoniaAssessment
 
-def test_mild_case():
-    """Test a mild case - no critical symptoms"""
-    print("\n" + "="*50)
-    print("TEST 1: Mild Case")
-    print("="*50)
-    result = PneumoniaAssessment.assess_symptoms(
-        age_months=24,
-        cough_duration=2,
-        fast_breathing=False,
-        fever=False,
-        fever_temp=0,
-        difficulty_breathing=False,
-        chest_indrawing=False,
-        stridor=False,
-        lethargy=False,
-        unable_to_drink=False,
-        vomiting=False,
-        diarrhea=False,
-        previous_episodes=0
-    )
+
+def assess(**overrides):
+    data = {
+        "age_months": 24,
+        "cough_duration": 2,
+        "respiratory_rate": None,
+        "fast_breathing": False,
+        "fever": False,
+        "fever_temp": 0,
+        "difficulty_breathing": False,
+        "chest_indrawing": False,
+        "stridor": False,
+        "lethargy": False,
+        "unable_to_drink": False,
+        "convulsions": False,
+        "cyanosis": False,
+        "unconscious": False,
+        "vomiting": False,
+        "diarrhea": False,
+        "previous_episodes": 0,
+    }
+    data.update(overrides)
+    return PneumoniaAssessment.assess_symptoms(**data)
+
+
+def check(name, result, expected_assessment=None, expected_risk=None):
+    print(f"\n{name}")
     print(f"Assessment: {result['assessment']}")
     print(f"Risk Level: {result['risk_level']}")
-    print(f"✓ PASS" if "MILD" in result['risk_level'] else "✗ FAIL")
-    return result
+
+    if expected_assessment:
+        assert result["assessment"] == expected_assessment
+    if expected_risk:
+        assert result["risk_level"] == expected_risk
 
 
-def test_moderate_case():
-    """Test a moderate case - pneumonia indicators"""
-    print("\n" + "="*50)
-    print("TEST 2: Moderate Case (Pneumonia Indicators)")
-    print("="*50)
-    result = PneumoniaAssessment.assess_symptoms(
-        age_months=24,
-        cough_duration=7,
-        fast_breathing=True,
-        fever=True,
-        fever_temp=38.5,
-        difficulty_breathing=False,
-        chest_indrawing=False,
-        stridor=False,
-        lethargy=False,
-        unable_to_drink=False,
-        vomiting=False,
-        diarrhea=False,
-        previous_episodes=0
+def run_tests():
+    check(
+        "TEST 1: Simple cough/cold",
+        assess(cough_duration=2),
+        expected_assessment="SIMPLE COUGH or COLD",
+        expected_risk="MILD",
     )
-    print(f"Assessment: {result['assessment']}")
-    print(f"Risk Level: {result['risk_level']}")
-    print(f"Home Remedies: {len(result['home_remedies'])} remedies")
-    print(f"✓ PASS" if "OBSERVE" in result['assessment'] else "✗ FAIL")
-    return result
 
-
-def test_critical_case():
-    """Test a critical case - immediate referral"""
-    print("\n" + "="*50)
-    print("TEST 3: Critical Case (Chest Indrawing)")
-    print("="*50)
-    result = PneumoniaAssessment.assess_symptoms(
-        age_months=24,
-        cough_duration=7,
-        fast_breathing=True,
-        fever=True,
-        fever_temp=39.0,
-        difficulty_breathing=True,
-        chest_indrawing=True,  # CRITICAL
-        stridor=False,
-        lethargy=False,
-        unable_to_drink=False,
-        vomiting=False,
-        diarrhea=False,
-        previous_episodes=0
+    check(
+        "TEST 2: Pneumonia with age-based fast breathing",
+        assess(cough_duration=7, respiratory_rate=42, fever=True, fever_temp=38.5),
+        expected_assessment="PNEUMONIA - Treat with Amoxicillin",
+        expected_risk="MODERATE",
     )
-    print(f"Assessment: {result['assessment']}")
-    print(f"Risk Level: {result['risk_level']}")
-    print(f"Warning: {result['warning']}")
-    print(f"✓ PASS" if "SEEK" in result['assessment'] else "✗ FAIL")
-    return result
 
-
-def test_lethargy_case():
-    """Test lethargy (sign of severe illness)"""
-    print("\n" + "="*50)
-    print("TEST 4: Critical Case (Lethargy)")
-    print("="*50)
-    result = PneumoniaAssessment.assess_symptoms(
-        age_months=18,
-        cough_duration=5,
-        fast_breathing=True,
-        fever=True,
-        fever_temp=38.0,
-        difficulty_breathing=False,
-        chest_indrawing=False,
-        stridor=False,
-        lethargy=True,  # CRITICAL
-        unable_to_drink=False,
-        vomiting=False,
-        diarrhea=False,
-        previous_episodes=1
+    check(
+        "TEST 3: Critical chest indrawing",
+        assess(cough_duration=7, chest_indrawing=True, fever=True, fever_temp=39.0),
+        expected_assessment="SEEK IMMEDIATE MEDICAL CARE",
+        expected_risk="CRITICAL",
     )
-    print(f"Assessment: {result['assessment']}")
-    print(f"Risk Level: {result['risk_level']}")
-    print(f"✓ PASS" if "SEEK" in result['assessment'] else "✗ FAIL")
-    return result
 
-
-def test_unable_to_drink():
-    """Test inability to drink (critical)"""
-    print("\n" + "="*50)
-    print("TEST 5: Critical Case (Unable to Drink)")
-    print("="*50)
-    result = PneumoniaAssessment.assess_symptoms(
-        age_months=12,
-        cough_duration=8,
-        fast_breathing=True,
-        fever=True,
-        fever_temp=38.5,
-        difficulty_breathing=False,
-        chest_indrawing=False,
-        stridor=False,
-        lethargy=False,
-        unable_to_drink=True,  # CRITICAL
-        vomiting=True,
-        diarrhea=False,
-        previous_episodes=0
+    check(
+        "TEST 4: Critical dyspnea / difficulty breathing",
+        assess(cough_duration=7, difficulty_breathing=True),
+        expected_assessment="SEEK IMMEDIATE MEDICAL CARE",
+        expected_risk="CRITICAL",
     )
-    print(f"Assessment: {result['assessment']}")
-    print(f"Risk Level: {result['risk_level']}")
-    print(f"✓ PASS" if "SEEK" in result['assessment'] else "✗ FAIL")
-    return result
+
+    check(
+        "TEST 5: Critical unable to drink",
+        assess(cough_duration=8, unable_to_drink=True, vomiting=True),
+        expected_assessment="SEEK IMMEDIATE MEDICAL CARE",
+        expected_risk="CRITICAL",
+    )
+
+    print("\nAll assessment logic smoke tests passed.")
 
 
-if __name__ == '__main__':
-    print("\n")
-    print("╔════════════════════════════════════════════════════════╗")
-    print("║  Pneumtofy Fast MVP - Assessment Logic Tests          ║")
-    print("║  Testing IMCI-based Pneumonia Assessment              ║")
-    print("╚════════════════════════════════════════════════════════╝")
-    
-    results = []
-    results.append(test_mild_case())
-    results.append(test_moderate_case())
-    results.append(test_critical_case())
-    results.append(test_lethargy_case())
-    results.append(test_unable_to_drink())
-    
-    print("\n" + "="*50)
-    print("TEST SUMMARY")
-    print("="*50)
-    print(f"Tests Completed: 5")
-    print(f"Results:")
-    for i, r in enumerate(results, 1):
-        print(f"  {i}. {r['risk_level']} - {r['assessment'][:30]}...")
-    
-    print("\n✓ All core tests passed!")
-    print("\nNext Steps:")
-    print("1. Setup Python backend:")
-    print("   cd backend && pip install -r requirements.txt")
-    print("2. Start Flask server:")
-    print("   python app.py")
-    print("3. Setup React frontend (in new terminal):")
-    print("   cd frontend && npm install")
-    print("4. Start React dev server:")
-    print("   npm start")
-    print("\nApplication will be available at: http://localhost:3000")
-    print()
+if __name__ == "__main__":
+    run_tests()

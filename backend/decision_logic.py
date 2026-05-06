@@ -25,7 +25,7 @@ class PneumoniaAssessment:
             fast_breathing: Boolean - presence of tachypnea
             fever: Boolean - presence of fever
             fever_temp: Temperature in Celsius
-            difficulty_breathing: Boolean - dyspnea
+            difficulty_breathing: Boolean - dyspnea (CRITICAL)
             chest_indrawing: Boolean - chest wall indrawing (CRITICAL)
             stridor: Boolean - stridor (CRITICAL)
             lethargy: Boolean - lethargy/unusual sleepiness
@@ -43,6 +43,8 @@ class PneumoniaAssessment:
         
         if chest_indrawing:
             critical_signs.append("Chest wall indrawing")
+        if difficulty_breathing:
+            critical_signs.append("Dyspnea / difficulty breathing")
         if stridor:
             critical_signs.append("Stridor")
         if lethargy:
@@ -112,9 +114,6 @@ class PneumoniaAssessment:
             if fast_breathing:
                 fast_breathing_flag = True
                 pneumonia_indicators.append("Fast breathing")
-        
-        if difficulty_breathing:
-            pneumonia_indicators.append("Difficulty breathing")
         
         # WHO IMCI: Cough with fast breathing is a sign of pneumonia
         # Check if this is pneumonia (fast breathing + cough) vs simple cough

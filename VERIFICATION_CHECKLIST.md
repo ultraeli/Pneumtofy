@@ -28,6 +28,7 @@ Use this checklist to verify the current site behavior after changes.
 - [ ] Cough for 2 days with no danger signs returns `SIMPLE COUGH or COLD`
 - [ ] Cough plus age-based fast breathing returns `PNEUMONIA - Treat with Amoxicillin`
 - [ ] Chest indrawing returns `SEEK IMMEDIATE MEDICAL CARE`
+- [ ] Difficulty breathing / dyspnea returns `SEEK IMMEDIATE MEDICAL CARE`
 - [ ] Mild symptoms without pneumonia indicators return `OBSERVE & MANAGE AT HOME`
 
 ## Tracker
@@ -72,4 +73,3 @@ Use this checklist to verify the current site behavior after changes.
 - [ ] User runs `npm run build` manually when needed
 - [ ] Build output is created in `frontend/build`
 - [ ] Source files are not changed by the build command
-

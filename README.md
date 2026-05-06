@@ -275,6 +275,7 @@ Delete a tracker entry (protected - user's own entries only).
 
 ### Critical Signs (Immediate Referral)
 - Chest wall indrawing
+- Dyspnea / difficulty breathing
 - Stridor in calm child
 - Lethargy
 - Unable to drink
@@ -290,7 +291,7 @@ Delete a tracker entry (protected - user's own entries only).
 - The result includes amoxicillin guidance and caregiver instructions
 
 ### Simple Cough or Cold
-- Cough without danger signs, fast breathing, or difficult breathing returns `SIMPLE COUGH or COLD`
+- Cough without danger signs or fast breathing returns `SIMPLE COUGH or COLD`
 - Guidance focuses on fluids, comfort care, safe cough relief, and monitoring
 
 ### Observe and Manage at Home
@@ -361,6 +362,10 @@ See [AUTH_QUICK_START.md](AUTH_QUICK_START.md) testing guide.
 
 **Critical Case (Immediate care):**
 - Age: 24 months, Chest indrawing: Yes
+- Expected: "SEEK IMMEDIATE MEDICAL CARE"
+
+**Critical Case (Dyspnea):**
+- Age: 24 months, Difficulty breathing: Yes
 - Expected: "SEEK IMMEDIATE MEDICAL CARE"
 
 

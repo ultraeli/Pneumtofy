@@ -147,9 +147,8 @@ The current navigation includes a hamburger menu on mobile widths. If it does no
 3. Register or log in.
 4. Submit a simple cough assessment and confirm `SIMPLE COUGH or COLD`.
 5. Submit cough plus fast breathing and confirm `PNEUMONIA - Treat with Amoxicillin`.
-6. Submit a danger sign such as chest indrawing and confirm `SEEK IMMEDIATE MEDICAL CARE`.
+6. Submit a danger sign such as chest indrawing or difficulty breathing/dyspnea and confirm `SEEK IMMEDIATE MEDICAL CARE`.
 7. Save an assessment and confirm it appears in Tracker.
 8. Test tracker filters and delete.
 9. Open `/info` and confirm the full-width article layout.
 10. Resize to mobile width and confirm the hamburger menu opens.
-

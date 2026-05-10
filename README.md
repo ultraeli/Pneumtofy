@@ -7,9 +7,9 @@
 A website for pneumonia symptoms tracking in children based on [IMCI](https://www.who.int/teams/maternal-newborn-child-adolescent-health-and-ageing/child-health/integrated-management-of-childhood-illness) guidelines and documentation mainly the document, ["Participant Manual: Caring for the sick child in the community"](https://www.who.int/publications/i/item/9789241548045). We have no affiliation with the World Health Organization (WHO).
 
 Creators:
-Ezrha Fines - Frontend Designer
-John Christian Jamesula - Frontend Designer and Main Visual Concept
-Elijah Theodore Uy - Backend and Database
+- Ezrha Fines - Frontend Designer
+- John Christian Jamesula - Frontend Designer and Main Visual Concept
+- Elijah Theodore Uy - Backend and Database
 
 ## Project Structure
 
